@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--StateTextView-->
+    <declare-styleable name="StateTextView">
+
+        <!--text color-->
+        <attr name="normalTextColor" format="color|reference"/>
+        <attr name="pressedTextColor" format="color|reference"/>
+        <attr name="unableTextColor" format="color|reference"/>
+
+        <!--stroke width and color, dash width, dash gap-->
+        <attr name="strokeDashWidth" format="dimension|reference"/>
+        <attr name="strokeDashGap" format="dimension|reference"/>
+        <attr name="normalStrokeWidth" format="dimension|reference"/>
+        <attr name="pressedStrokeWidth" format="dimension|reference"/>
+        <attr name="unableStrokeWidth" format="dimension|reference"/>
+        <attr name="normalStrokeColor" format="color|reference"/>
+        <attr name="pressedStrokeColor" format="color|reference"/>
+        <attr name="unableStrokeColor" format="color|reference"/>
+
+        <!--background color-->
+        <attr name="normalBackgroundColor" format="color|reference"/>
+        <attr name="pressedBackgroundColor" format="color|reference"/>
+        <attr name="unableBackgroundColor" format="color|reference"/>
+
+        <!--background radius-->
+        <attr name="radius" format="dimension|reference"/>
+        <attr name="round" format="boolean|reference"/>
+
+        <!--animation duration-->
+        <attr name="animationDuration" format="integer|reference"/>
+
+    </declare-styleable>
+
+
+    <declare-styleable name="LimitLinearLayout">
+        <attr name="widthRatio" format="float"/>
+        <attr name="heightRatio" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="RowLayout">
+        <attr name="android:verticalSpacing"/>
+        <attr name="android:horizontalSpacing"/>
+    </declare-styleable>
+
+    <declare-styleable name="PullScrollView">
+        <attr name="header" format="reference"/>
+        <attr name="headerHeight" format="dimension"/>
+        <attr name="headerVisibleHeight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="PressedImageView">
+        <attr name="pressedColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="StickyScrollView">
+        <attr name="stuckShadowHeight" format="dimension"/>
+        <attr name="stuckShadowDrawable" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ResizableImageView">
+        <attr name="resizableMode">
+            <enum name="auto" value="0"/>
+            <enum name="width" value="1"/>
+            <enum name="height" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CustomRoundedImageView">
+        <attr name="left_top_corner_radius" format="dimension"/>
+        <attr name="right_top_corner_radius" format="dimension"/>
+        <attr name="left_bottom_corner_radius" format="dimension"/>
+        <attr name="right_bottom_corner_radius" format="dimension"/>
+        <attr name="resizable_mode">
+            <enum name="auto" value="0"/>
+            <enum name="width" value="1"/>
+            <enum name="height" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CustomRecyclerView">
+        <attr name="layout_moreProgress" format="reference"/>
+        <attr name="layout_empty" format="reference"/>
+
+        <attr name="empty_text" format="string"/>
+        <attr name="empty_icon" format="reference"/>
+
+        <attr name="recyclerClipToPadding" format="boolean"/>
+        <attr name="recyclerPadding" format="dimension"/>
+        <attr name="recyclerPaddingTop" format="dimension"/>
+        <attr name="recyclerPaddingBottom" format="dimension"/>
+        <attr name="recyclerPaddingLeft" format="dimension"/>
+        <attr name="recyclerPaddingRight" format="dimension"/>
+        <attr name="scrollbarStyle">
+            <flag name="insideOverlay" value="0x0"/>
+            <flag name="insideInset" value="0x01000000"/>
+            <flag name="outsideOverlay" value="0x02000000"/>
+            <flag name="outsideInset" value="0x03000000"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="PanningView">
+        <attr name="panningDuration" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="PasswordEditText">
+        <attr name="hideDrawable" format="reference"/>
+        <attr name="showDrawable" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="DropEditText">
+        <attr name="dropDrawable" format="integer"/>
+    </declare-styleable>
+
+    <!--可设置textViewDrawable的宽高-->
+    <declare-styleable name="SizeText">
+        <attr name="drawable_height" format="dimension"/>
+        <attr name="drawable_width" format="dimension"/>
+    </declare-styleable>
+
+    <!--商品数量+ -调整-->
+    <declare-styleable name="CartNumEditView">
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="maxNum" format="integer"/>
+        <attr name="minNum" format="integer"/>
+        <attr name="num" format="integer"/>
+        <attr name="addDrawable" format="reference"/>
+        <attr name="addLimitDrawable" format="reference"/>
+        <attr name="subtractDrawable" format="reference"/>
+        <attr name="subtractLimitDrawable" format="reference"/>
+    </declare-styleable>
+
+    <!--详情页款式选择不可点击时的斜线蒙层-->
+    <declare-styleable name="HalfAlphaViewAttrs">
+        <attr name="paint_color" format="color"/>
+    </declare-styleable>
+
+    <!--设置maxH的scrollView-->
+    <declare-styleable name="maxHeightScrollView">
+        <attr name="maxHeight" format="dimension"/>
+    </declare-styleable>
+
+    <!--带加载的toggleBtn-->
+    <declare-styleable name="ProgressToggleButton">
+        <attr name="onBackground" format="color|reference"/>
+        <attr name="offBackground" format="color|reference"/>
+        <attr name="text" format="string"/>
+        <attr name="textPadding" format="dimension"/>
+    </declare-styleable>
+</resources>

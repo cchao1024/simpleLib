@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SimpleLibrary</string>
+    <string name="network_error">网络出错，请稍后再试</string>
+</resources>
