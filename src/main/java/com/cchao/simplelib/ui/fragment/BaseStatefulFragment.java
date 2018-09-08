@@ -25,7 +25,8 @@ import butterknife.Unbinder;
  * @version 2017/8/2
  */
 
-public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends BaseFragment implements BaseStateView {
+public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends BaseFragment
+    implements BaseStateView {
 
     private View mRootFrame;
     protected Dialog mProgressDialog;

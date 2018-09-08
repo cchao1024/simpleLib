@@ -1,8 +1,12 @@
 package com.cchao.simplelib.core;
 
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.widget.Toast;
 
@@ -72,12 +76,31 @@ public class UiHelper {
         }
         mToast.setText(text);
         mToast.setDuration(duration);
+        Logs.d("toast " + text);
 
-        mToast.show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mToast.show();
+            }
+        });
     }
 
     //</editor-fold>
-    //<editor-fold desc="设备信息">
+
+    public static void runOnUiThread(Runnable runnable) {
+        mHandler.post(runnable);
+    }
+
+    //<editor-fold desc="Compat 方法">
+
+    public static Drawable getDrawable(@DrawableRes int id) {
+        return ContextCompat.getDrawable(LibCore.getContext(), id);
+    }
+
+    public static int getColor(@ColorRes int id) {
+        return ContextCompat.getColor(LibCore.getContext(), id);
+    }
 
     //</editor-fold>
 }

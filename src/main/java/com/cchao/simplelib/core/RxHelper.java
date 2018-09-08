@@ -1,5 +1,6 @@
 package com.cchao.simplelib.core;
 
+import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.util.ExceptionCollect;
 
@@ -42,6 +43,19 @@ public class RxHelper {
             }
         };
     }
+
+    public static Consumer<? super Throwable> getSwitchErrorConsumer(BaseStateView baseView) {
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                if (baseView != null) {
+                    baseView.switchView(BaseStateView.NET_ERROR);
+                }
+                ExceptionCollect.logException(throwable);
+            }
+        };
+    }
+
     public static Consumer<? super Throwable> getErrorTextConsumer(BaseView baseView) {
         return new Consumer<Throwable>() {
             @Override
