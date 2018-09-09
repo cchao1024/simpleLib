@@ -33,7 +33,7 @@ import butterknife.Unbinder;
 public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends BaseActivity implements BaseStateView {
     protected Toolbar mToolbar;
     MultiStateView mStateView;
-    protected B mDataBind;
+    protected B mDataBinding;
 
     private @StringRes
     int mActionText; //toolbar右边的文字
@@ -154,7 +154,7 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     //<editor-fold desc="对StateView的操作">
     private void initStateView() {
         View contentView= LayoutInflater.from(mContext).inflate(getLayout(),mStateView,false);
-        mDataBind = DataBindingUtil.bind(contentView);
+        mDataBinding = DataBindingUtil.bind(contentView);
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载
         ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))

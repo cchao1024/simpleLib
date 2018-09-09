@@ -3,6 +3,9 @@
     <color name="colorPrimaryDark">@color/transparent_color</color>
     <color name="colorPrimary">#fefefe</color>
     <color name="colorAccent">#343434</color>
+
+    <color name="colorAction">#4dbbff</color>
+
     <!--text-->
     <color name="colorTextPrimary">#343434</color>
     <color name="colorTextSecondary">#727272</color>
