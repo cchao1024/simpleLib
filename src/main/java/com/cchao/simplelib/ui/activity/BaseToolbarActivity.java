@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
@@ -32,6 +33,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends BaseActivity implements BaseStateView {
     protected Toolbar mToolbar;
+    protected TextView mCenterTitle;
     MultiStateView mStateView;
     protected B mDataBinding;
 
@@ -49,6 +51,7 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
         if (LibCore.getInfo().supportDatabinding()) {
         }
         mToolbar = findViewById(R.id.toolbar);
+        mCenterTitle = findViewById(R.id.toolbar_title_center);
         mStateView = findViewById(R.id.state_layout);
 
         initToolbar();
@@ -135,6 +138,14 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     protected void setToolBarText(@StringRes int title) {
 //        mTitleTextView.setText(getString(title));
         mToolbar.setTitle(getString(title));
+    }
+
+    protected void setTitleCenter(@StringRes int title) {
+        setTitleCenter(getString(title));
+    }
+
+    protected void setTitleCenter(String title) {
+        mCenterTitle.setText(title);
     }
 
     protected void setActionText(@StringRes int title) {

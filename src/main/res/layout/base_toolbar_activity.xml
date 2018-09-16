@@ -12,8 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbarHeight"
         android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         android:minHeight="@dimen/actionbarHeight"
-        android:elevation="@dimen/toolbar_elevation"/>
+        app:title="@null">
+
+        <TextView
+            android:id="@+id/toolbar_title_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/text_333"
+            android:textSize="18sp"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <com.cchao.simplelib.view.state.CommonStateLayout
         android:id="@+id/state_layout"

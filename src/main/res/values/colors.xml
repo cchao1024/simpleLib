@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryDark">@color/transparent_color</color>
-    <color name="colorPrimary">#fefefe</color>
+    <color name="colorPrimary">#4dbbff</color>
     <color name="colorAccent">#343434</color>
 
     <color name="colorAction">#4dbbff</color>
 
     <!--text-->
     <color name="colorTextPrimary">#343434</color>
+    <color name="textPrimary">@color/text_333</color>
     <color name="colorTextSecondary">#727272</color>
     <!--text-->
-    <color name="textPrimary">#343434</color>
-    <color name="textSecond">#333333</color>
-    <color name="textThird">#666666</color>
-    <color name="textFourth">#999999</color>
+    <color name="textLink">@color/blue500</color>
     <color name="textFifth">#cccccc</color>
     <!--common-->
     <color name="blackPrimary">#000000</color>
     <color name="bgDialog">#4dffffff</color>
+    <color name="divider">#aaa</color>
 
     <!--background-->
     <color name="bgPrimary">#fefefe</color>
@@ -34,6 +33,7 @@
     <color name="text_1c1c1c">#1c1c1c</color>
     <color name="text_b2b2b2">#b2b2b2</color>
     <color name="text_333">#333333</color>
+    <color name="text_444">#444444</color>
     <color name="text_666">#666666</color>
     <color name="text_999">#999999</color>
     <color name="text_bababa">#bababa</color>

@@ -22,12 +22,12 @@ public class UiHelper {
 
     //<editor-fold desc="对 px的转换">
 
-    public static int dp2dx(float dpValue) {
+    public static int dp2px(float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue
             , LibCore.getContext().getResources().getDisplayMetrics());
     }
 
-    public static float sp2dx(float spValue) {
+    public static float sp2px(float spValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue
             , LibCore.getContext().getResources().getDisplayMetrics());
     }
