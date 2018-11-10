@@ -10,6 +10,8 @@ public interface BaseView {
 
     void showText(@StringRes int string);
 
+    void showProgress(String string);
+
     void showProgress();
 
     void hideProgress();

@@ -5,19 +5,19 @@ package com.cchao.simplelib.util;
  * @version 7/8/18.
  */
 public class Tuple {
-    public static <A, B> Tuple2 tuple(A a, B b) {
+    public static <A, B> Tuple2<A, B> tuple(A a, B b) {
         return new Tuple2<>(a, b);
     }
 
-    public static <A, B, C> Tuple3 tuple(A a, B b, C c) {
+    public static <A, B, C> Tuple3<A, B, C> tuple(A a, B b, C c) {
         return new Tuple3<>(a, b, c);
     }
 
-    public static <A, B, C, D> Tuple4 tuple(A a, B b, C c, D d) {
+    public static <A, B, C, D> Tuple4<A, B, C, D> tuple(A a, B b, C c, D d) {
         return new Tuple4<>(a, b, c, d);
     }
 
-    public static class Tuple2<A,B>{
+    public static class Tuple2<A, B> {
         public final A a;
         public final B b;
 

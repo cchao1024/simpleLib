@@ -55,6 +55,17 @@ public class RxHelper {
             }
         };
     }
+    public static Consumer<? super Throwable> getHideProgressConsumer(BaseStateView baseView) {
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                if (baseView != null) {
+                    baseView.hideProgress();
+                }
+                ExceptionCollect.logException(throwable);
+            }
+        };
+    }
 
     public static Consumer<? super Throwable> getErrorTextConsumer(BaseView baseView) {
         return new Consumer<Throwable>() {

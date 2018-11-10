@@ -59,6 +59,7 @@ public class BaseFragment extends Fragment implements BaseView {
         showProgress("正在加载...");
     }
 
+    @Override
     public void showProgress(String msg) {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             return;

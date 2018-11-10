@@ -38,9 +38,9 @@ public class LibCore {
 
         boolean isDebug();
 
-       default boolean supportDatabinding(){
-           return false;
-       }
+        default boolean supportDataBinding() {
+            return false;
+        }
 
         String getAppName();
 

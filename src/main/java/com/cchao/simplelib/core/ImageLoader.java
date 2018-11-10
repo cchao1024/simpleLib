@@ -20,9 +20,6 @@ public class ImageLoader {
 
     private static final String TAG_LOG = "ImageLoader";
 
-    /**
-     * 默认加载 1/3 占位图，下载图 fitCenter
-     */
     public static void loadImage(Context context, String path, ImageView imageView) {
         if (isContextDestroyed(context)) {
             return;

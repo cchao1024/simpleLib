@@ -52,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         showProgress("正在加载...");
     }
 
+    @Override
     public void showProgress(String msg) {
         if (isDestroyed() || (mProgressDialog != null && mProgressDialog.isShowing())) {
             return;

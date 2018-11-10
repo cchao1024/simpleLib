@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.cchao.simplelib.R;
+import com.cchao.simplelib.core.UiHelper;
 import com.kennyc.view.MultiStateView;
 
 /**
@@ -42,7 +44,7 @@ public class CommonStateLayout extends MultiStateView {
         mLoadingView = new LoadingViewImpl(mContext);
         mNetErrorView = new NetErrorViewImpl(mContext);
         mContentView = new View(mContext);
-        mEmptyView = new View(mContext);
+        mEmptyView = new EmptyViewImpl(mContext);
         setViewForState(mContentView, MultiStateView.VIEW_STATE_CONTENT);
         setViewForState(mLoadingView, MultiStateView.VIEW_STATE_LOADING);
         setViewForState(mNetErrorView, MultiStateView.VIEW_STATE_ERROR);

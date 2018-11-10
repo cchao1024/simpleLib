@@ -171,6 +171,10 @@ public class StringHelper {
         return !isEmpty(s);
     }
 
+    public static boolean isNotEmpty(Object s) {
+        return !isEmpty(s);
+    }
+
     /**
      * 判断字符串是否为null或长度为0
      *
@@ -179,6 +183,10 @@ public class StringHelper {
      */
     public static boolean isEmpty(CharSequence s) {
         return s == null || s.length() == 0;
+    }
+
+    public static boolean isEmpty(Object s) {
+        return s == null || s.toString().length() == 0;
     }
 
     /**

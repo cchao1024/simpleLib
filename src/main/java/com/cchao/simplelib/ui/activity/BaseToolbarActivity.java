@@ -14,8 +14,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
+import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.INetErrorView;
 import com.kennyc.view.MultiStateView;
@@ -35,7 +35,7 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     protected Toolbar mToolbar;
     protected TextView mCenterTitle;
     MultiStateView mStateView;
-    protected B mDataBinding;
+    protected B mDataBind;
 
     private @StringRes
     int mActionText; //toolbar右边的文字
@@ -48,8 +48,7 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_toolbar_activity);
-        if (LibCore.getInfo().supportDatabinding()) {
-        }
+
         mToolbar = findViewById(R.id.toolbar);
         mCenterTitle = findViewById(R.id.toolbar_title_center);
         mStateView = findViewById(R.id.state_layout);
@@ -132,7 +131,23 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     protected void addToolbarMenuItemClick(@IdRes int id, View.OnClickListener onClickListener) {
         mMenuItemIDs.add(id);
         mActionClickListeners.add(onClickListener);
+        mToolbar.setOnMenuItemClickListener(item -> {
+            for (int i = 0; i < mMenuItemIDs.size(); i++) {
+                int mMenuItemID = mMenuItemIDs.get(i);
+                View.OnClickListener mActionClickListener = mActionClickListeners.get(i);
+                if (item.getItemId() == mMenuItemID && mActionClickListener != null) {
+                    mActionClickListener.onClick(item.getActionView());
+                }
+            }
+            return true;
+        });
+    }
 
+    protected void resetToolbarMenu(int menuId) {
+        mMenuItemIDs.clear();
+        mActionClickListeners.clear();
+        mToolbar.getMenu().clear();
+        mToolbar.inflateMenu(menuId);
     }
 
     protected void setToolBarText(@StringRes int title) {
@@ -164,8 +179,12 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
 
     //<editor-fold desc="对StateView的操作">
     private void initStateView() {
-        View contentView= LayoutInflater.from(mContext).inflate(getLayout(),mStateView,false);
-        mDataBinding = DataBindingUtil.bind(contentView);
+        View contentView = LayoutInflater.from(mContext).inflate(getLayout(), mStateView, false);
+        try {
+            mDataBind = DataBindingUtil.bind(contentView);
+        } catch (Exception e) {
+            Logs.d(e.getMessage());
+        }
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载
         ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))
@@ -197,7 +216,8 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
                         mStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                         break;
                 }
-            }});
+            }
+        });
     }
     //</editor-fold>
 }

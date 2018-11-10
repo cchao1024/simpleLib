@@ -20,18 +20,20 @@ public class Router {
      *
      * @param from       from
      * @param toActivity to
-     * @param bundle     携带
      */
-    static void startRouter(Context from, Class toActivity, Bundle bundle, int requestCode) {
-        String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName() + "bundle :" + bundle.toString();
+    static void startRouter(Context from, Class toActivity, BundleDecorator bundleDecorator) {
+        String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName() + "bundle :" + bundleDecorator.mBundle.toString();
         Logs.d("Router", logStr);
 
         Intent intent = new Intent(from, toActivity);
-        intent.putExtras(bundle);
-        if (requestCode == -1) {
+        intent.putExtras(bundleDecorator.mBundle);
+        if (bundleDecorator.mInNewTask) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (bundleDecorator.mRequestCOde == -1) {
             from.startActivity(intent);
         } else {
-            ((Activity) from).startActivityForResult(intent, requestCode);
+            ((Activity) from).startActivityForResult(intent, bundleDecorator.mRequestCOde);
         }
     }
 
@@ -48,6 +50,8 @@ public class Router {
     public static class BundleDecorator {
         Bundle mBundle = new Bundle();
         Context mFrom;
+        boolean mInNewTask;
+        int mRequestCOde = -1;
         Class mToActivity;
 
         public BundleDecorator(Context from, Class toActivity) {
@@ -56,11 +60,17 @@ public class Router {
         }
 
         public void start() {
-            Router.startRouter(mFrom, mToActivity, mBundle, -1);
+            Router.startRouter(mFrom, mToActivity, this);
+        }
+
+        public void startInNewTask() {
+            mInNewTask = true;
+            Router.startRouter(mFrom, mToActivity, this);
         }
 
         public void startForResult(int requestCode) {
-            Router.startRouter(mFrom, mToActivity, mBundle, requestCode);
+            mRequestCOde = requestCode;
+            Router.startRouter(mFrom, mToActivity, this);
         }
 
         // region 各个putExtra

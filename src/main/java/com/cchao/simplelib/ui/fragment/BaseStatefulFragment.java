@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kennyc.view.MultiStateView;
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.INetErrorView;
+import com.kennyc.view.MultiStateView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,8 +43,13 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
         initStateView();
         // initState调起 getLayout set到Content，butterKnife要在其之后
         mUnBinder = ButterKnife.bind(this, mRootFrame);
-        initEventAndData();
         return mRootFrame;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initEventAndData();
     }
 
     @Override
@@ -72,8 +77,12 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
 
     //<editor-fold desc="对StateView的操作">
     private void initStateView() {
-        View contentView=LayoutInflater.from(getContext()).inflate(getLayoutId(),mStateView,false);
-        mDataBind = DataBindingUtil.bind(contentView);
+        View contentView = LayoutInflater.from(getContext()).inflate(getLayoutId(), mStateView, false);
+        try {
+            mDataBind = DataBindingUtil.bind(contentView);
+        } catch (Exception ex) {
+            showText(" View is not a binding layout");
+        }
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载
         ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))
