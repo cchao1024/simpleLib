@@ -10,25 +10,7 @@
     <color name="colorTextPrimary">#343434</color>
     <color name="textPrimary">@color/text_333</color>
     <color name="colorTextSecondary">#727272</color>
-    <!--text-->
-    <color name="textLink">@color/blue500</color>
-    <color name="textFifth">#cccccc</color>
-    <!--common-->
-    <color name="blackPrimary">#000000</color>
-    <color name="bgDialog">#4dffffff</color>
-    <color name="divider">#aaa</color>
 
-    <!--background-->
-    <color name="bgPrimary">#fefefe</color>
-    <color name="bgSecondary">#fbfbfb</color>
-    <color name="windowBackground">@color/white</color>
-
-    <!--  -->
-    <color name="statusBar">#00000000</color>
-    <color name="redThemeAccent">@color/red_f22148</color>
-    <color name="content_bg">#f3f3f3</color>
-    <color name="text_color">#333333</color>
-    <color name="hint_text_color">#939393</color>
     <color name="text_4c4c4c">#4c4c4c</color>
     <color name="text_1c1c1c">#1c1c1c</color>
     <color name="text_b2b2b2">#b2b2b2</color>

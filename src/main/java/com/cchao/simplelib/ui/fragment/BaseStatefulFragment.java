@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,11 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
         // initState调起 getLayout set到Content，butterKnife要在其之后
         mUnBinder = ButterKnife.bind(this, mRootFrame);
         return mRootFrame;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

@@ -8,6 +8,9 @@
     <dimen name="flagIconWidth">35dp</dimen>
     <dimen name="flagIconHeight">23dp</dimen>
 
+    // business
+    <dimen name="deal_tag_width">100dp</dimen>
+
     <dimen name="staggeredGridCornerRadius">2.5dp</dimen>
     <dimen name="staggeredGridElevation">1.25dp</dimen>
     <dimen name="staggeredGridContentPadding">-1.25dp</dimen>

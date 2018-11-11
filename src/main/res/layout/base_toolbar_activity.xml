@@ -11,18 +11,22 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbarHeight"
+        android:layout_gravity="center"
         android:background="@color/colorPrimary"
-        android:elevation="@dimen/toolbar_elevation"
+        android:elevation="0dp"
         android:minHeight="@dimen/actionbarHeight"
+        app:contentInsetStart="0dp"
+        app:theme="@style/ThemeOverlay.AppCompat"
         app:title="@null">
 
         <TextView
             android:id="@+id/toolbar_title_center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/text_333"
+            android:textColor="@color/white"
             android:textSize="18sp"/>
 
     </android.support.v7.widget.Toolbar>
