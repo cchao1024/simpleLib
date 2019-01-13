@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.core.UiHelper;
@@ -26,6 +27,7 @@ public class BaseFragment extends Fragment implements BaseView {
     protected Context mContext;
     protected CompositeDisposable mDisposable = new CompositeDisposable();
     protected ProgressDialog mProgressDialog;
+    protected LayoutInflater mLayoutInflater;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class BaseFragment extends Fragment implements BaseView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContext = getActivity();
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
