@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 /**
- * Description: rxBus
+ * Description: rxBus 基于 rxJava的事件分发
  * Created by cchao on 2017/5/17.
  */
 
@@ -66,7 +66,7 @@ public class RxBus {
      * @param callBack 回调
      * @return Disposable
      */
-    public Disposable toObserveCode(int code,CommonCodeCallBack callBack) {
+    public Disposable toObserveCode(int code, CommonCodeCallBack callBack) {
         return toObservable(CommonEvent.class)
             .subscribe(new Consumer<CommonEvent>() {
                 @Override

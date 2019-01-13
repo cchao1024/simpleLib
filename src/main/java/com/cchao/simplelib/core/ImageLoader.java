@@ -15,7 +15,6 @@ import com.cchao.simplelib.util.ThreadPoolUtils;
  * 图片加载工具类  glide封装
  * Created by cchao on 2016/12/1.
  */
-
 public class ImageLoader {
 
     private static final String TAG_LOG = "ImageLoader";
@@ -80,5 +79,4 @@ public class ImageLoader {
             Logs.e(TAG_LOG, "clearCache error: ", e);
         }
     }
-
 }

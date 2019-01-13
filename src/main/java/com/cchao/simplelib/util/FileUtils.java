@@ -943,7 +943,7 @@ public class FileUtils {
      * @return 文件的MD5校验码
      */
     public static String getFileMD5(File file) {
-        return EncryptUtils.encryptMD5File2String(file);
+        return "";
     }
 
     /**

@@ -17,6 +17,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
+ * okhttp 简单 get,post封装，提供 string和对象bean响应返回
+ *
  * @author cchao
  * @version 18-5-13.
  */

@@ -8,6 +8,7 @@ import com.cchao.simplelib.http.OkHttpHelper;
 import okhttp3.OkHttpClient;
 
 /**
+ * simpleLib 的核心，对各helper类进行初始化
  * @author cchao
  * @version 18-5-13.
  */
@@ -37,10 +38,6 @@ public class LibCore {
         OkHttpClient getOkHttpClient();
 
         boolean isDebug();
-
-        default boolean supportDataBinding() {
-            return false;
-        }
 
         String getAppName();
 

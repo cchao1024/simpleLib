@@ -22,18 +22,21 @@ public class Router {
      * @param toActivity to
      */
     static void startRouter(Context from, Class toActivity, BundleDecorator bundleDecorator) {
-        String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName() + "bundle :" + bundleDecorator.mBundle.toString();
+        String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName()
+            + "bundle :" + bundleDecorator.mBundle.toString();
         Logs.d("Router", logStr);
 
         Intent intent = new Intent(from, toActivity);
         intent.putExtras(bundleDecorator.mBundle);
+
         if (bundleDecorator.mInNewTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        if (bundleDecorator.mRequestCOde == -1) {
+        // 如果有 requestCode 则标识需要 startActivityForResult
+        if (bundleDecorator.mRequestCode == -1) {
             from.startActivity(intent);
         } else {
-            ((Activity) from).startActivityForResult(intent, bundleDecorator.mRequestCOde);
+            ((Activity) from).startActivityForResult(intent, bundleDecorator.mRequestCode);
         }
     }
 
@@ -51,7 +54,7 @@ public class Router {
         Bundle mBundle = new Bundle();
         Context mFrom;
         boolean mInNewTask;
-        int mRequestCOde = -1;
+        int mRequestCode = -1;
         Class mToActivity;
 
         public BundleDecorator(Context from, Class toActivity) {
@@ -69,7 +72,7 @@ public class Router {
         }
 
         public void startForResult(int requestCode) {
-            mRequestCOde = requestCode;
+            mRequestCode = requestCode;
             Router.startRouter(mFrom, mToActivity, this);
         }
 

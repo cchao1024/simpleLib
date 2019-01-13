@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import java.util.Map;
 
 /**
- * Description : 对sp的各种操作，注意：静态内部类Keys是作为sp存储单元的key存在
+ * Description : 对sp的各种操作，
+ * 注意：静态内部类Keys是作为sp存储单元的key存在
  *
  * @author cchao
  * Date : 2017-8-1 18:14:08

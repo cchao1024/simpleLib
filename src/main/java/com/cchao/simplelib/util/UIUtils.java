@@ -351,13 +351,6 @@ public class UIUtils {
         return true;
     }
 
-    public static enum LayoutManagerType {
-        LINEAR,
-        GRID,
-        STAGGERED_GRID
-    }
-
-
     private static int findMax(int[] lastPositions) {
         int max = Integer.MIN_VALUE;
         for (int value : lastPositions) {

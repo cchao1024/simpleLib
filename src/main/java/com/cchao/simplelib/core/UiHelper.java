@@ -11,14 +11,14 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.cchao.simplelib.LibCore;
-import com.cchao.simplelib.util.Tuple;
 
 /**
- * 一些常用的ui核心工具方法
+ * 一些常用的 ui核心工具方法
  *
  * @author cchao
  * @version 18-5-13.
@@ -115,7 +115,6 @@ public class UiHelper {
 
     //</editor-fold>
 
-
     //<editor-fold desc="Dialog 操作">
 
     public static void showItemsDialog(Context context, String title, String[] items, DialogInterface.OnClickListener listener) {
@@ -146,27 +145,27 @@ public class UiHelper {
     }
 
     public static void showCancelDialog(Context context, String msg
-        , Tuple.Tuple2<String, DialogInterface.OnClickListener> confirm
-        , Tuple.Tuple2<String, DialogInterface.OnClickListener> cancel) {
+        , Pair<String, DialogInterface.OnClickListener> confirm
+        , Pair<String, DialogInterface.OnClickListener> cancel) {
 
         new AlertDialog.Builder(context)
             .setMessage(msg)
-            .setPositiveButton(confirm.a, new DialogInterface.OnClickListener() {
+            .setPositiveButton(confirm.first, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (confirm.b == null) {
+                    if (confirm.second == null) {
                         return;
                     }
-                    confirm.b.onClick(dialogInterface, i);
+                    confirm.second.onClick(dialogInterface, i);
                 }
             })
-            .setNegativeButton(cancel.a, new DialogInterface.OnClickListener() {
+            .setNegativeButton(cancel.first, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (cancel.b == null) {
+                    if (cancel.second == null) {
                         return;
                     }
-                    cancel.b.onClick(dialogInterface, i);
+                    cancel.second.onClick(dialogInterface, i);
                 }
             })
             .show();

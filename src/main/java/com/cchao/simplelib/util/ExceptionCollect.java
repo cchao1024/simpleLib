@@ -40,8 +40,6 @@ public class ExceptionCollect {
             return;
         }
         Logs.e("奔溃了", Log.getStackTraceString(e));
-
-        ToastUtil.showLongToastSafe("程序或者数据异常奔溃了 \n" + e.getMessage());
     }
 
     public static void logEvent(String event) {
