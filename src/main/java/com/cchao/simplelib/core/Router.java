@@ -86,6 +86,10 @@ public class Router {
             mBundle.putInt(name, value);
             return this;
         }
+        public BundleDecorator putExtra(String name, long value) {
+            mBundle.putLong(name, value);
+            return this;
+        }
 
         public BundleDecorator putExtra(String name, boolean value) {
             mBundle.putBoolean(name, value);

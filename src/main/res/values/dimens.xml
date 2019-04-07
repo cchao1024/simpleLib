@@ -50,9 +50,6 @@
     <dimen name="progress_dialog_minWidth">100dp</dimen>
     <dimen name="progress_dialog_minHeight">100dp</dimen>
 
-    <dimen name="yoins_width">100dp</dimen>
-    <dimen name="yoins_height">80dp</dimen>
-
     <dimen name="dp_neg_100">-100dp</dimen>
     <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_half">0.5dp</dimen>
