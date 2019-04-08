@@ -5,7 +5,6 @@ import com.cchao.simplelib.model.event.CommonEvent;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
@@ -13,7 +12,6 @@ import io.reactivex.subjects.Subject;
  * Description: rxBus 基于 rxJava的事件分发
  * Created by cchao on 2017/5/17.
  */
-
 public class RxBus {
 
     // 主题
@@ -49,12 +47,9 @@ public class RxBus {
      */
     public Disposable toObservable(CommonCodeCallBack callBack) {
         return toObservable(CommonEvent.class)
-            .subscribe(new Consumer<CommonEvent>() {
-                @Override
-                public void accept(CommonEvent commonEvent) throws Exception {
-                    if (callBack != null) {
-                        callBack.onConsumer(commonEvent);
-                    }
+            .subscribe(commonEvent -> {
+                if (callBack != null) {
+                    callBack.onConsumer(commonEvent);
                 }
             }, RxHelper.getErrorConsumer());
     }
@@ -62,18 +57,14 @@ public class RxBus {
     /**
      * 订阅特定code事件
      *
-     * @param code
      * @param callBack 回调
      * @return Disposable
      */
     public Disposable toObserveCode(int code, CommonCodeCallBack callBack) {
         return toObservable(CommonEvent.class)
-            .subscribe(new Consumer<CommonEvent>() {
-                @Override
-                public void accept(CommonEvent commonEvent) throws Exception {
-                    if (commonEvent.getCode() == code && callBack != null) {
-                        callBack.onConsumer(commonEvent);
-                    }
+            .subscribe(commonEvent -> {
+                if (commonEvent.getCode() == code && callBack != null) {
+                    callBack.onConsumer(commonEvent);
                 }
             }, RxHelper.getErrorConsumer());
     }
@@ -86,18 +77,15 @@ public class RxBus {
      */
     public Disposable toObserveCodeOnce(int code, CommonCodeCallBack callBack) {
         Disposable[] finalDisposable = {null};
-        finalDisposable[0] = toObserveCode(code, new CommonCodeCallBack() {
-            @Override
-            public void onConsumer(CommonEvent commonEvent) {
-                callBack.onConsumer(commonEvent);
-                finalDisposable[0].dispose();
-            }
+        finalDisposable[0] = toObserveCode(code, commonEvent -> {
+            callBack.onConsumer(commonEvent);
+            finalDisposable[0].dispose();
         });
         return finalDisposable[0];
     }
 
     /**
-     * 发射 不同的code 事件
+     * 发送 不同的code 事件
      */
     public void postEvent(int code) {
         post(CommonEvent.newEvent(code));

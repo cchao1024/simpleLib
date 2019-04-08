@@ -7,7 +7,7 @@ import com.cchao.simplelib.util.FileUtils;
 
 /**
  * Log输出
- *
+ * 仅在 debug 模式下输出和保存日志
  */
 public class Logs {
     public static final String DEFAULT_TAG = " [" + LibCore.getInfo().getAppName() + "] ";

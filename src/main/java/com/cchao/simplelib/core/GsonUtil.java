@@ -4,28 +4,37 @@ import com.cchao.simplelib.util.ExceptionCollect;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * description json包装
+ * description json 工具类包装
  * author  cchao
  * date  2016/12/2
  **/
 public class GsonUtil {
     private static Gson gson = new Gson();
 
+    public static Gson getGson() {
+        return gson;
+    }
+
     /**
      * 转成json
      */
-    public static String toJson(Object object) {
-        return gson.toJson(object);
+    public static String toJson(Object obj) {
+        if (obj == null) {
+            return gson.toJson(JsonNull.INSTANCE);
+        }
+        return gson.toJson(obj);
     }
 
     /**
@@ -42,7 +51,7 @@ public class GsonUtil {
     }
 
     /**
-     * 转成bean*
+     * 转成bean
      */
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
@@ -88,34 +97,29 @@ public class GsonUtil {
 
 
     /**
-     * 转成list中有map的
+     * 转成包含map的list
      *
-     * @param gsonString
+     * @param json
      * @return
      */
-    public static <T> List<Map<String, T>> gsonToListMaps(String gsonString) {
+    public static <T> List<Map<String, T>> toListMaps(String json) {
         List<Map<String, T>> list = null;
-        list = gson.fromJson(gsonString,
-            new TypeToken<List<Map<String, T>>>() {
-            }.getType());
+        list = gson.fromJson(json, new TypeToken<List<Map<String, T>>>() {
+        }.getType());
         return list;
     }
 
     /**
      * 转成map的
      *
-     * @param gsonString
+     * @param json
      * @return
      */
-    public static <T> Map<String, T> gsonToMaps(String gsonString) {
+    public static <T> Map<String, T> gsonToMaps(String json) {
         Map<String, T> map = null;
-        map = gson.fromJson(gsonString, new TypeToken<Map<String, T>>() {
+        map = gson.fromJson(json, new TypeToken<Map<String, T>>() {
         }.getType());
         return map;
-    }
-
-    public static Gson getGson() {
-        return gson;
     }
 
     public static JsonObject parseObj(String json) {
@@ -124,5 +128,45 @@ public class GsonUtil {
 
     public static JsonArray parseArray(String json) {
         return new JsonParser().parse(json).getAsJsonArray();
+    }
+
+    /**
+     * json数组转化成List类型
+     *
+     * @param json json
+     * @param cls  class
+     * @param <T>  类型对象
+     */
+    public static <T> List<T> toList(String json, Class<T> cls) {
+        return gson.fromJson(json, new ListOfSomething<>(cls));
+    }
+
+    /**
+     * List参数类型
+     *
+     * @param <T>
+     */
+    static class ListOfSomething<T> implements ParameterizedType {
+
+        private Class<?> mWrapped;
+
+        public ListOfSomething(Class<T> wrapped) {
+            this.mWrapped = wrapped;
+        }
+
+        @Override
+        public Type[] getActualTypeArguments() {
+            return new Type[]{mWrapped};
+        }
+
+        @Override
+        public Type getRawType() {
+            return List.class;
+        }
+
+        @Override
+        public Type getOwnerType() {
+            return null;
+        }
     }
 }

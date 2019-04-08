@@ -55,6 +55,7 @@ public class RxHelper {
             }
         };
     }
+
     public static Consumer<? super Throwable> getHideProgressConsumer(BaseStateView baseView) {
         return new Consumer<Throwable>() {
             @Override

@@ -29,16 +29,20 @@ import com.cchao.simplelib.LibCore;
  */
 public class UiHelper {
 
+    private static Context getContext() {
+        return LibCore.getContext();
+    }
+
     //<editor-fold desc="对 px的转换">
 
     public static int dp2px(float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue
-            , LibCore.getContext().getResources().getDisplayMetrics());
+            , getContext().getResources().getDisplayMetrics());
     }
 
     public static float sp2px(float spValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue
-            , LibCore.getContext().getResources().getDisplayMetrics());
+            , getContext().getResources().getDisplayMetrics());
     }
 
     //</editor-fold>
@@ -70,7 +74,7 @@ public class UiHelper {
     }
 
     private static void showToast(@StringRes int resId, int duration) {
-        showToast(LibCore.getContext().getResources().getString(resId), duration);
+        showToast(getContext().getResources().getString(resId), duration);
     }
 
     private static void showToast(CharSequence text, int duration) {
@@ -80,7 +84,7 @@ public class UiHelper {
                 mToast = null;
             }
         }
-        mToast = Toast.makeText(LibCore.getContext(), text, duration);
+        mToast = Toast.makeText(getContext(), text, duration);
         mToast.setText(text);
         mToast.setDuration(duration);
         Logs.d("toast " + text);
@@ -99,22 +103,22 @@ public class UiHelper {
         mHandler.post(runnable);
     }
 
-    //<editor-fold desc="Compat 方法">
+    //<editor-fold desc="获取资源 Compat 方法">
 
     public static Drawable getDrawable(@DrawableRes int id) {
-        return ContextCompat.getDrawable(LibCore.getContext(), id);
+        return ContextCompat.getDrawable(getContext(), id);
     }
 
     public static int getColor(@ColorRes int id) {
-        return ContextCompat.getColor(LibCore.getContext(), id);
+        return ContextCompat.getColor(getContext(), id);
     }
 
     public static String getString(int id) {
-        return LibCore.getContext().getString(id);
+        return getContext().getString(id);
     }
 
     public static String[] getStringArray(@ArrayRes int id) {
-        return LibCore.getContext().getResources().getStringArray(id);
+        return getContext().getResources().getStringArray(id);
     }
 
     //</editor-fold>
@@ -176,7 +180,6 @@ public class UiHelper {
     }
     //</editor-fold>
 
-
     /**
      * 隐藏软键盘
      *
@@ -203,7 +206,6 @@ public class UiHelper {
             .getSystemService(Context.INPUT_METHOD_SERVICE);
         inputmanger.hideSoftInputFromWindow(edit.getWindowToken(), 0);
     }
-
 
     /**
      * 显示软键盘

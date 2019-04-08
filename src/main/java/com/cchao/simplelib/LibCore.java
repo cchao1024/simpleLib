@@ -16,6 +16,11 @@ public class LibCore {
     private static Context mContext;
     private static InfoSupport mInfoSupport;
 
+    /**
+     * 初始化 lib
+     * @param appContext 应用上下文
+     * @param infoSupport 应用信息提供
+     */
     public static void init(Context appContext, InfoSupport infoSupport) {
         mContext = appContext;
         mInfoSupport = infoSupport;

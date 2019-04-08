@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class CollectionHelper {
 
-    public static boolean isEmptyList(List list) {
+    public static boolean isEmpty(List list) {
         return list == null || list.isEmpty();
     }
 
@@ -19,16 +19,16 @@ public class CollectionHelper {
         return arr == null || arr.length == 0;
     }
 
-    public static boolean isNotEmptyList(List list) {
-        return !isEmptyList(list);
+    public static boolean isNotEmpty(List list) {
+        return !isEmpty(list);
     }
 
-    public static boolean isEmptyMap(Map list) {
+    public static boolean isEmpty(Map list) {
         return list == null || list.isEmpty();
     }
 
-    public static boolean isNotEmptyMap(Map list) {
-        return !isEmptyMap(list);
+    public static boolean isNotEmpty(Map list) {
+        return !isEmpty(list);
     }
 
     public static boolean mapContainEmpty(Map<String, String> map) {
