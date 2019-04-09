@@ -1,9 +1,6 @@
 package com.cchao.simplelib.http;
 
-import android.content.Context;
-
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 import okhttp3.Callback;
@@ -24,12 +21,15 @@ import okhttp3.ResponseBody;
  */
 public class OkHttpHelper {
     private static OkHttpClient mHttpClient = null;
-    private static final Charset UTF8 = Charset.forName("UTF-8");
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private Context mContext;
 
     public static void init(OkHttpClient okHttpClient) {
         mHttpClient = okHttpClient;
+        // 添加日志收拦截器
+        mHttpClient = mHttpClient.newBuilder()
+            .addInterceptor(new RequestLogInterceptor())
+            .addInterceptor(new RespExceptionLogInterceptor())
+            .build();
     }
 
     public static OkHttpClient getClient() {
@@ -39,6 +39,13 @@ public class OkHttpHelper {
         return mHttpClient;
     }
 
+    /**
+     * 发送post 请求
+     *
+     * @param url      url
+     * @param params   映射参数
+     * @param callback 回调
+     */
     public static void post(String url, Map<String, String> params, Callback callback) {
         OkHttpClient client = getClient();
 
@@ -58,20 +65,37 @@ public class OkHttpHelper {
         client.newCall(request).enqueue(callback);
     }
 
+    /**
+     * 发送 get 请求
+     *
+     * @param url      url
+     * @param params   映射参数
+     * @param callback 回调
+     */
     public static void get(String url, Map<String, String> params, Callback callback) {
 
         OkHttpClient client = getClient();
         HttpUrl httpUrl = HttpUrl.parse(url);
-        HttpUrl.Builder httpBuider = httpUrl.newBuilder();
+        HttpUrl.Builder httpBuilder = httpUrl.newBuilder();
         if (params != null) {
             for (String key : params.keySet()) {
                 String value = params.get(key);
-                httpBuider.addQueryParameter(key, value);
+                httpBuilder.addQueryParameter(key, value);
             }
         }
 
-        Request request = new Request.Builder().url(httpBuider.build()).build();
+        Request request = new Request.Builder().url(httpBuilder.build()).build();
         client.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * 发送 get 请求
+     *
+     * @param url      url
+     * @param callback 回调
+     */
+    public static void get(String url, Callback callback) {
+        get(url, null, callback);
     }
 
     public static String post(String url, String json) {
@@ -90,5 +114,7 @@ public class OkHttpHelper {
         } catch (IOException e) {
             return null;
         }
+
+
     }
 }

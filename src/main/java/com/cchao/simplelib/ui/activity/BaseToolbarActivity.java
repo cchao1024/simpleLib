@@ -41,7 +41,6 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     int mActionText; //toolbar右边的文字
     List<Integer> mMenuItemIDs = new ArrayList<>(); // toolbar menu id 集合
     List<View.OnClickListener> mActionClickListeners = new ArrayList<>(); //toolbar右侧action事件
-    protected Unbinder mUnBinder;
     protected Dialog mProgressDialog;
 
     @Override
@@ -55,8 +54,6 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
 
         initToolbar();
         initStateView();
-        // initState调起 getLayout set到Content，butterKnife要在其之后
-        mUnBinder = ButterKnife.bind(this);
         initEventAndData();
     }
 
@@ -76,9 +73,6 @@ public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends Bas
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }

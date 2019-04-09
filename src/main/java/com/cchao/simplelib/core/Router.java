@@ -24,7 +24,7 @@ public class Router {
     static void startRouter(Context from, Class toActivity, BundleDecorator bundleDecorator) {
         String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName()
             + "bundle :" + bundleDecorator.mBundle.toString();
-        Logs.d("Router", logStr);
+        Logs.logEvent("Router", logStr);
 
         Intent intent = new Intent(from, toActivity);
         intent.putExtras(bundleDecorator.mBundle);
@@ -86,6 +86,7 @@ public class Router {
             mBundle.putInt(name, value);
             return this;
         }
+
         public BundleDecorator putExtra(String name, long value) {
             mBundle.putLong(name, value);
             return this;

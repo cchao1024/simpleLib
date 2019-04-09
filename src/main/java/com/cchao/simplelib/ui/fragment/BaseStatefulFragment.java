@@ -16,9 +16,6 @@ import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.INetErrorView;
 import com.kennyc.view.MultiStateView;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Description: 具备状态切换的 Fragment 基类
  *
@@ -32,7 +29,6 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
     private View mRootFrame;
     protected Dialog mProgressDialog;
     protected MultiStateView mStateView;
-    protected Unbinder mUnBinder;
     protected B mDataBind;
 
     @Nullable
@@ -42,14 +38,7 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
         mStateView = mRootFrame.findViewById(R.id.state_layout);
 
         initStateView();
-        // initState调起 getLayout set到Content，butterKnife要在其之后
-        mUnBinder = ButterKnife.bind(this, mRootFrame);
         return mRootFrame;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -61,9 +50,6 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
@@ -80,7 +66,6 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
      */
     protected abstract void onLoadData();
 
-
     //<editor-fold desc="对StateView的操作">
     private void initStateView() {
         View contentView = LayoutInflater.from(getContext()).inflate(getLayoutId(), mStateView, false);
@@ -92,34 +77,28 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载
         ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))
-            .setReloadListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switchView(LOADING);
-                    onLoadData();
-                }
+            .setReloadListener(v -> {
+                switchView(LOADING);
+                onLoadData();
             });
     }
 
     @Override
     public void switchView(@BaseStateView.ViewType String viewType) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                switch (viewType) {
-                    case LOADING:
-                        mStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-                        break;
-                    case NET_ERROR:
-                        mStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-                        break;
-                    case EMPTY:
-                        mStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-                        break;
-                    case CONTENT:
-                        mStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                        break;
-                }
+        getActivity().runOnUiThread(() -> {
+            switch (viewType) {
+                case LOADING:
+                    mStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+                    break;
+                case NET_ERROR:
+                    mStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                    break;
+                case EMPTY:
+                    mStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                    break;
+                case CONTENT:
+                    mStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                    break;
             }
         });
     }

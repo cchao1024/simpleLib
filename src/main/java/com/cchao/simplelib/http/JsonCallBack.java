@@ -13,6 +13,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
+ * 网络请求的 JSONObject 响应
+ *
  * @author cchao
  * @version 18-5-20.
  */

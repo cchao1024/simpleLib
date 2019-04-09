@@ -4,14 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.cchao.simplelib.R;
+import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.ui.interfaces.BaseView;
-import com.cchao.simplelib.util.ExceptionCollect;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -29,8 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onResume() {
         super.onResume();
-        //把页面的resume记录到fabric
-        ExceptionCollect.logEvent("Activity Resume >> " + getClass().getSimpleName());
+        // 记录页面跳转的足迹
+        Logs.logEvent("Activity Resume", getClass().getSimpleName());
     }
 
     @Override
@@ -38,11 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         super.onCreate(savedInstanceState);
         mContext = this;
         mLayoutInflater = LayoutInflater.from(mContext);
-    }
-
-    @Override
-    public void showText(@StringRes int stringId) {
-        showText(getString(stringId));
     }
 
     @Override

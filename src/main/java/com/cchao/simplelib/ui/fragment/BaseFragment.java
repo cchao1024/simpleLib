@@ -21,7 +21,6 @@ import io.reactivex.disposables.Disposable;
  * @author cchao
  * @version 2017/8/2
  */
-
 public class BaseFragment extends Fragment implements BaseView {
 
     protected Context mContext;
@@ -32,7 +31,7 @@ public class BaseFragment extends Fragment implements BaseView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logs.d("Fragment onCreate >>>" + getClass().getSimpleName());
+        Logs.logEvent("Fragment onCreate", getClass().getSimpleName());
     }
 
     @Override
@@ -50,11 +49,6 @@ public class BaseFragment extends Fragment implements BaseView {
     @Override
     public void showText(String string) {
         UiHelper.showToast(string);
-    }
-
-    @Override
-    public void showText(int stringRes) {
-        showText(getString(stringRes));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.cchao.simplelib.util;
 
 /**
+ * 基础数据类型回调
+ *
  * @author cchao
  * @version 11/1/18.
  */

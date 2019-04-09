@@ -12,9 +12,11 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,7 +35,7 @@ public class UiHelper {
         return LibCore.getContext();
     }
 
-    //<editor-fold desc="对 px的转换">
+    //<editor-fold desc="对 px的转换 屏幕宽高">
 
     public static int dp2px(float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue
@@ -45,6 +47,29 @@ public class UiHelper {
             , getContext().getResources().getDisplayMetrics());
     }
 
+    /**
+     * 获取屏幕的宽度px
+     *
+     * @return 屏幕宽px
+     */
+    public static int getScreenWidth() {
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕的高度px
+     *
+     * @return 屏幕高px
+     */
+    public static int getScreenHeight() {
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
     //</editor-fold>
 
     //<editor-fold desc="toast 操作">
@@ -97,6 +122,29 @@ public class UiHelper {
         });
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="对View的操作">
+    /**
+     * 设置View 显示 visible 或 gone
+     *
+     * @param view view
+     * @param bool if true > visible
+     *             if false > gone
+     */
+    public static void setVisibleElseGone(View view, boolean bool) {
+        view.setVisibility(bool ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * view 是否是visible
+     *
+     * @param view
+     * @return
+     */
+    public static boolean isVisible(View view) {
+        return view.getVisibility() == View.VISIBLE;
+    }
     //</editor-fold>
 
     public static void runOnUiThread(Runnable runnable) {

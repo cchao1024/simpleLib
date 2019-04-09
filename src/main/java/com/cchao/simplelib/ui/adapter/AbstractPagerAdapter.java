@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 抽象的 viewPager adapter，需复写抽象方法 convert
+ *
  * @param <T>
  */
 public abstract class AbstractPagerAdapter<T> extends PagerAdapter {
@@ -28,7 +29,7 @@ public abstract class AbstractPagerAdapter<T> extends PagerAdapter {
         this.mItemLayoutId = layoutId;
         this.mData = data;
 
-        mViews = new SparseArray<View>(data.size());
+        mViews = new SparseArray<>(data.size());
     }
 
     @Override
@@ -65,6 +66,12 @@ public abstract class AbstractPagerAdapter<T> extends PagerAdapter {
         return view;
     }
 
+    /**
+     * 渲染填充 item
+     * @param convertView view
+     * @param position index
+     * @param item 数据
+     */
     public abstract void convert(View convertView, int position, T item);
 
     @Override

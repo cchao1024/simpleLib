@@ -5,6 +5,7 @@ import android.support.v4.util.ArrayMap;
 import android.text.Html;
 import android.text.TextUtils;
 
+import com.cchao.simplelib.Const;
 import com.cchao.simplelib.core.Logs;
 
 import java.io.UnsupportedEncodingException;
@@ -17,7 +18,6 @@ public class StringHelper {
     public static final int INDEX_NOT_FOUND = -1;
 
     public static final String EMPTY = "";
-    static final String CHARSET = "utf-8";
 
     static final Pattern CRLF = Pattern.compile("(/n|//n)");
 
@@ -110,7 +110,7 @@ public class StringHelper {
 
     public static String urlEncode(String url) {
         try {
-            return URLEncoder.encode(url, CHARSET);
+            return URLEncoder.encode(url, Const.STRING_UTF_8);
         } catch (UnsupportedEncodingException e) {
             Logs.e(e);
 
@@ -135,7 +135,6 @@ public class StringHelper {
     public static String upperFirstCase(String name) {
         name = name.substring(0, 1).toUpperCase() + name.substring(1);
         return name;
-
     }
 
     public static String formatSize(long size) {
