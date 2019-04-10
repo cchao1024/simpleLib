@@ -58,6 +58,9 @@ public class AndroidHelper {
         return mUUid;
     }
 
+    public static String getDeviceNum() {
+        return Settings.System.getString(LibCore.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
 
     /**
      * 是否开启某个权限
