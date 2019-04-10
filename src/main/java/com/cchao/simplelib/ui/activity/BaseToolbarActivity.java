@@ -23,14 +23,13 @@ import com.kennyc.view.MultiStateView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
- * 封装toolbar操作、状态切换的baseActivity
- * Created by cchao on 2017/3/16.
+ * 具备状态切换的 Activity 基类,
+ * 实现接口 {@link com.cchao.simplelib.ui.interfaces.BaseStateView}
+ *
+ * @author cchao
+ * @version 2019/4/10.
  */
-
 public abstract class BaseToolbarActivity<B extends ViewDataBinding> extends BaseActivity implements BaseStateView {
     protected Toolbar mToolbar;
     protected TextView mCenterTitle;

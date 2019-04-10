@@ -1,6 +1,5 @@
-package com.cchao.simplelib.ui.fragment;
+package com.cchao.simplelib.ui.activity;
 
-import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -8,56 +7,41 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.cchao.simplelib.R;
-import com.cchao.simplelib.core.UiHelper;
+import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.INetErrorView;
 import com.kennyc.view.MultiStateView;
 
 /**
- * Description: 具备状态切换的 Fragment 基类
+ * 具备状态切换的 Activity 基类,
+ * 实现接口 {@link com.cchao.simplelib.ui.interfaces.BaseStateView}
  *
  * @author cchao
- * @version 2017/8/2
+ * @version 2019/4/10.
  */
-public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends BaseFragment
-    implements BaseStateView {
-
-    View mRootLinear;
-    protected Dialog mProgressDialog;
-    protected MultiStateView mStateView;
+public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends BaseActivity implements BaseStateView {
+    MultiStateView mStateView;
     protected B mDataBind;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootLinear = inflater.inflate(R.layout.common_state, container, false);
-        mStateView = mRootLinear.findViewById(R.id.state_layout);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.common_state);
+
+        mStateView = findViewById(R.id.state_layout);
 
         initStateView();
-        return mRootLinear;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         initEventAndData();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
-    }
+    protected abstract @LayoutRes
+    int getLayout();
 
-    protected abstract
-    @LayoutRes
-    int getLayoutId();
-
+    /**
+     * 对各事件和view 初始化
+     */
     protected abstract void initEventAndData();
 
     /**
@@ -67,24 +51,27 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
 
     //<editor-fold desc="对StateView的操作">
     private void initStateView() {
-        View contentView = LayoutInflater.from(getContext()).inflate(getLayoutId(), mStateView, false);
+        View contentView = LayoutInflater.from(mContext).inflate(getLayout(), mStateView, false);
         try {
             mDataBind = DataBindingUtil.bind(contentView);
-        } catch (Exception ex) {
-            showText(" View is not a binding layout");
+        } catch (Exception e) {
+            Logs.logException(e);
         }
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载
         ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))
-            .setReloadListener(v -> {
-                switchView(LOADING);
-                onLoadData();
+            .setReloadListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchView(LOADING);
+                    onLoadData();
+                }
             });
     }
 
     @Override
     public void switchView(@BaseStateView.ViewType String viewType) {
-        UiHelper.runOnUiThread(() -> {
+        runOnUiThread(() -> {
             switch (viewType) {
                 case LOADING:
                     mStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
