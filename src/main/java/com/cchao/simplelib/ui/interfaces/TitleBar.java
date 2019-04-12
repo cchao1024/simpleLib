@@ -38,7 +38,7 @@ public interface TitleBar {
      *
      * @param visible true-显示  false-隐藏
      */
-    void setBackActionVisible(boolean visible);
+    void setBackActionVisible(boolean visible, View.OnClickListener listener);
 
     /**
      * 添加 右侧菜单图标和点击
@@ -51,4 +51,12 @@ public interface TitleBar {
     default View addTitleMenuItem(@DrawableRes int icon, View.OnClickListener listener) {
         return addTitleMenuItem(UiHelper.getDrawable(icon), listener);
     }
+
+    /**
+     * 添加 右侧菜单view和点击
+     *
+     * @param menuView 菜单View
+     * @return 返回这个view
+     */
+    void addTitleMenuItem(View menuView, View.OnClickListener listener);
 }

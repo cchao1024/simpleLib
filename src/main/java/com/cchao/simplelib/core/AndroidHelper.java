@@ -185,6 +185,9 @@ public class AndroidHelper {
         return NET_WORK_TYPE.NETWORK_TYPE_UNKNOWN;
     }
 
+    /**
+     * 网络类型
+     */
     interface NET_WORK_TYPE {
         String NETWORK_TYPE_WIFI = "WIFI";
         String NETWORK_TYPE_2G = "2G";

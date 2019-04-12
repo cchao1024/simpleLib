@@ -1,20 +1,13 @@
 package com.cchao.simplelib.ui.activity;
 
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.cchao.simplelib.R;
-import com.cchao.simplelib.core.Logs;
-import com.cchao.simplelib.ui.interfaces.INetErrorView;
 import com.cchao.simplelib.ui.interfaces.TitleBar;
 import com.cchao.simplelib.ui.interfaces.impl.TitleBarDelegate;
-import com.kennyc.view.MultiStateView;
 
 /**
  * 标题栏抽象 实现接口 {@link TitleBar}
@@ -29,10 +22,11 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        // 从委派类拿到 view
         LinearLayout rootLinear = findViewById(R.id.root_content_linear);
+
+        // 从委派类拿到 view
+        mTitleDelegate = new TitleBarDelegate(mContext);
         rootLinear.addView(mTitleDelegate.getTitleBarView(), 0);
-        initTitleBar();
     }
 
     @Override
@@ -46,12 +40,17 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
     }
 
     @Override
-    public void setBackActionVisible(boolean visible) {
-        mTitleDelegate.setBackActionVisible(visible);
+    public void setBackActionVisible(boolean visible,View.OnClickListener onClickListener) {
+        mTitleDelegate.setBackActionVisible(visible,onClickListener);
     }
 
     @Override
     public View addTitleMenuItem(Drawable icon, View.OnClickListener listener) {
         return mTitleDelegate.addTitleMenuItem(icon, listener);
+    }
+
+    @Override
+    public void addTitleMenuItem(View icon, View.OnClickListener listener) {
+        mTitleDelegate.addTitleMenuItem(icon, listener);
     }
 }

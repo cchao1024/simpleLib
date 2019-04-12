@@ -11,9 +11,6 @@ public class CommonEvent {
     private String mContent;
     private Object mBean;
 
-    /**
-     * 构造方法
-     */
     private CommonEvent(int code, String content, Object bean) {
         this.mCode = code;
         this.mContent = content;

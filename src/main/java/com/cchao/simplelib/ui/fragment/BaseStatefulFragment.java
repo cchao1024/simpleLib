@@ -1,6 +1,5 @@
 package com.cchao.simplelib.ui.fragment;
 
-import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
     implements BaseStateView {
 
     View mRootLinear;
-    protected Dialog mProgressDialog;
     protected MultiStateView mStateView;
     protected B mDataBind;
 
@@ -44,14 +42,6 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initEventAndData();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
     }
 
     protected abstract

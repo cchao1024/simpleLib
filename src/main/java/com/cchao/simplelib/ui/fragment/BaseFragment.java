@@ -77,6 +77,9 @@ public class BaseFragment extends Fragment implements BaseView {
     public void onDestroyView() {
         super.onDestroyView();
         mDisposable.dispose();
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 
     /**

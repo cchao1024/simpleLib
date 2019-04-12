@@ -1,6 +1,7 @@
 package com.cchao.simplelib.model;
 
 import android.os.Build;
+
 import com.cchao.simplelib.core.AndroidHelper;
 import com.cchao.simplelib.core.UiHelper;
 
@@ -13,6 +14,8 @@ import static org.apache.commons.lang3.StringUtils.trim;
  * @version 18-5-13.
  */
 public class DeviceInfo {
+    private static DeviceInfo mInstance;
+
     public String manufacturer;
     public String appVersion;
     public int appVersionCode;
@@ -28,17 +31,20 @@ public class DeviceInfo {
      * @return DeviceInfo
      */
     public static DeviceInfo getInfo() {
+        if (mInstance != null) {
+            return mInstance;
+        }
 
-        DeviceInfo info = new DeviceInfo();
-        info.osName = Build.VERSION_CODES.class.getFields()[Build.VERSION.SDK_INT].getName();
-        info.osVersion = Build.VERSION.RELEASE;
-        info.manufacturer = Build.MANUFACTURER;
-        info.appVersion = trim(AndroidHelper.getVersionName());
-        info.appVersionCode = AndroidHelper.getVersionCode();
-        info.deviceId = trim(AndroidHelper.getDeviceID());
-        info.screenWidth = UiHelper.getScreenWidth();
-        info.screenHeight = UiHelper.getScreenHeight();
+        mInstance = new DeviceInfo();
+        mInstance.osName = Build.VERSION_CODES.class.getFields()[Build.VERSION.SDK_INT].getName();
+        mInstance.osVersion = Build.VERSION.RELEASE;
+        mInstance.manufacturer = Build.MANUFACTURER;
+        mInstance.appVersion = trim(AndroidHelper.getVersionName());
+        mInstance.appVersionCode = AndroidHelper.getVersionCode();
+        mInstance.deviceId = trim(AndroidHelper.getDeviceID());
+        mInstance.screenWidth = UiHelper.getScreenWidth();
+        mInstance.screenHeight = UiHelper.getScreenHeight();
 
-        return info;
+        return mInstance;
     }
 }

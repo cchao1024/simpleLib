@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 
 /**
  * simpleLib 的核心，对各helper类进行初始化
+ *
  * @author cchao
  * @version 18-5-13.
  */
@@ -18,7 +19,8 @@ public class LibCore {
 
     /**
      * 初始化 lib
-     * @param appContext 应用上下文
+     *
+     * @param appContext  应用上下文
      * @param infoSupport 应用信息提供
      */
     public static void init(Context appContext, InfoSupport infoSupport) {
@@ -71,5 +73,12 @@ public class LibCore {
         void logEvent(String tag, String event);
 
         void logException(Throwable e);
+    }
+
+    /**
+     * 可选的配置类
+     */
+    class LibConfig {
+        int mTitleBarStyle = 1;
     }
 }
