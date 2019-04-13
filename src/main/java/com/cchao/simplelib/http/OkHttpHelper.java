@@ -24,11 +24,10 @@ public class OkHttpHelper {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static void init(OkHttpClient okHttpClient) {
-        mHttpClient = okHttpClient;
         // 添加日志收拦截器
-        mHttpClient = mHttpClient.newBuilder()
-            .addInterceptor(new RequestLogInterceptor())
-            .addInterceptor(new RespExceptionLogInterceptor())
+        mHttpClient = okHttpClient.newBuilder()
+            .addNetworkInterceptor(new RequestLogInterceptor())
+            .addNetworkInterceptor(new RespExceptionLogInterceptor())
             .build();
     }
 

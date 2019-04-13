@@ -7,9 +7,8 @@
     <color name="colorAction">#4dbbff</color>
 
     <!--text-->
-    <color name="colorTextPrimary">#343434</color>
+    <color name="colorTextPrimary">#333333</color>
     <color name="textPrimary">@color/text_333</color>
-    <color name="colorTextSecondary">#727272</color>
 
     <color name="text_4c4c4c">#4c4c4c</color>
     <color name="text_1c1c1c">#1c1c1c</color>
@@ -20,6 +19,9 @@
     <color name="text_999">#999999</color>
     <color name="text_bababa">#bababa</color>
     <color name="text_ccc">#cccccc</color>
+    <color name="ddd_color">#ddddd</color>
+    <color name="ccc_color">#cccccc</color>
+    <color name="eee_color">#eeeeee</color>
     <color name="line_ebebeb">#ebebeb</color>
     <color name="whit_bbbbbb">#BBBBBB</color>
     <color name="white_dddddd">#dddddd</color>
@@ -27,7 +29,6 @@
     <color name="white_fcfcfc">#FCFCFC</color>
     <color name="white_fffbfc">#FFFBFC</color>
     <color name="white_f5f5f5">#F5F5F5</color>
-    <color name="black_0.15">#26000000</color>
     <color name="red_f22148">#f22148</color>
     <color name="pink_ffe2e7">#FFE2E7</color>
     <color name="text_hint">#939393</color>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 /**
  * Description: 页面跳转路由，，页面跳转都经过他统一处理，，后期可以通过判断页面类型满足权限判断、登录状态、埋点需求
  * 注意链式的添加跳转目的页需要的参数
@@ -21,22 +20,22 @@ public class Router {
      * @param from       from
      * @param toActivity to
      */
-    static void startRouter(Context from, Class toActivity, BundleDecorator bundleDecorator) {
+    static void startRouter(Context from, Class toActivity, BundleHelper bundleHelper) {
         String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName()
-            + "bundle :" + bundleDecorator.mBundle.toString();
+            + "bundle :" + bundleHelper.mBundle.toString();
         Logs.logEvent("Router", logStr);
 
         Intent intent = new Intent(from, toActivity);
-        intent.putExtras(bundleDecorator.mBundle);
+        intent.putExtras(bundleHelper.mBundle);
 
-        if (bundleDecorator.mInNewTask) {
+        if (bundleHelper.mInNewTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         // 如果有 requestCode 则标识需要 startActivityForResult
-        if (bundleDecorator.mRequestCode == -1) {
+        if (bundleHelper.mRequestCode == -1) {
             from.startActivity(intent);
         } else {
-            ((Activity) from).startActivityForResult(intent, bundleDecorator.mRequestCode);
+            ((Activity) from).startActivityForResult(intent, bundleHelper.mRequestCode);
         }
     }
 
@@ -46,18 +45,18 @@ public class Router {
      * @param from       传入上下文
      * @param toActivity 目标Activity
      */
-    public static BundleDecorator turnTo(Context from, Class toActivity) {
-        return new BundleDecorator(from, toActivity);
+    public static BundleHelper turnTo(Context from, Class toActivity) {
+        return new BundleHelper(from, toActivity);
     }
 
-    public static class BundleDecorator {
+    public static class BundleHelper {
         Bundle mBundle = new Bundle();
         Context mFrom;
         boolean mInNewTask;
         int mRequestCode = -1;
         Class mToActivity;
 
-        public BundleDecorator(Context from, Class toActivity) {
+        public BundleHelper(Context from, Class toActivity) {
             mFrom = from;
             mToActivity = toActivity;
         }
@@ -77,22 +76,22 @@ public class Router {
         }
 
         // region 各个putExtra
-        public BundleDecorator putExtra(String name, String value) {
+        public BundleHelper putExtra(String name, String value) {
             mBundle.putString(name, value);
             return this;
         }
 
-        public BundleDecorator putExtra(String name, int value) {
+        public BundleHelper putExtra(String name, int value) {
             mBundle.putInt(name, value);
             return this;
         }
 
-        public BundleDecorator putExtra(String name, long value) {
+        public BundleHelper putExtra(String name, long value) {
             mBundle.putLong(name, value);
             return this;
         }
 
-        public BundleDecorator putExtra(String name, boolean value) {
+        public BundleHelper putExtra(String name, boolean value) {
             mBundle.putBoolean(name, value);
             return this;
         }

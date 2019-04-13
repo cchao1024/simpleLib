@@ -16,7 +16,7 @@ import com.cchao.simplelib.ui.interfaces.impl.TitleBarDelegate;
  * @author cchao
  * @version 2019/4/10.
  */
-public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends BaseStatefulActivity implements TitleBar {
+public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends BaseStatefulActivity<B> implements TitleBar {
     TitleBarDelegate mTitleDelegate;
 
     @Override
@@ -25,7 +25,10 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
         LinearLayout rootLinear = findViewById(R.id.root_content_linear);
 
         // 从委派类拿到 view
-        mTitleDelegate = new TitleBarDelegate(mContext);
+        mTitleDelegate = new TitleBarDelegate(mContext, rootLinear);
+        mTitleDelegate.setBackActionVisible(true, v -> {
+            onBackPressed();
+        });
         rootLinear.addView(mTitleDelegate.getTitleBarView(), 0);
     }
 
@@ -40,8 +43,8 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
     }
 
     @Override
-    public void setBackActionVisible(boolean visible,View.OnClickListener onClickListener) {
-        mTitleDelegate.setBackActionVisible(visible,onClickListener);
+    public void setBackActionVisible(boolean visible, View.OnClickListener onClickListener) {
+        mTitleDelegate.setBackActionVisible(visible, onClickListener);
     }
 
     @Override

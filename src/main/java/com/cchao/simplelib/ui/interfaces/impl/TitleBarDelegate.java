@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cchao.simplelib.R;
@@ -25,13 +26,16 @@ public class TitleBarDelegate implements TitleBar {
     int mStyle = 1;
     CommonTitleBarBinding mTitleBarBinding;
 
-    public TitleBarDelegate(Context context) {
+    public TitleBarDelegate(Context context, ViewGroup parent) {
         mContext = context;
+        if (mStyle == 1) {
+            mTitleBarBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext)
+                , R.layout.common_title_bar, parent, false);
+        }
     }
 
     public View getTitleBarView() {
         if (mStyle == 1) {
-            mTitleBarBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.common_title_bar, null, false);
             return mTitleBarBinding.getRoot();
         }
         return null;
@@ -53,9 +57,11 @@ public class TitleBarDelegate implements TitleBar {
 
     @Override
     public void setBackActionVisible(boolean visible, View.OnClickListener listener) {
-        UiHelper.setVisibleElseGone(mTitleBarBinding.back, visible);
-        if (listener != null) {
-            mTitleBarBinding.back.setOnClickListener(listener);
+        if (mStyle == 1) {
+            UiHelper.setVisibleElseGone(mTitleBarBinding.back, visible);
+            if (listener != null) {
+                mTitleBarBinding.back.setOnClickListener(listener);
+            }
         }
     }
 

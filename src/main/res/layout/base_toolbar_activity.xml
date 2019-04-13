@@ -10,11 +10,11 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbarHeight"
+        android:layout_height="@dimen/title_bar_height"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:elevation="0dp"
-        android:minHeight="@dimen/actionbarHeight"
+        android:minHeight="@dimen/title_bar_height"
         app:contentInsetStart="0dp"
         app:theme="@style/ThemeOverlay.AppCompat"
         app:title="@null">
