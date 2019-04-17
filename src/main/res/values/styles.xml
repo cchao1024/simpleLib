@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowIsTranslucent">false</item>
+        <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textColorPrimary">@color/textPrimary</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorSecondary">#333333</item>

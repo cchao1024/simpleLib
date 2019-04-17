@@ -19,7 +19,7 @@
     <color name="text_999">#999999</color>
     <color name="text_bababa">#bababa</color>
     <color name="text_ccc">#cccccc</color>
-    <color name="ddd_color">#ddddd</color>
+    <color name="ddd_color">#dddddd</color>
     <color name="ccc_color">#cccccc</color>
     <color name="eee_color">#eeeeee</color>
     <color name="line_ebebeb">#ebebeb</color>
@@ -40,7 +40,7 @@
     <color name="red_text_color">#fc5050</color>
     <color name="text_red_f22148">#f22148</color>
     <color name="gray_text_color">#939393</color>
-    <color name="blue_text_color">#2a92ff</color>
+    <color name="text_blue">#2a92ff</color>
     <color name="green_text_color">#6dbc5c</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
