@@ -25,6 +25,10 @@ public class RxBus {
         return RxBusHolder.INSTANCE;
     }
 
+    public static RxBus get() {
+        return RxBusHolder.INSTANCE;
+    }
+
     private static class RxBusHolder {
         private static final RxBus INSTANCE = new RxBus();
     }
