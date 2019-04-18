@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -144,6 +145,14 @@ public class UiHelper {
      */
     public static boolean isVisible(View view) {
         return view.getVisibility() == View.VISIBLE;
+    }
+
+    public static void updateLayoutParams(View view, int height, int width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+
+        view.setLayoutParams(layoutParams);
     }
     //</editor-fold>
 

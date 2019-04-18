@@ -13,13 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import com.cchao.simplelib.LibCore;
-import com.cchao.simplelib.util.ExceptionCollect;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 
-import static org.apache.commons.lang3.StringUtils.trimToEmpty;
+import static org.apache.commons.lang3.StringHelper.trimToEmpty;
 
 /**
  * 系统参数 帮助类
@@ -44,7 +43,7 @@ public class AndroidHelper {
             return mUUid;
         }
         mUUid = trimToEmpty(Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID));
-        if (StringUtils.isEmpty(mUUid)) {
+        if (StringHelper.isEmpty(mUUid)) {
             // code from https://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
             SharedPreferences sharedPrefs = mContext.getSharedPreferences(PREF_UNIQUE_ID, mContext.MODE_PRIVATE);
             mUUid = sharedPrefs.getString(PREF_UNIQUE_ID, null);
@@ -90,7 +89,7 @@ public class AndroidHelper {
             PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
             return info.versionName;
         } catch (Exception e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         }
         return "";
     }
@@ -106,7 +105,7 @@ public class AndroidHelper {
             PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
             return info.versionCode;
         } catch (Exception e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         }
         return 0;
     }
@@ -125,7 +124,7 @@ public class AndroidHelper {
                 }
             }
         } catch (Exception e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         }
         return data;
     }

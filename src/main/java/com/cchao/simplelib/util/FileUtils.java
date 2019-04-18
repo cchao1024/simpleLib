@@ -33,6 +33,8 @@ import java.util.List;
  */
 public class FileUtils {
 
+    public static final int KB = 1024;
+
     private FileUtils() {
         throw new UnsupportedOperationException("u can't fuck me...");
     }
@@ -44,7 +46,7 @@ public class FileUtils {
      * @return 文件
      */
     public static File getFileByPath(String filePath) {
-        return StringUtils.isSpace(filePath) ? null : new File(filePath);
+        return StringHelper.isSpace(filePath) ? null : new File(filePath);
     }
 
     /**
@@ -159,7 +161,7 @@ public class FileUtils {
             return file.createNewFile();
         } catch (IOException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return false;
         }
     }
@@ -196,7 +198,7 @@ public class FileUtils {
             return file.createNewFile();
         } catch (IOException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return false;
         }
     }
@@ -301,7 +303,7 @@ public class FileUtils {
                 && !(isMove && !deleteFile(srcFile));
         } catch (FileNotFoundException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return false;
         }
         }
@@ -734,15 +736,14 @@ public class FileUtils {
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(new FileOutputStream(file, append));
-            byte[] data = new byte[ConstUtils.KB];
+            byte[] data = new byte[KB];
             int len;
-            while ((len = is.read(data, 0, ConstUtils.KB)) != -1) {
+            while ((len = is.read(data, 0, KB)) != -1) {
                 os.write(data, 0, len);
             }
             return true;
         } catch (IOException e) {
-            Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return false;
         } finally {
             closeIO(is, os);
@@ -773,7 +774,7 @@ public class FileUtils {
             p = (is.read() << 8) + is.read();
         } catch (IOException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         } finally {
             closeIO(is);
         }
@@ -810,9 +811,9 @@ public class FileUtils {
         InputStream is = null;
         try {
             is = new BufferedInputStream(new FileInputStream(file));
-            byte[] buffer = new byte[ConstUtils.KB];
+            byte[] buffer = new byte[KB];
             int readChars;
-            while ((readChars = is.read(buffer, 0, ConstUtils.KB)) != -1) {
+            while ((readChars = is.read(buffer, 0, KB)) != -1) {
                 for (int i = 0; i < readChars; ++i) {
                     if (buffer[i] == '\n') {
                         ++count;
@@ -821,7 +822,7 @@ public class FileUtils {
             }
         } catch (IOException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         } finally {
             closeIO(is);
         }
@@ -853,7 +854,7 @@ public class FileUtils {
         BufferedReader reader = null;
         try {
             StringBuilder sb = new StringBuilder();
-            if (StringUtils.isSpace(charsetName)) {
+            if (StringHelper.isSpace(charsetName)) {
                 reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             } else {
                 reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
@@ -865,8 +866,7 @@ public class FileUtils {
             // 要去除最后的换行符
             return sb.delete(sb.length() - 2, sb.length()).toString();
         } catch (IOException e) {
-            Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         } finally {
             closeIO(reader);
@@ -897,7 +897,7 @@ public class FileUtils {
             return ConvertUtils.inputStream2Bytes(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             Logs.e(e);
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }
@@ -914,7 +914,7 @@ public class FileUtils {
 
     /**
      * 获取文件大小
-     * <p>例如：getFileSize(file, ConstUtils.MB); 返回文件大小单位为MB</p>
+     * <p>例如：getFileSize(file, MB); 返回文件大小单位为MB</p>
      *
      * @param file 文件
      * @return 文件大小
@@ -986,7 +986,7 @@ public class FileUtils {
      * @return filePath最长目录
      */
     public static String getDirName(String filePath) {
-        if (StringUtils.isSpace(filePath)) {
+        if (StringHelper.isSpace(filePath)) {
             return filePath;
         }
         int lastSep = filePath.lastIndexOf(File.separator);
@@ -1013,7 +1013,7 @@ public class FileUtils {
      * @return 文件名
      */
     public static String getFileName(String filePath) {
-        if (StringUtils.isSpace(filePath)) {
+        if (StringHelper.isSpace(filePath)) {
             return filePath;
         }
         int lastSep = filePath.lastIndexOf(File.separator);
@@ -1040,7 +1040,7 @@ public class FileUtils {
      * @return 不带拓展名的文件名
      */
     public static String getFileNameNoExtension(String filePath) {
-        if (StringUtils.isSpace(filePath)) {
+        if (StringHelper.isSpace(filePath)) {
             return filePath;
         }
         int lastPoi = filePath.lastIndexOf('.');
@@ -1074,7 +1074,7 @@ public class FileUtils {
      * @return 文件拓展名
      */
     public static String getFileExtension(String filePath) {
-        if (StringUtils.isSpace(filePath)) {
+        if (StringHelper.isSpace(filePath)) {
             return filePath;
         }
         int lastPoi = filePath.lastIndexOf('.');

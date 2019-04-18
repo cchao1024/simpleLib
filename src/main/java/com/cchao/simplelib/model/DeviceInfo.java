@@ -5,7 +5,7 @@ import android.os.Build;
 import com.cchao.simplelib.core.AndroidHelper;
 import com.cchao.simplelib.core.UiHelper;
 
-import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.lang3.StringHelper.trim;
 
 /**
  * 设备信息

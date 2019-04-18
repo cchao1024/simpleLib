@@ -10,34 +10,50 @@ import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Log输出
- * 仅在 debug 模式下输出和保存日志
+ * Log输出 仅在 debug 模式下输出和保存日志
+ *
+ * @author cchao
+ * @date 2019-04-1
  */
 public class Logs {
     public static final String DEFAULT_TAG = " [" + LibCore.getInfo().getAppName() + "] ";
 
+    private static boolean isDebug() {
+        return LibCore.getInfo().isDebug();
+    }
+
+    /**
+     * 写入本地文件
+     *
+     * @param msg 0
+     */
+    private static void writeToLog(String msg) {
+        // TODO: 2019/4/18  此处未实现，不想拿外部存储权限
+        FileUtils.writeLogText(msg);
+    }
+
     public static void d(String tag, String msg) {
-        if (LibCore.getInfo().isDebug()) {
+        if (isDebug()) {
             Log.d(wrapTag(tag), msg);
         }
     }
 
     public static void d(String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(msg);
+        if (isDebug()) {
+            writeToLog(msg);
             Log.d(DEFAULT_TAG, msg);
         }
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        if (LibCore.getInfo().isDebug()) {
+        if (isDebug()) {
             Log.d(wrapTag(tag), msg, tr);
         }
     }
 
     public static void e(String tag, String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(tag + ":" + msg);
+        if (isDebug()) {
+            writeToLog(tag + ":" + msg);
             Log.e(wrapTag(tag), msg);
         }
     }
@@ -47,54 +63,54 @@ public class Logs {
     }
 
     public static void e(String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(msg);
+        if (isDebug()) {
+            writeToLog(msg);
             Log.e(DEFAULT_TAG, msg);
         }
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        if (LibCore.getInfo().isDebug()) {
+        if (isDebug()) {
             Log.e(wrapTag(tag), msg, tr);
         }
     }
 
     public static void i(String tag, String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(tag + ":" + msg);
+        if (isDebug()) {
+            writeToLog(tag + ":" + msg);
             Log.i(wrapTag(tag), msg);
         }
     }
 
     public static void i(String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(msg);
+        if (isDebug()) {
+            writeToLog(msg);
             Log.i(DEFAULT_TAG, msg);
         }
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        if (LibCore.getInfo().isDebug()) {
+        if (isDebug()) {
             Log.i(wrapTag(tag), msg, tr);
         }
     }
 
     public static void v(String tag, String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(tag + ":" + msg);
+        if (isDebug()) {
+            writeToLog(tag + ":" + msg);
             Log.v(wrapTag(tag), msg);
         }
     }
 
     public static void v(String msg) {
-        if (LibCore.getInfo().isDebug()) {
-            FileUtils.writeLogText(msg);
+        if (isDebug()) {
+            writeToLog(msg);
             Log.v(DEFAULT_TAG, msg);
         }
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        if (LibCore.getInfo().isDebug()) {
+        if (isDebug()) {
             Log.v(wrapTag(tag), msg + "\n", tr);
         }
     }
@@ -110,7 +126,7 @@ public class Logs {
     }
 
     private static void throwException(Throwable e) {
-        if (!LibCore.getInfo().isDebug()) {
+        if (!isDebug()) {
             return;
         }
         if (e instanceof SocketTimeoutException) {

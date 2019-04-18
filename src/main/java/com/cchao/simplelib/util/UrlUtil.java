@@ -5,8 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.cchao.simplelib.Const;
-
-import org.apache.commons.lang3.StringUtils;
+import com.cchao.simplelib.core.Logs;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -130,7 +129,7 @@ public class UrlUtil {
             }
             return ps;
         } catch (Throwable throwable) {
-            ExceptionCollect.logException(uri.toString());
+            Logs.logException(uri.toString());
             return ps;
         }
     }
@@ -175,7 +174,7 @@ public class UrlUtil {
 
             return newUri.toString();
         } catch (Throwable e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return uri;
         }
     }
@@ -196,7 +195,7 @@ public class UrlUtil {
 
             return newUri.build().toString();
         } catch (Throwable e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return url;
         }
     }
@@ -222,7 +221,7 @@ public class UrlUtil {
 
             return newUri.build().toString();
         } catch (Throwable e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return url;
         }
     }
@@ -236,7 +235,7 @@ public class UrlUtil {
      */
     public static Map<String, String> getUriParamsExtra(String urlStr) {
         try {
-            if (StringUtils.isEmpty(urlStr)) {
+            if (StringHelper.isEmpty(urlStr)) {
                 return new LinkedHashMap<String, String>();
             }
 
@@ -264,7 +263,7 @@ public class UrlUtil {
             }
             return query_pairs;
         } catch (Throwable e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return new LinkedHashMap<String, String>();
         }
     }

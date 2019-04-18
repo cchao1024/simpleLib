@@ -1,6 +1,5 @@
 package com.cchao.simplelib.core;
 
-import com.cchao.simplelib.util.ExceptionCollect;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -45,7 +44,7 @@ public class GsonUtil {
             T t = gson.fromJson(json, cls);
             return t;
         } catch (Exception e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }

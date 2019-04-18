@@ -7,14 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.cchao.simplelib.core.Logs;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Locale;
-
 
 /**
  * <pre>
@@ -25,6 +25,8 @@ import java.util.Locale;
  * </pre>
  */
 public class ConvertUtils {
+    
+    public static final int KB = 1024;
 
     static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -113,85 +115,6 @@ public class ConvertUtils {
     }
 
     /**
-     * 字节数转以unit为单位的size
-     *
-     * @param byteNum 字节数
-     * @param unit    <ul>
-     *                <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *                <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
-     *                </ul>
-     * @return 以unit为单位的size
-     */
-    public static double byte2Size(long byteNum, ConstUtils.MemoryUnit unit) {
-        if (byteNum < 0) {
-            return -1;
-        }
-        switch (unit) {
-            default:
-            case BYTE:
-                return (double) byteNum / ConstUtils.BYTE;
-            case KB:
-                return (double) byteNum / ConstUtils.KB;
-            case MB:
-                return (double) byteNum / ConstUtils.MB;
-            case GB:
-                return (double) byteNum / ConstUtils.GB;
-        }
-    }
-
-    /**
-     * 以unit为单位的size转字节数
-     *
-     * @param size 大小
-     * @param unit <ul>
-     *             <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *             <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
-     *             </ul>
-     * @return 字节数
-     */
-    public static long size2Byte(long size, ConstUtils.MemoryUnit unit) {
-        if (size < 0) {
-            return -1;
-        }
-        switch (unit) {
-            default:
-            case BYTE:
-                return size * ConstUtils.BYTE;
-            case KB:
-                return size * ConstUtils.KB;
-            case MB:
-                return size * ConstUtils.MB;
-            case GB:
-                return size * ConstUtils.GB;
-        }
-    }
-
-    /**
-     * 字节数转合适大小
-     * <p>保留3位小数</p>
-     *
-     * @param byteNum 字节数
-     * @return 1...1024 unit
-     */
-    public static String byte2FitSize(long byteNum) {
-        if (byteNum < 0) {
-            return "shouldn't be less than zero!";
-        } else if (byteNum < ConstUtils.KB) {
-            return String.format(Locale.getDefault(), "%.3fB", (double) byteNum);
-        } else if (byteNum < ConstUtils.MB) {
-            return String.format(Locale.getDefault(), "%.3fKB", (double) byteNum / ConstUtils.KB);
-        } else if (byteNum < ConstUtils.GB) {
-            return String.format(Locale.getDefault(), "%.3fMB", (double) byteNum / ConstUtils.MB);
-        } else {
-            return String.format(Locale.getDefault(), "%.3fGB", (double) byteNum / ConstUtils.GB);
-        }
-    }
-
-    /**
      * inputStream转outputStream
      *
      * @param is 输入流
@@ -203,14 +126,14 @@ public class ConvertUtils {
         }
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] b = new byte[ConstUtils.KB];
+            byte[] b = new byte[KB];
             int len;
-            while ((len = is.read(b, 0, ConstUtils.KB)) != -1) {
+            while ((len = is.read(b, 0, KB)) != -1) {
                 os.write(b, 0, len);
             }
             return os;
         } catch (IOException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         } finally {
             FileUtils.closeIO(is);
@@ -276,7 +199,7 @@ public class ConvertUtils {
             os.write(bytes);
             return os;
         } catch (IOException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         } finally {
             FileUtils.closeIO(os);
@@ -291,13 +214,13 @@ public class ConvertUtils {
      * @return 字符串
      */
     public static String inputStream2String(InputStream is, String charsetName) {
-        if (is == null || StringUtils.isSpace(charsetName)) {
+        if (is == null || StringHelper.isSpace(charsetName)) {
             return null;
         }
         try {
             return new String(inputStream2Bytes(is), charsetName);
         } catch (UnsupportedEncodingException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }
@@ -310,13 +233,13 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static InputStream string2InputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) {
+        if (string == null || StringHelper.isSpace(charsetName)) {
             return null;
         }
         try {
             return new ByteArrayInputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }
@@ -335,7 +258,7 @@ public class ConvertUtils {
         try {
             return new String(outputStream2Bytes(out), charsetName);
         } catch (UnsupportedEncodingException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }
@@ -348,13 +271,13 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static OutputStream string2OutputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) {
+        if (string == null || StringHelper.isSpace(charsetName)) {
             return null;
         }
         try {
             return bytes2OutputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
             return null;
         }
     }

@@ -55,7 +55,7 @@ public class StringHelper {
                 }
             }
         } catch (Throwable e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         }
         return mapRequest;
     }
@@ -248,14 +248,14 @@ public class StringHelper {
      * <p>If nothing is found, the empty string is returned.</p>
      * <p>
      * <pre>
-     * StringUtils.substringAfter(null, *)      = null
-     * StringUtils.substringAfter("", *)        = ""
-     * StringUtils.substringAfter(*, null)      = ""
-     * StringUtils.substringAfter("abc", "a")   = "bc"
-     * StringUtils.substringAfter("abcba", "b") = "cba"
-     * StringUtils.substringAfter("abc", "c")   = ""
-     * StringUtils.substringAfter("abc", "d")   = ""
-     * StringUtils.substringAfter("abc", "")    = "abc"
+     * StringHelper.substringAfter(null, *)      = null
+     * StringHelper.substringAfter("", *)        = ""
+     * StringHelper.substringAfter(*, null)      = ""
+     * StringHelper.substringAfter("abc", "a")   = "bc"
+     * StringHelper.substringAfter("abcba", "b") = "cba"
+     * StringHelper.substringAfter("abc", "c")   = ""
+     * StringHelper.substringAfter("abc", "d")   = ""
+     * StringHelper.substringAfter("abc", "")    = "abc"
      * </pre>
      *
      * @param str       the String to get a substring from, may be null

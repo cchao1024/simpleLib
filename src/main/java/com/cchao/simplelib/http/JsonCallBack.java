@@ -1,6 +1,6 @@
 package com.cchao.simplelib.http;
 
-import com.cchao.simplelib.util.ExceptionCollect;
+import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.util.StringHelper;
 
 import org.json.JSONObject;
@@ -47,6 +47,6 @@ public abstract class JsonCallBack implements Callback {
     public abstract void onRespond(JSONObject jsonObj) throws Exception;
 
     public void onError(Call call, Exception e) {
-        ExceptionCollect.logException(e);
+        Logs.logException(e);
     }
 }

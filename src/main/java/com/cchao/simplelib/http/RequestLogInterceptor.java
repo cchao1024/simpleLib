@@ -1,7 +1,6 @@
 package com.cchao.simplelib.http;
 
 import com.cchao.simplelib.core.Logs;
-import com.cchao.simplelib.util.ExceptionCollect;
 import com.cchao.simplelib.util.StringHelper;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class RequestLogInterceptor implements Interceptor {
             Logs.logEvent("发送请求：", "Url :【" + originUrl + '】' + postBody);
 
         } catch (Exception e) {
-            ExceptionCollect.logException(e);
+            Logs.logException(e);
         }
         return chain.proceed(request);
     }

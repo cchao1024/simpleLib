@@ -2,7 +2,6 @@ package com.cchao.simplelib.core;
 
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
-import com.cchao.simplelib.util.ExceptionCollect;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +23,7 @@ public class RxHelper {
     /**
      * 统一线程处理, 主线程消费
      */
-    public static <T> ObservableTransformer<T, T> rxSchedulerTran() {
+    public static <T> ObservableTransformer<T, T> toMain() {
         // compose简化线程
         return new ObservableTransformer<T, T>() {
             @Override
@@ -43,7 +42,7 @@ public class RxHelper {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                ExceptionCollect.logException(throwable);
+                Logs.logException(throwable);
             }
         };
     }
@@ -60,7 +59,7 @@ public class RxHelper {
                 if (stateView != null) {
                     stateView.switchView(BaseStateView.NET_ERROR);
                 }
-                ExceptionCollect.logException(throwable);
+                Logs.logException(throwable);
             }
         };
     }
@@ -77,7 +76,7 @@ public class RxHelper {
                 if (stateView != null) {
                     stateView.hideProgress();
                 }
-                ExceptionCollect.logException(throwable);
+                Logs.logException(throwable);
             }
         };
     }
@@ -91,7 +90,7 @@ public class RxHelper {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                ExceptionCollect.logException(throwable);
+                Logs.logException(throwable);
                 if (baseView != null) {
                     baseView.showError();
                     baseView.hideProgress();
@@ -107,7 +106,7 @@ public class RxHelper {
      */
     public static Disposable timerConsumer(long delay, Consumer<Long> consumer) {
         return Observable.timer(delay, TimeUnit.MILLISECONDS)
-            .compose(rxSchedulerTran())
+            .compose(toMain())
             .subscribe(consumer,RxHelper.getErrorConsumer());
     }
 
@@ -130,7 +129,7 @@ public class RxHelper {
 
             @Override
             public void onError(Throwable e) {
-                ExceptionCollect.logException(e);
+                Logs.logException(e);
             }
 
             @Override

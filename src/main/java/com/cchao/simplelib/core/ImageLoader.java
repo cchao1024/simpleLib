@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
-import com.cchao.simplelib.util.ThreadPoolUtils;
+import com.cchao.simplelib.util.ThreadHelper;
 
 /**
  * 图片加载工具类  glide封装
@@ -66,7 +66,7 @@ public class ImageLoader {
 
     public static void clearCache(Context context) {
         try {
-            ThreadPoolUtils.execute(new Runnable() {
+            ThreadHelper.execute(new Runnable() {
                 @Override
                 public void run() {
                     Glide.get(LibCore.getContext()).clearDiskCache();
