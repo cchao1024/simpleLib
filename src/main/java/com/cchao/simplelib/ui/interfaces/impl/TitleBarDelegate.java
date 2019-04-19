@@ -37,7 +37,7 @@ public class TitleBarDelegate implements TitleBar {
      * 1. 普通线性 title
      * 2. toolbar实现
      */
-    Const.TitleStyle mStyle = LibCore.getInfo().getLibConfig().getTitleBarStyle();
+    Const.TitleStyle mStyle = LibCore.getLibConfig().getTitleBarStyle();
 
     CommonTitleBarBinding mTitleBinding;
     CommonToolBarBinding mToolBinding;

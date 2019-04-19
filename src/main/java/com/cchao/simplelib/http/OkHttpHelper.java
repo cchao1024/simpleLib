@@ -35,7 +35,7 @@ public class OkHttpHelper {
             .build();
 
         // 应用层不传入自定义 cookieJar，则写入默认的
-        if (!LibCore.getInfo().getLibConfig().isOverrideCookieJar()) {
+        if (!LibCore.getLibConfig().isOverrideCookieJar()) {
             mHttpClient = mHttpClient.newBuilder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(LibCore.getContext())))
                 .build();

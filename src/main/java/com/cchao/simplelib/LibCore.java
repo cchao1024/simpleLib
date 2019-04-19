@@ -40,6 +40,10 @@ public class LibCore {
         return mInfoSupport;
     }
 
+    public static LibConfig getLibConfig(){
+        return getInfo().getLibConfig();
+    }
+
     public interface InfoSupport {
 
         OkHttpClient getOkHttpClient();
