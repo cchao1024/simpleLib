@@ -1,5 +1,9 @@
 package com.cchao.simplelib.http;
 
+import com.cchao.simplelib.LibCore;
+import com.cchao.simplelib.http.cookie.CookieJarImpl;
+import com.cchao.simplelib.http.cookie.store.PersistentCookieStore;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -29,6 +33,13 @@ public class OkHttpHelper {
             .addNetworkInterceptor(new RequestLogInterceptor())
             .addNetworkInterceptor(new RespExceptionLogInterceptor())
             .build();
+
+        // 应用层不传入自定义 cookieJar，则写入默认的
+        if (!LibCore.getInfo().getLibConfig().isOverrideCookieJar()) {
+            mHttpClient = mHttpClient.newBuilder()
+                .cookieJar(new CookieJarImpl(new PersistentCookieStore(LibCore.getContext())))
+                .build();
+        }
     }
 
     public static OkHttpClient getClient() {

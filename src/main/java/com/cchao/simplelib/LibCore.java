@@ -49,6 +49,17 @@ public class LibCore {
         String getAppName();
 
         /**
+         * 复写自定义的 Lib 的配置项
+         *
+         * @return 配置类，不复写会返回默认的
+         */
+        default LibConfig getLibConfig() {
+            return new LibConfig()
+                .setTitleBarStyle(Const.TitleStyle.title)
+                .setOverrideCookieJar(false);
+        }
+
+        /**
          * 上报给日志收集平台
          */
         default ILogEvents getLogEvents() {
@@ -78,7 +89,35 @@ public class LibCore {
     /**
      * 可选的配置类
      */
-    class LibConfig {
-        int mTitleBarStyle = 1;
+    public static class LibConfig {
+        /**
+         * TitleBar 样式管理
+         * 1. 普通线性 title
+         * 2. toolbar实现
+         */
+        Const.TitleStyle mTitleBarStyle = Const.TitleStyle.title;
+
+        /**
+         * 是否应用层覆盖Lib默认cookie的管理
+         */
+        boolean mOverrideCookieJar = false;
+
+        public Const.TitleStyle getTitleBarStyle() {
+            return mTitleBarStyle;
+        }
+
+        public LibConfig setTitleBarStyle(Const.TitleStyle titleBarStyle) {
+            mTitleBarStyle = titleBarStyle;
+            return this;
+        }
+
+        public boolean isOverrideCookieJar() {
+            return mOverrideCookieJar;
+        }
+
+        public LibConfig setOverrideCookieJar(boolean overrideCookieJar) {
+            mOverrideCookieJar = overrideCookieJar;
+            return this;
+        }
     }
 }

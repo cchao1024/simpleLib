@@ -155,6 +155,5 @@ Note： 部分需要 Context 的方法会使用 LibCore 传入的上下文，无
 - Const 类库依赖的常量
 
 # Todo
-- BaseTitleBarActivity 提供 Toolbar的实现，
-- 集成 OkHttp 的 cookie 支持
+- BaseTitleBarActivity 提供 Toolbar的实现
 - 提供 MVVM 的支持(mvvm分支在尝试)，做到既可以简单实用，又可以复杂业务 MVVM

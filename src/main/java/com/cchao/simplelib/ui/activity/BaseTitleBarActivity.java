@@ -2,6 +2,7 @@ package com.cchao.simplelib.ui.activity;
 
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -26,10 +27,16 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
 
         // 从委派类拿到 view
         mTitleDelegate = new TitleBarDelegate(mContext, rootLinear);
-        mTitleDelegate.setBackActionVisible(true, v -> {
-            onBackPressed();
-        });
+        mTitleDelegate.setBackActionVisible(true, v -> onBackPressed());
+        // 添加到最顶部
         rootLinear.addView(mTitleDelegate.getTitleBarView(), 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.common_menu, menu);
+        mTitleDelegate.onCreateOptionsMenu();
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
