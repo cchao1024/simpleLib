@@ -3,6 +3,8 @@ package com.cchao.simplelib.http;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.http.cookie.CookieJarImpl;
 import com.cchao.simplelib.http.cookie.store.PersistentCookieStore;
+import com.cchao.simplelib.http.intercaptor.RequestLogInterceptor;
+import com.cchao.simplelib.http.intercaptor.RespExceptionLogInterceptor;
 
 import java.io.IOException;
 import java.util.Map;

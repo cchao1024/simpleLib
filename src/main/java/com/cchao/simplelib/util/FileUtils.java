@@ -903,30 +903,6 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件大小
-     *
-     * @param filePath 文件路径
-     * @return 文件大小
-     */
-    public static String getFileSize(String filePath) {
-        return getFileSize(getFileByPath(filePath));
-    }
-
-    /**
-     * 获取文件大小
-     * <p>例如：getFileSize(file, MB); 返回文件大小单位为MB</p>
-     *
-     * @param file 文件
-     * @return 文件大小
-     */
-    public static String getFileSize(File file) {
-        if (!isFileExists(file)) {
-            return "";
-        }
-        return ConvertUtils.byte2FitSize(file.length());
-    }
-
-    /**
      * 获取文件的MD5校验码
      *
      * @param filePath 文件

@@ -1,7 +1,5 @@
 package com.cchao.simplelib.util;
 
-import android.text.TextUtils;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,29 +71,7 @@ public class StringHelper {
     }
 
     /**
-     * <p>Gets the substring after the first occurrence of a separator.
-     * The separator is not returned.</p>
-     * <p>
-     * <p>A {@code null} string input will return {@code null}.
-     * An empty ("") string input will return the empty string.
-     * A {@code null} separator will return the empty string if the
-     * input string is not {@code null}.</p>
-     * <p>
-     * <p>If nothing is found, the empty string is returned.</p>
-     * <p>
-     * <pre>
-     * StringHelper.substringAfter(null, *)      = null
-     * StringHelper.substringAfter("", *)        = ""
-     * StringHelper.substringAfter(*, null)      = ""
-     * StringHelper.substringAfter("abc", "a")   = "bc"
-     * StringHelper.substringAfter("abcba", "b") = "cba"
-     * StringHelper.substringAfter("abc", "c")   = ""
-     * StringHelper.substringAfter("abc", "d")   = ""
-     * StringHelper.substringAfter("abc", "")    = "abc"
-     * </pre>
-=======
      * null转为长度为0的字符串
->>>>>>> Stashed changes
      *
      * @param s 待转字符串
      * @return s为null转为长度为0字符串，否则不改变

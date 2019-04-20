@@ -13,12 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import com.cchao.simplelib.LibCore;
-
-import org.apache.commons.lang3.StringUtils;
+import com.cchao.simplelib.util.StringHelper;
 
 import java.util.UUID;
 
-import static org.apache.commons.lang3.StringHelper.trimToEmpty;
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
+
 
 /**
  * 系统参数 帮助类

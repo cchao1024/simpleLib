@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
-        android:elevation="@dimen/dp_2"
+        app:elevation="@dimen/dp_2"
         android:orientation="vertical"
         android:paddingStart="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_10">

@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.core.Logs;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
@@ -48,7 +50,7 @@ public class UrlUtil {
         String s = sb.toString();
         //移除末尾&
         if (s.endsWith("&")) {
-            s = StringHelper.substringBeforeLast(s, "&");
+            s = StringUtils.substringBeforeLast(s, "&");
         }
         return s;
     }
