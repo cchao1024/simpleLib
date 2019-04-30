@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.LibCore;
@@ -31,27 +32,46 @@ import java.util.List;
  * @author cchao
  * @version 2019/4/10.
  */
-public class TitleBarDelegate implements TitleBar {
-    Context mContext;
+public class DefaultTitleBarDelegate implements TitleBar {
+    protected Context mContext;
     /**
      * 1. 普通线性 title
      * 2. toolbar实现
      */
     Const.TitleStyle mStyle = LibCore.getLibConfig().getTitleBarStyle();
 
-    CommonTitleBarBinding mTitleBinding;
+    // titleBar
+    protected View mTitleBar;
+    protected TextView mTitleBarTitle;
+    protected View mTitleBarBack;
+    protected ViewGroup mTitleBarActionGroup;
+
+    // toolbar
     CommonToolBarBinding mToolBinding;
     Toolbar mToolbar;
     List<MenuBean> mMenuList = new ArrayList<>();
     // 通过预置的 多个 action menu。等待 应用层赋值
     int[] mMenuActionArr = {R.id.action_1, R.id.action_2, R.id.action_3, R.id.action_4, R.id.action_5, R.id.action_6};
 
-    public TitleBarDelegate(Context context, ViewGroup parent) {
+    /**
+     * 初始化 titleBar的样式，可以交由子类去复写
+     *
+     * @param parent
+     */
+    public void initTitleStyleBar(ViewGroup parent) {
+        CommonTitleBarBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext)
+            , R.layout.common_title_bar, parent, false);
+        mTitleBar = binding.getRoot();
+        mTitleBarTitle = binding.title;
+        mTitleBarBack = binding.back;
+        mTitleBarActionGroup = binding.actionGroup;
+    }
+
+    public DefaultTitleBarDelegate(Context context, ViewGroup parent) {
         mContext = context;
         switch (mStyle) {
             case title:
-                mTitleBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext)
-                    , R.layout.common_title_bar, parent, false);
+                initTitleStyleBar(parent);
                 break;
 
             case ToolBar:
@@ -73,7 +93,7 @@ public class TitleBarDelegate implements TitleBar {
 
     private View getRoot() {
         if (mStyle == Const.TitleStyle.title) {
-            return mTitleBinding.getRoot();
+            return mTitleBar;
         } else {
             return mToolBinding.getRoot();
         }
@@ -118,7 +138,7 @@ public class TitleBarDelegate implements TitleBar {
     @Override
     public void setTitleText(String text) {
         if (mStyle == Const.TitleStyle.title) {
-            mTitleBinding.title.setText(text);
+            mTitleBarTitle.setText(text);
         } else {
             mToolbar.setTitle(text);
         }
@@ -132,9 +152,9 @@ public class TitleBarDelegate implements TitleBar {
     @Override
     public void setBackActionVisible(boolean visible, View.OnClickListener listener) {
         if (mStyle == Const.TitleStyle.title) {
-            UiHelper.setVisibleElseGone(mTitleBinding.back, visible);
+            UiHelper.setVisibleElseGone(mTitleBarBack, visible);
             if (listener != null) {
-                mTitleBinding.back.setOnClickListener(listener);
+                mTitleBarBack.setOnClickListener(listener);
             }
         } else {
             // empty implement
@@ -146,7 +166,7 @@ public class TitleBarDelegate implements TitleBar {
     public View addTitleMenuItem(Drawable icon, View.OnClickListener listener) {
         if (mStyle == Const.TitleStyle.title) {
             ImageView imageView = (ImageView) LayoutInflater.from(mContext)
-                .inflate(R.layout.common_title_menu_item, mTitleBinding.actionGroup, false);
+                .inflate(R.layout.common_title_menu_item, mTitleBarActionGroup, false);
             imageView.setImageDrawable(icon);
             this.addTitleMenuItem(imageView, listener);
             return imageView;
@@ -163,7 +183,7 @@ public class TitleBarDelegate implements TitleBar {
     @Override
     public void addTitleMenuItem(View menuView, View.OnClickListener listener) {
         if (mStyle == Const.TitleStyle.title) {
-            mTitleBinding.actionGroup.addView(menuView);
+            mTitleBarActionGroup.addView(menuView);
             menuView.setOnClickListener(listener);
         }
         // toolbar 暂未实现

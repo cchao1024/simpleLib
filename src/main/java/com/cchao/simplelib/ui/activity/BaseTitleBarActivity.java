@@ -6,9 +6,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.ui.interfaces.TitleBar;
-import com.cchao.simplelib.ui.interfaces.impl.TitleBarDelegate;
+import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
 
 /**
  * 标题栏抽象 实现接口 {@link TitleBar}
@@ -18,7 +19,7 @@ import com.cchao.simplelib.ui.interfaces.impl.TitleBarDelegate;
  * @version 2019/4/10.
  */
 public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends BaseStatefulActivity<B> implements TitleBar {
-    TitleBarDelegate mTitleDelegate;
+    DefaultTitleBarDelegate mTitleDelegate;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -26,7 +27,7 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
         LinearLayout rootLinear = findViewById(R.id.root_content_linear);
 
         // 从委派类拿到 view
-        mTitleDelegate = new TitleBarDelegate(mContext, rootLinear);
+        mTitleDelegate = LibCore.getLibConfig().getTitleBarDelegate(mContext, rootLinear);
         mTitleDelegate.setBackActionVisible(true, v -> onBackPressed());
         // 添加到最顶部
         rootLinear.addView(mTitleDelegate.getTitleBarView(), 0);

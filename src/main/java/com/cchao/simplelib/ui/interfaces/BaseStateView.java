@@ -1,6 +1,7 @@
 package com.cchao.simplelib.ui.interfaces;
 
 import android.support.annotation.StringDef;
+import android.view.ViewGroup;
 
 import com.cchao.simplelib.ui.activity.BaseToolbarActivity;
 
@@ -11,7 +12,6 @@ import java.lang.annotation.RetentionPolicy;
  * Description: 各种状态操作， {@link BaseToolbarActivity}
  * Created by cchao on 2017/3/16.
  */
-
 public interface BaseStateView extends BaseView {
 
     String LOADING = "Loading";
@@ -26,4 +26,6 @@ public interface BaseStateView extends BaseView {
 
     /** 切换不同的View状态 */
     void switchView(@ViewType String viewType);
+
+    ViewGroup getRootViewGroup();
 }

@@ -5,14 +5,11 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
-import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
-import com.cchao.simplelib.ui.interfaces.INetErrorView;
-import com.kennyc.view.MultiStateView;
 
 /**
  * 具备状态切换的 Activity 基类,
@@ -22,17 +19,23 @@ import com.kennyc.view.MultiStateView;
  * @version 2019/4/10.
  */
 public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends BaseActivity implements BaseStateView {
-    MultiStateView mStateView;
     protected B mDataBind;
+    BaseStateView mDelegate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.common_state);
+        setContentView(R.layout.base_linear);
 
-        mStateView = findViewById(R.id.state_layout);
-
-        initStateView();
+        mDataBind = DataBindingUtil.inflate(mLayoutInflater, getLayout(), null, false);
+        // 获取委托实现
+        mDelegate = LibCore.getLibConfig().getStateViewDelegate(mContext, mDataBind.getRoot(), new Runnable() {
+            @Override
+            public void run() {
+                onLoadData();
+            }
+        });
+        ((ViewGroup) findViewById(R.id.root_content_linear)).addView(mDelegate.getRootViewGroup());
         initEventAndData();
     }
 
@@ -49,44 +52,13 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
      */
     protected abstract void onLoadData();
 
-    //<editor-fold desc="对StateView的操作">
-    private void initStateView() {
-        View contentView = LayoutInflater.from(mContext).inflate(getLayout(), mStateView, false);
-        try {
-            mDataBind = DataBindingUtil.bind(contentView);
-        } catch (Exception e) {
-            Logs.logException(e);
-        }
-        mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
-        // 网络出错重新加载
-        ((INetErrorView) mStateView.getView(MultiStateView.VIEW_STATE_ERROR))
-            .setReloadListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switchView(LOADING);
-                    onLoadData();
-                }
-            });
+    @Override
+    public ViewGroup getRootViewGroup() {
+        return mDelegate.getRootViewGroup();
     }
 
     @Override
     public void switchView(@BaseStateView.ViewType String viewType) {
-        runOnUiThread(() -> {
-            switch (viewType) {
-                case LOADING:
-                    mStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
-                    break;
-                case NET_ERROR:
-                    mStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-                    break;
-                case EMPTY:
-                    mStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-                    break;
-                case CONTENT:
-                    mStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                    break;
-            }
-        });
+        mDelegate.switchView(viewType);
     }
-    //</editor-fold>
 }

@@ -91,5 +91,11 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
             }
         });
     }
+
+    @Override
+    public ViewGroup getRootViewGroup() {
+        return null;
+    }
+
     //</editor-fold>
 }

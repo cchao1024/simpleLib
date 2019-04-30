@@ -1,12 +1,14 @@
 package com.cchao.simplelib.core;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.util.ThreadHelper;
@@ -24,7 +26,7 @@ public class ImageLoader {
     }
 
     public static void loadImage(ImageView imageView, String path, @DrawableRes int placeholder) {
-        if (isContextDestroyed(imageView.getContext())) {
+        if (AndroidHelper.isContextDestroyed(imageView.getContext())) {
             return;
         }
 
@@ -37,7 +39,7 @@ public class ImageLoader {
 
     //加载gif
     public static void loadGifImage(@DrawableRes Integer resourceId, ImageView imageView) {
-        if (isContextDestroyed(imageView.getContext())) {
+        if (AndroidHelper.isContextDestroyed(imageView.getContext())) {
             return;
         }
 
@@ -50,18 +52,12 @@ public class ImageLoader {
     }
 
     /**
-     * 检查activity 是不是已经被 destroy 了
+     * 下载图片，
      */
-    private static boolean isContextDestroyed(Context context) {
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            if (activity.isDestroyed()) {
-                return true;
-            } else if (activity.isFinishing()) {
-                return true;
-            }
-        }
-        return false;
+    public static void downloadImage(Context context, String url, RequestListener<Drawable> requestListener) {
+        GlideApp.with(context)
+            .load(url).listener(requestListener)
+            .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
     }
 
     public static void clearCache(Context context) {

@@ -1,15 +1,13 @@
 package com.cchao.simplelib.ui.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
-import com.cchao.simplelib.R;
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.Logs;
-import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.ui.interfaces.BaseView;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -22,8 +20,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     protected CompositeDisposable mDisposable = new CompositeDisposable();
     protected Context mContext;
-    protected ProgressDialog mProgressDialog;
     protected LayoutInflater mLayoutInflater;
+    BaseView mDelegate;
 
     @Override
     protected void onResume() {
@@ -37,39 +35,36 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         super.onCreate(savedInstanceState);
         mContext = this;
         mLayoutInflater = LayoutInflater.from(mContext);
+        mDelegate = LibCore.getLibConfig().getBaseViewDelegate(mContext);
     }
 
+    //<editor-fold desc="委托实现">
     @Override
     public void showText(String stringId) {
-        UiHelper.showToast(stringId);
+        mDelegate.showText(stringId);
     }
 
     @Override
     public void showProgress() {
-        showProgress("正在加载...");
+        mDelegate.showProgress();
     }
 
     @Override
     public void showProgress(String msg) {
-        if (isDestroyed() || (mProgressDialog != null && mProgressDialog.isShowing())) {
-            return;
-        }
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage(msg);
-        mProgressDialog.show();
+        mDelegate.showProgress(msg);
     }
 
     @Override
     public void hideProgress() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        mDelegate.hideProgress();
+
     }
 
     @Override
     public void showError() {
-        showText(R.string.network_error);
+        mDelegate.showError();
     }
+    //</editor-fold>
 
     /**
      * 添加订阅事件
@@ -84,9 +79,5 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void onDestroy() {
         super.onDestroy();
         mDisposable.dispose();
-
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
     }
 }

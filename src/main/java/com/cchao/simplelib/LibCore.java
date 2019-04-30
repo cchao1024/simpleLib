@@ -1,9 +1,16 @@
 package com.cchao.simplelib;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.cchao.simplelib.core.PrefHelper;
 import com.cchao.simplelib.http.OkHttpHelper;
+import com.cchao.simplelib.ui.interfaces.BaseStateView;
+import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.cchao.simplelib.ui.interfaces.impl.DefaultBaseViewDelegate;
+import com.cchao.simplelib.ui.interfaces.impl.DefaultStateViewDelegate;
+import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
 
 import okhttp3.OkHttpClient;
 
@@ -16,6 +23,7 @@ import okhttp3.OkHttpClient;
 public class LibCore {
     private static Context mContext;
     private static InfoSupport mInfoSupport;
+    private static LibConfig mLibConfig;
 
     /**
      * 初始化 lib
@@ -32,6 +40,7 @@ public class LibCore {
         OkHttpHelper.init(mInfoSupport.getOkHttpClient());
     }
 
+
     public static Context getContext() {
         return mContext;
     }
@@ -40,8 +49,17 @@ public class LibCore {
         return mInfoSupport;
     }
 
+    public static void setLibConfig(LibConfig mLibConfig) {
+        LibCore.mLibConfig = mLibConfig;
+    }
+
     public static LibConfig getLibConfig() {
-        return getInfo().getLibConfig();
+        if (mLibConfig == null) {
+            mLibConfig = new LibConfig()
+                .setTitleBarStyle(Const.TitleStyle.title)
+                .setOverrideCookieJar(false);
+        }
+        return mLibConfig;
     }
 
     public interface InfoSupport {
@@ -51,17 +69,6 @@ public class LibCore {
         boolean isDebug();
 
         String getAppName();
-
-        /**
-         * 复写自定义的 Lib 的配置项
-         *
-         * @return 配置类，不复写会返回默认的
-         */
-        default LibConfig getLibConfig() {
-            return new LibConfig()
-                .setTitleBarStyle(Const.TitleStyle.title)
-                .setOverrideCookieJar(false);
-        }
 
         /**
          * 上报给日志收集平台
@@ -122,6 +129,18 @@ public class LibCore {
         public LibConfig setOverrideCookieJar(boolean overrideCookieJar) {
             mOverrideCookieJar = overrideCookieJar;
             return this;
+        }
+
+        public BaseView getBaseViewDelegate(Context context) {
+            return new DefaultBaseViewDelegate(context);
+        }
+
+        public BaseStateView getStateViewDelegate(Context context, View childContent, Runnable retryCallBack) {
+            return new DefaultStateViewDelegate(context, childContent, retryCallBack);
+        }
+
+        public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {
+            return new DefaultTitleBarDelegate(context, parent);
         }
     }
 }

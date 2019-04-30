@@ -1,5 +1,6 @@
 package com.cchao.simplelib.core;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -108,6 +109,22 @@ public class AndroidHelper {
             Logs.logException(e);
         }
         return 0;
+    }
+
+
+    /**
+     * 检查activity 是不是已经被 destroy 了
+     */
+    public static boolean isContextDestroyed(Context context) {
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.isDestroyed()) {
+                return true;
+            } else if (activity.isFinishing()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
