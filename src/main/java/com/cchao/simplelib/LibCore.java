@@ -64,7 +64,13 @@ public class LibCore {
 
     public interface InfoSupport {
 
-        OkHttpClient getOkHttpClient();
+        /**
+         * 获取 OkHttp 对象
+         * @return 不复写就返回默认的实现
+         */
+        default OkHttpClient getOkHttpClient() {
+            return OkHttpHelper.getDefault();
+        }
 
         boolean isDebug();
 

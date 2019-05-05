@@ -3,6 +3,7 @@ package com.cchao.simplelib.http.intercaptor;
 import android.text.TextUtils;
 
 import com.cchao.simplelib.Const;
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.Logs;
 
 import org.json.JSONException;
@@ -43,17 +44,21 @@ public class RespExceptionLogInterceptor implements Interceptor {
                 // 复制一份响应
                 String json = buffer.clone().readString(Const.CHARSET_UTF_8).trim();
 
+                JSONObject jsonObject = null;
                 try {
                     if (TextUtils.isEmpty(json)) {
                         Logs.logException(RespException.of(Const.RESP_TYPE.JSON_EMPTY, "返回了空值", "url : " + url));
                     } else {
-                        new JSONObject(json);
+                        jsonObject = new JSONObject(json);
                     }
                 } catch (JSONException e) {
                     Logs.logException(RespException.of(Const.RESP_TYPE.JSON_ERROR, "接口返回不能转成json格式",
                         "url : " + url + " json : " + json + " exception " + e.getMessage()));
                 } catch (Exception e) {
                     Logs.logException(e);
+                }
+                if (LibCore.getInfo().isDebug() && jsonObject != null) {
+                    Logs.logEvent("收到响应resp", jsonObject.toString());
                 }
                 return response;
             }

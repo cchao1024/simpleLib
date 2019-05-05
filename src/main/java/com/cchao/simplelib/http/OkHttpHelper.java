@@ -8,6 +8,7 @@ import com.cchao.simplelib.http.intercaptor.RespExceptionLogInterceptor;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -32,8 +33,8 @@ public class OkHttpHelper {
     public static void init(OkHttpClient okHttpClient) {
         // 添加日志收拦截器
         mHttpClient = okHttpClient.newBuilder()
-            .addNetworkInterceptor(new RequestLogInterceptor())
-            .addNetworkInterceptor(new RespExceptionLogInterceptor())
+            .addInterceptor(new RequestLogInterceptor())
+            .addInterceptor(new RespExceptionLogInterceptor())
             .build();
 
         // 应用层不传入自定义 cookieJar，则写入默认的
@@ -42,6 +43,15 @@ public class OkHttpHelper {
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(LibCore.getContext())))
                 .build();
         }
+    }
+
+    public static OkHttpClient getDefault() {
+        //初始化OkHttpClient
+        return new OkHttpClient().newBuilder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .build();
     }
 
     public static OkHttpClient getClient() {
