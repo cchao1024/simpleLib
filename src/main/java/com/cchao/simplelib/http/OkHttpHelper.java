@@ -27,23 +27,9 @@ import okhttp3.ResponseBody;
  * @version 18-5-13.
  */
 public class OkHttpHelper {
-    private static OkHttpClient mHttpClient = null;
+    private static OkHttpClient mHttpClient = LibCore.getInfo().getOkHttpClient();
+    private static RequestLogInterceptor mReqLogInterceptor;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-    public static void init(OkHttpClient okHttpClient) {
-        // 添加日志收拦截器
-        mHttpClient = okHttpClient.newBuilder()
-            .addInterceptor(new RequestLogInterceptor())
-            .addInterceptor(new RespExceptionLogInterceptor())
-            .build();
-
-        // 应用层不传入自定义 cookieJar，则写入默认的
-        if (!LibCore.getLibConfig().isOverrideCookieJar()) {
-            mHttpClient = mHttpClient.newBuilder()
-                .cookieJar(new CookieJarImpl(new PersistentCookieStore(LibCore.getContext())))
-                .build();
-        }
-    }
 
     public static OkHttpClient getDefault() {
         //初始化OkHttpClient
@@ -54,9 +40,24 @@ public class OkHttpHelper {
             .build();
     }
 
+    /**
+     * 获取网络交互client，首次get时会对其添加数据统计的拦截器。
+     */
     public static OkHttpClient getClient() {
-        if (mHttpClient == null) {
-            throw new NullPointerException("OkHttpClient is null, you must init it with LibCore.init()");
+        // 如果请求拦截为空，就追加拦截器
+        if (mReqLogInterceptor == null) {
+            // 添加日志收拦截器
+            mHttpClient = mHttpClient.newBuilder()
+                .addInterceptor(mReqLogInterceptor = new RequestLogInterceptor())
+                .addInterceptor(new RespExceptionLogInterceptor())
+                .build();
+
+            // 应用层不传入自定义 cookieJar，则写入默认的
+            if (!LibCore.getLibConfig().isOverrideCookieJar()) {
+                mHttpClient = mHttpClient.newBuilder()
+                    .cookieJar(new CookieJarImpl(new PersistentCookieStore(LibCore.getContext())))
+                    .build();
+            }
         }
         return mHttpClient;
     }
@@ -85,6 +86,22 @@ public class OkHttpHelper {
             .build();
 
         client.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * 发送post 请求
+     *
+     * @param url         url
+     * @param requestBody requestBody
+     * @param callback    回调
+     */
+    public static void post(String url, RequestBody requestBody, Callback callback) {
+        Request request = new Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build();
+
+        getClient().newCall(request).enqueue(callback);
     }
 
     /**

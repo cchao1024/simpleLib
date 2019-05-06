@@ -36,8 +36,6 @@ public class LibCore {
         mInfoSupport = infoSupport;
 
         PrefHelper.init(mContext, mInfoSupport.getAppName());
-
-        OkHttpHelper.init(mInfoSupport.getOkHttpClient());
     }
 
 

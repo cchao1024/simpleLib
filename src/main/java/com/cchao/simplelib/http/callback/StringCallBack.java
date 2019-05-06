@@ -1,9 +1,8 @@
-package com.cchao.simplelib.http;
+package com.cchao.simplelib.http.callback;
 
 import com.cchao.simplelib.core.Logs;
+import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.util.StringHelper;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -13,12 +12,12 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * 网络请求的 JSONObject 响应
+ * 网络请求的 字符串 响应
  *
  * @author cchao
  * @version 18-5-20.
  */
-public abstract class JsonCallBack implements Callback {
+public abstract class StringCallBack implements Callback {
     @Override
     public void onFailure(Call call, IOException e) {
         onError(call, e);
@@ -37,14 +36,21 @@ public abstract class JsonCallBack implements Callback {
                 onError(call, new IOException("responseBody.string() is null"));
                 return;
             }
-            JSONObject jsonObject = new JSONObject(body);
-            onRespond(jsonObject);
+            UiHelper.runOnUiThread(() -> {
+                try {
+                    onRespond(call, body);
+                } catch (Exception e) {
+                    Logs.logException(e);
+                }
+            });
         } catch (Exception e) {
-            onError(call, e);
+            UiHelper.runOnUiThread(() -> {
+                onError(call, e);
+            });
         }
     }
 
-    public abstract void onRespond(JSONObject jsonObj) throws Exception;
+    public abstract void onRespond(Call call, String respStr) throws Exception;
 
     public void onError(Call call, Exception e) {
         Logs.logException(e);
