@@ -12,8 +12,14 @@ public class Const {
     public static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final String STRING_UTF_8 = "utf-8";
 
+    /**
+     * title 的样式
+     */
     public enum TitleStyle {
-        title, ToolBar
+        // 自定义线性title
+        title,
+        // toolbar实现
+        ToolBar
     }
 
     public interface RESP_TYPE {
@@ -26,4 +32,17 @@ public class Const {
         String API_TIME_OUT = "ApiTimeOut";
     }
 
+    public interface Config {
+
+        /**
+         * api请求超时
+         */
+        int DEFAULT_TIMEOUT = 30;
+
+        /**
+         * 图片请求超时
+         */
+        int IMAGE_TIMEOUT = 60;
+
+    }
 }

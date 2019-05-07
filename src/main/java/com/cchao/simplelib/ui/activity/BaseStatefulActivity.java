@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.cchao.simplelib.LibCore;
@@ -27,9 +28,14 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_linear);
 
-        mDataBind = DataBindingUtil.inflate(mLayoutInflater, getLayout(), null, false);
+        View childViewRoot = mLayoutInflater.inflate(getLayout(), null);
+        try {
+            mDataBind = DataBindingUtil.bind(childViewRoot);
+        } catch (IllegalArgumentException e) {
+            // 非 dataBinding 布局
+        }
         // 获取委托实现
-        mDelegate = LibCore.getLibConfig().getStateViewDelegate(mContext, mDataBind.getRoot(), new Runnable() {
+        mDelegate = LibCore.getLibConfig().getStateViewDelegate(mContext, childViewRoot, new Runnable() {
             @Override
             public void run() {
                 onLoadData();

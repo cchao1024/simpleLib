@@ -1,5 +1,6 @@
 package com.cchao.simplelib.http;
 
+import com.cchao.simplelib.Const;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.http.cookie.CookieJarImpl;
 import com.cchao.simplelib.http.cookie.store.PersistentCookieStore;
@@ -34,9 +35,9 @@ public class OkHttpHelper {
     public static OkHttpClient getDefault() {
         //初始化OkHttpClient
         return new OkHttpClient().newBuilder()
-            .connectTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(20, TimeUnit.SECONDS)
-            .writeTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(Const.Config.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(Const.Config.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(Const.Config.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
             .build();
     }
 

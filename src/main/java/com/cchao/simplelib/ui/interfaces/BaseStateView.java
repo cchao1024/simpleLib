@@ -3,13 +3,13 @@ package com.cchao.simplelib.ui.interfaces;
 import android.support.annotation.StringDef;
 import android.view.ViewGroup;
 
-import com.cchao.simplelib.ui.activity.BaseToolbarActivity;
+import com.cchao.simplelib.ui.activity.BaseTitleBarActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Description: 各种状态操作， {@link BaseToolbarActivity}
+ * Description: 各种状态操作， {@link BaseTitleBarActivity}
  * Created by cchao on 2017/3/16.
  */
 public interface BaseStateView extends BaseView {
