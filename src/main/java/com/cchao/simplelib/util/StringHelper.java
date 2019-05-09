@@ -1,5 +1,7 @@
 package com.cchao.simplelib.util;
 
+import android.widget.EditText;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +66,14 @@ public class StringHelper {
 
     public static boolean isEmpty(Object s) {
         return s == null || s.toString().length() == 0;
+    }
+
+    public static boolean isEmpty(EditText editText) {
+        if (editText == null) {
+            return true;
+        }
+        String s = editText.getText().toString();
+        return s.length() == 0;
     }
 
     public static boolean isSpace(String s) {

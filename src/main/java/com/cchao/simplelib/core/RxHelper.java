@@ -16,7 +16,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * cchao 2017-7-28 09:13:30
+ * @author cchao
+ * @date 2017-7-28 09:13:30
  */
 public class RxHelper {
 
@@ -36,7 +37,8 @@ public class RxHelper {
 
     /**
      * 返回通用的 异常处理 consumer
-     * @return Consumer<? super Throwable>
+     *
+     * @return Consumer<?       super       Throwable>
      */
     public static Consumer<? super Throwable> getErrorConsumer() {
         return new Consumer<Throwable>() {
@@ -49,8 +51,9 @@ public class RxHelper {
 
     /**
      * 返回 发生异常切换Error界面 consumer
+     *
      * @param stateView 状态view接口
-     * @return Consumer<? super Throwable>
+     * @return Consumer<?       super       Throwable>
      */
     public static Consumer<? super Throwable> getSwitchErrorConsumer(BaseStateView stateView) {
         return new Consumer<Throwable>() {
@@ -66,8 +69,9 @@ public class RxHelper {
 
     /**
      * 返回 发生异常隐藏进度加载 consumer
+     *
      * @param stateView 状态切换接口
-     * @return Consumer<? super Throwable>
+     * @return Consumer<?       super       Throwable>
      */
     public static Consumer<? super Throwable> getHideProgressConsumer(BaseStateView stateView) {
         return new Consumer<Throwable>() {
@@ -83,8 +87,9 @@ public class RxHelper {
 
     /**
      * 返回 发生异常显示异常文案 consumer
+     *
      * @param baseView 基础界面接口
-     * @return Consumer<? super Throwable>
+     * @return Consumer<?       super       Throwable>
      */
     public static Consumer<? super Throwable> getErrorTextConsumer(BaseView baseView) {
         return new Consumer<Throwable>() {
@@ -101,17 +106,19 @@ public class RxHelper {
 
     /**
      * 延时执行
-     * @param delay 毫秒数
+     *
+     * @param delayMSeconds 毫秒数
      * @return Disposable
      */
-    public static Disposable timerConsumer(long delay, Consumer<Long> consumer) {
-        return Observable.timer(delay, TimeUnit.MILLISECONDS)
+    public static Disposable timerConsumer(long delayMSeconds, Consumer<Long> consumer) {
+        return Observable.timer(delayMSeconds, TimeUnit.MILLISECONDS)
             .compose(toMain())
-            .subscribe(consumer,RxHelper.getErrorConsumer());
+            .subscribe(consumer, RxHelper.getErrorConsumer());
     }
 
     /**
      * 空订阅，仅捕获异常
+     *
      * @param <T> obj
      */
     public static <T> Observer<T> getNothingObserver() {

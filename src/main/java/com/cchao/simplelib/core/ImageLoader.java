@@ -22,7 +22,7 @@ public class ImageLoader {
     private static final String TAG_LOG = "ImageLoader";
 
     public static void loadImage(ImageView imageView, String url) {
-        loadImage(imageView, url, R.drawable.title_back);
+        loadImage(imageView, url, R.drawable.place_holder);
     }
 
     public static void loadImage(ImageView imageView, String path, @DrawableRes int placeholder) {
@@ -34,6 +34,18 @@ public class ImageLoader {
             .load(path)
             .placeholder(placeholder)
             .fitCenter()
+            .into(imageView);
+    }
+
+    public static void loadImageCircle(ImageView imageView, String path, @DrawableRes int placeholder) {
+        if (AndroidHelper.isContextDestroyed(imageView.getContext())) {
+            return;
+        }
+
+        GlideApp.with(imageView.getContext())
+            .load(path)
+            .placeholder(placeholder)
+            .circleCrop()
             .into(imageView);
     }
 
