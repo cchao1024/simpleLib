@@ -74,6 +74,10 @@ public class LibCore {
 
         String getAppName();
 
+        default int getAppVersionCode() {
+            return 1;
+        }
+
         /**
          * 上报给日志收集平台
          */

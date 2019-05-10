@@ -8,10 +8,12 @@ import com.cchao.simplelib.http.intercaptor.RequestLogInterceptor;
 import com.cchao.simplelib.http.intercaptor.RespExceptionLogInterceptor;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Callback;
+import okhttp3.Cookie;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -61,6 +63,10 @@ public class OkHttpHelper {
             }
         }
         return mHttpClient;
+    }
+
+    public static List<Cookie> getCookies(HttpUrl httpUrl) {
+        return getClient().cookieJar().loadForRequest(httpUrl);
     }
 
     /**

@@ -1,6 +1,10 @@
 package com.cchao.simplelib;
 
+import com.cchao.simplelib.core.AndroidHelper;
+
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 类库所使用的常量
@@ -11,6 +15,12 @@ import java.nio.charset.Charset;
 public class Const {
     public static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final String STRING_UTF_8 = "utf-8";
+    public static final Map<String, String> Req_Params = new HashMap<>();
+
+    static {
+        Req_Params.put("deviceNo", AndroidHelper.getDeviceNum());
+        Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
+    }
 
     /**
      * title 的样式
@@ -45,4 +55,15 @@ public class Const {
         int IMAGE_TIMEOUT = 60;
 
     }
+
+    public interface Extra {
+
+        /**
+         * 加载webview的链接
+         */
+        String Web_View_Url = "web_view_url";
+        String Web_View_Tile = "web_view_title";
+
+    }
+
 }
