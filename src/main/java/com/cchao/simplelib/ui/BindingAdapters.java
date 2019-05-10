@@ -21,6 +21,7 @@ public class BindingAdapters {
             ImageLoader.loadImage(imageView, url, placeholderRes);
         }
     }
+
     @BindingAdapter(value = {"circleUrl", "placeholderRes"}, requireAll = false)
     public static void setImageCircleUri(ImageView imageView, String url,@DrawableRes int placeholderRes) {
         if (StringHelper.isNotEmpty(url)) {

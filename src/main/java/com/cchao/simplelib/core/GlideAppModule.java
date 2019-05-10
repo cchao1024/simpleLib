@@ -26,8 +26,8 @@ import okhttp3.OkHttpClient;
  */
 @GlideModule
 public class GlideAppModule extends AppGlideModule {
-    private static final long MEMORY_CACHE_SIZE_BYTES = 10 << 10 << 10;
-    private static final long DISK_CACHE_SIZE_BYTES = 50 << 10 << 10;
+    private static final long MEMORY_CACHE_SIZE_BYTES = 30 << 10 << 10;
+    private static final long DISK_CACHE_SIZE_BYTES = 100 << 10 << 10;
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
