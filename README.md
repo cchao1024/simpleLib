@@ -1,22 +1,84 @@
 # Desc
-simpleLib 是笔者开发中沉淀下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
+simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
 项目持续更新中，觉得不错的小伙伴可以 star 和 pull requests
 
 项目深度依赖以下开源类库
 
+[data-binding](https://developer.android.com/topic/libraries/data-binding)
 [RxJava](https://github.com/ReactiveX/RxJava)
 [glide](https://github.com/bumptech/glide)
 [okHttp](https://github.com/square/okhttp)
 [Gson](https://github.com/google/gson)
-[data-binding](https://developer.android.com/topic/libraries/data-binding)
+
 
 # LibCore
-simpleLib 的核心，进行初始化和依赖对象的赋值
-对其初始化需要实现接口 InfoSupport ，传入 HttpClient ，debug状态，appName，日志收集回调等。像这样
+simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport 和 LibConfig 提供配置项
+* InfoSupport 返回基本且必须的参数
+* LibConfig 配置关于样式上的自定义
+
+## InfoSupport
+传入 HttpClient ，debug状态，appName，日志收集回调等。部分方法提供了默认实现，
+比如 getOkHttpClient(), 如果不传入 应用层的 OkHttp 则 SimpleLib 会提供 **默认的 OkHttpClient 对象**
+当 Logs 发生日志统计时，会调用 LibCore.ILogEvents 执行日志收集（比如如下的 Bugly 收集）
+
+## LibConfig
+自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
+
+像这样
 ```java
 
-// .....
+// 在 Application类对 SimpleLib 进行初始化，传入所需的 必要参数
+private void initSimpleLib() {
+    LibCore.init(this, new LibCore.InfoSupport() {
 
+        @Override
+        public OkHttpClient getOkHttpClient() {
+            return OkHttpManager.getOriginClient();
+        }
+
+        @Override
+        public boolean isDebug() {
+            return BuildConfig.Debug;
+        }
+
+        @Override
+        public String getAppName() {
+            return getApplicationContext().getString(R.string.app_name);
+        }
+
+        @Override
+        public LibCore.ILogEvents getLogEvents() {
+            return new LibCore.ILogEvents() {
+                @Override
+                public void logEvent(String tag, String event) {
+                    BuglyLog.i(tag, event);
+                }
+
+                @Override
+                public void logException(Throwable e) {
+                    CrashReport.postCatchedException(e);
+                }
+            };
+        }
+    });
+
+    LibCore.setLibConfig(new LibCore.LibConfig() {
+        @Override
+        public BaseView getBaseViewDelegate(Context context) {
+            return new MyBaseViewDelegate(context);
+        }
+
+        @Override
+        public BaseStateView getStateViewDelegate(Context context, View childContent, Runnable retryCallBack) {
+            return new MyStateViewDelegate(context, childContent, retryCallBack);
+        }
+
+        @Override
+        public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {
+            return new MyTitleBarDelegate(context, parent);
+        }
+    });
+}
 ```
 
 # ui
@@ -110,7 +172,7 @@ addSubscribe(RxBus.get().toObservable(event -> {
 ## RxHelper
 RxHelper 提供了线程切换和结合基础界面接口 BaseView/BaseStateView 的交互和状态切换
 
-- rxSchedulerTran 线程从 io 到 main 的切换
+- toMain 线程从 io 到 main 的切换
 - getSwitchErrorConsumer 传入 BaseStateView 切换视图为网络异常状态
 - getHideProgressConsumer 隐藏 加载框
 - getErrorTextConsumer 弹出网络异常文案
@@ -155,5 +217,5 @@ Note： 部分需要 Context 的方法会使用 LibCore 传入的上下文，无
 - Const 类库依赖的常量
 
 # Todo
-- BaseTitleBarActivity 提供 Toolbar的实现
-- 提供 MVVM 的支持(mvvm分支在尝试)，做到既可以简单实用，又可以复杂业务 MVVM
+- TitleBarDelegate 提供 Toolbar的添加右侧按钮 的实现
+- 提供 MVVM 的支持(mvvm分支在尝试)，做到既可以简单实用，又可以在复杂业务中使用 MVVM 
