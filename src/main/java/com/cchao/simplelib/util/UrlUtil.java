@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.core.Logs;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
@@ -25,35 +23,6 @@ import java.util.Set;
  * Created by cchao on 2017/7/6.
  */
 public class UrlUtil {
-
-    /**
-     * 将map转换成url domain 为空就只有 &key1=v1 & key2=v2 ...
-     *
-     * @param domain 域名，可为空
-     */
-    public static String joinUrlByMap(@Nullable String domain, Map<String, String> map) {
-        if (map == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        if (!TextUtils.isEmpty(domain)) {
-            sb.append(domain).append("?");
-        } else {
-            sb.append("&");
-        }
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            sb.append(entry.getKey())
-                .append("=")
-                .append(entry.getValue())
-                .append("&");
-        }
-        String s = sb.toString();
-        //移除末尾&
-        if (s.endsWith("&")) {
-            s = StringUtils.substringBeforeLast(s, "&");
-        }
-        return s;
-    }
 
     /**
      * 拼接请求

@@ -43,6 +43,10 @@ public class LibCore {
         return mContext;
     }
 
+    public static boolean isDebug() {
+        return mInfoSupport.isDebug();
+    }
+
     public static InfoSupport getInfo() {
         return mInfoSupport;
     }
