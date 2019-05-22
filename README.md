@@ -4,11 +4,11 @@ simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和�
 
 项目深度依赖以下开源类库
 
-[data-binding](https://developer.android.com/topic/libraries/data-binding)
-[RxJava](https://github.com/ReactiveX/RxJava)
-[glide](https://github.com/bumptech/glide)
-[okHttp](https://github.com/square/okhttp)
-[Gson](https://github.com/google/gson)
+* [data-binding](https://developer.android.com/topic/libraries/data-binding)
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [glide](https://github.com/bumptech/glide)
+* [okHttp](https://github.com/square/okhttp)
+* [Gson](https://github.com/google/gson)
 
 
 # LibCore
