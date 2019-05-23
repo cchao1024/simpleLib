@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -33,12 +34,11 @@ android {
     }
 }
 
-def support = ':27.1.1'
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.android.support:multidex:1.0.3'
-    api 'com.android.support:appcompat-v7' + support
-    api 'com.android.support:design' + support
+    api 'com.android.support:appcompat-v7:28.0.0'
+    api 'com.android.support:design:28.0.0'
 
     // okhttp okio
     api 'com.squareup.okhttp3:okhttp:3.11.0'
@@ -71,5 +71,13 @@ dependencies {
 
     // https://github.com/Ereza/CustomActivityOnCrash
     api 'cat.ereza:customactivityoncrash:2.2.0'
+}
 
+publish {
+    userOrg = 'cchao1024' // 改成你在 bintray 上注册的用户名
+    groupId = 'com.github.cchao' // 改成你的包名（影响别人引用的第一段）
+    artifactId = 'simpleLib' // 改成你的 Library 名字（影响别人引用的第二段）
+    publishVersion = '1.0.0' // 版本号 （影响别人引用的第三段）
+    desc = 'Help to complete the android project fleetly'
+    website = 'https://github.com/cchao1024/simpleLib'
 }
