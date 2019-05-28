@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.Logs;
+import com.cchao.simplelib.core.RxBus;
+import com.cchao.simplelib.model.event.CommonEvent;
 import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.cchao.simplelib.ui.interfaces.EventSubscriber;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -16,7 +19,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * activity基类
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView, EventSubscriber {
 
     protected CompositeDisposable mDisposable = new CompositeDisposable();
     protected Context mContext;
@@ -36,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         mContext = this;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDelegate = LibCore.getLibConfig().getBaseViewDelegate(mContext);
+        addSubscribe(RxBus.get().toObservable(this::onEvent));
     }
 
     //<editor-fold desc="委托实现">
@@ -74,6 +78,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void addSubscribe(Disposable subscription) {
         mDisposable.add(subscription);
     }
+
+    @Override
+    public void onEvent(CommonEvent event) {/*子类复写实现*/}
 
     @Override
     protected void onDestroy() {

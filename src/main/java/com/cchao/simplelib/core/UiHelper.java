@@ -139,6 +139,17 @@ public class UiHelper {
     }
 
     /**
+     * 设置View 显示 visible 或 inVisible
+     *
+     * @param view view
+     * @param bool if true > visible
+     *             if false > gone
+     */
+    public static void setVisibleElseInVisible(View view, boolean bool) {
+        view.setVisibility(bool ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    /**
      * view 是否是visible
      *
      * @param view

@@ -8,9 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
 import com.cchao.simplelib.R;
-import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.core.Logs;
+import com.cchao.simplelib.core.RxBus;
+import com.cchao.simplelib.core.UiHelper;
+import com.cchao.simplelib.model.event.CommonEvent;
 import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.cchao.simplelib.ui.interfaces.EventSubscriber;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -21,7 +24,7 @@ import io.reactivex.disposables.Disposable;
  * @author cchao
  * @version 2017/8/2
  */
-public class BaseFragment extends Fragment implements BaseView {
+public class BaseFragment extends Fragment implements BaseView, EventSubscriber {
 
     protected Context mContext;
     protected CompositeDisposable mDisposable = new CompositeDisposable();
@@ -39,6 +42,7 @@ public class BaseFragment extends Fragment implements BaseView {
         super.onActivityCreated(savedInstanceState);
         mContext = getActivity();
         mLayoutInflater = LayoutInflater.from(mContext);
+        addSubscribe(RxBus.get().toObservable(this::onEvent));
     }
 
     @Override
@@ -89,5 +93,10 @@ public class BaseFragment extends Fragment implements BaseView {
      */
     protected void addSubscribe(Disposable subscription) {
         mDisposable.add(subscription);
+    }
+
+    @Override
+    public void onEvent(CommonEvent event) {
+        // 子类复写
     }
 }
