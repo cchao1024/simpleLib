@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.cchao.simplelib.LibCore;
+
 /**
  * Description: 页面跳转路由，，页面跳转都经过他统一处理，，后期可以通过判断页面类型满足权限判断、登录状态、埋点需求
  * 注意链式的添加跳转目的页需要的参数
@@ -24,6 +26,11 @@ public class Router {
         String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName()
             + "bundle :" + bundleHelper.mBundle.toString();
         Logs.logEvent("Router", logStr);
+        // 需要登录，但未登录
+        if (!bundleHelper.mTurnStatusMatch) {
+            Logs.logEvent("Router 未满足跳转状态", logStr);
+            return;
+        }
 
         Intent intent = new Intent(from, toActivity);
         intent.putExtras(bundleHelper.mBundle);
@@ -52,6 +59,8 @@ public class Router {
     public static class BundleHelper {
         Bundle mBundle = new Bundle();
         Context mFrom;
+        // 跳转状态是否满足
+        boolean mTurnStatusMatch = true;
         boolean mInNewTask;
         int mRequestCode = -1;
         Class mToActivity;
@@ -73,6 +82,26 @@ public class Router {
         public void startForResult(int requestCode) {
             mRequestCode = requestCode;
             Router.startRouter(mFrom, mToActivity, this);
+        }
+
+        /**
+         * 需要复写 LibCore 的 isLogin 来进行业务判断，不复写默认为 true
+         *
+         * @param isNeedLogin 不满足 是否需要跳转登录
+         */
+        public BundleHelper checkLogin(boolean isNeedLogin) {
+            mTurnStatusMatch = LibCore.getInfo().getRooterConfig().checkLogin(mFrom, isNeedLogin);
+            return this;
+        }
+
+        /**
+         * 需要复写 LibCore 的 checkStatus 来进行业务判断，不复写默认为 true
+         *
+         * @param isNeedLogin 不满足 是否需要跳转授权页
+         */
+        public BundleHelper checkStatus(String status, boolean isNeedLogin) {
+            mTurnStatusMatch = LibCore.getInfo().getRooterConfig().checkStatus(mFrom, status, isNeedLogin);
+            return this;
         }
 
         // region 各个putExtra

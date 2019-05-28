@@ -38,7 +38,6 @@ public class LibCore {
         PrefHelper.init(mContext, mInfoSupport.getAppName());
     }
 
-
     public static Context getContext() {
         return mContext;
     }
@@ -68,6 +67,7 @@ public class LibCore {
 
         /**
          * 获取 OkHttp 对象
+         *
          * @return 不复写就返回默认的实现
          */
         default OkHttpClient getOkHttpClient() {
@@ -77,6 +77,7 @@ public class LibCore {
         boolean isDebug();
 
         String getAppName();
+
 
         default int getAppVersionCode() {
             return 1;
@@ -98,6 +99,14 @@ public class LibCore {
                 }
             };
         }
+
+        /**
+         * 返回 router配置项
+         */
+        default RouterConfig getRooterConfig() {
+            return new RouterConfig() {
+            };
+        }
     }
 
     /**
@@ -107,6 +116,35 @@ public class LibCore {
         void logEvent(String tag, String event);
 
         void logException(Throwable e);
+    }
+
+    /**
+     * Router 的角色权限回调。，通过 {@link com.cchao.simplelib.core.Router} 做跳转权限处理
+     * ,如 checkLogin标识是否需要检查登录状态
+     */
+    public interface RouterConfig {
+        /**
+         * 返回是否登录,
+         * 返回true 可能会执行跳转目标页，
+         * 返回false意味权限不够，由应用层决定是否跳转验证页面（如 登录页）
+         *
+         * @param isNeedLogin 如果需要登录，则需要复写跳转登录的代码
+         */
+        default boolean checkLogin(Context context, boolean isNeedLogin) {
+            return true;
+        }
+
+        /**
+         * 返回是否处于特定状态,
+         * 返回true 执行跳转目标页
+         * 返回false 意味权限不够，由应用层决定是否跳转验证页面
+         *
+         * @param isNeedObtainStatus 是否需要跳转获取权限页，则需要复写跳转代码
+         */
+        default boolean checkStatus(Context context, String statusName, boolean isNeedObtainStatus) {
+            return true;
+        }
+
     }
 
     /**
