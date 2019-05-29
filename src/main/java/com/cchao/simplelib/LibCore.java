@@ -103,7 +103,7 @@ public class LibCore {
         /**
          * 返回 router配置项
          */
-        default RouterConfig getRooterConfig() {
+        default RouterConfig getRouterConfig() {
             return new RouterConfig() {
             };
         }

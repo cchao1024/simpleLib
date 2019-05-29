@@ -90,7 +90,10 @@ public class Router {
          * @param isNeedLogin 不满足 是否需要跳转登录
          */
         public BundleHelper checkLogin(boolean isNeedLogin) {
-            mTurnStatusMatch = LibCore.getInfo().getRooterConfig().checkLogin(mFrom, isNeedLogin);
+            boolean result = LibCore.getInfo().getRouterConfig().checkLogin(mFrom, isNeedLogin);
+            if (!result) {
+                mTurnStatusMatch = false;
+            }
             return this;
         }
 
@@ -100,8 +103,10 @@ public class Router {
          * @param isNeedLogin 不满足 是否需要跳转授权页
          */
         public BundleHelper checkStatus(String status, boolean isNeedLogin) {
-            mTurnStatusMatch = LibCore.getInfo().getRooterConfig().checkStatus(mFrom, status, isNeedLogin);
-            return this;
+            boolean result  = LibCore.getInfo().getRouterConfig().checkStatus(mFrom, status, isNeedLogin);
+            if (!result) {
+                mTurnStatusMatch = false;
+            }return this;
         }
 
         // region 各个putExtra
