@@ -1,8 +1,10 @@
 # Desc
-simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
-项目持续更新中，觉得不错的小伙伴可以 star 和 pull requests
+🔥 simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
 
-项目深度依赖以下开源类库
+笔者基于 simpleLib 编写了另一全栈项目 [insomnia](https://github.com/cchao1024/insomnia-android)，可以通过查阅android端的代码，了解simpleLib的使用。
+项目持续迭代更新中，会继续丰富类库功能。
+
+simpleLib 深度依赖以下开源类库
 
 * [data-binding](https://developer.android.com/topic/libraries/data-binding)
 * [RxJava](https://github.com/ReactiveX/RxJava)
@@ -10,78 +12,114 @@ simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和�
 * [okHttp](https://github.com/square/okhttp)
 * [Gson](https://github.com/google/gson)
 
+# 项目基本结构
 
-# LibCore
+└── simplelib
+    ├── Const.java                     类库所需常量
+    ├── LibCore.java                   初始化核心
+    ├── core                              
+    │   ├── AndroidHelper.java         设备工具类集合
+    │   ├── CollectionHelper.java      集合工具类集合
+    │   ├── GlideAppModule.java        glide配置
+    │   ├── GsonUtil.java              json转化
+    │   ├── ImageLoader.java           图片加载    
+    │   ├── Logs.java                  日志管理
+    │   ├── PrefHelper.java            sharePreference管理
+    │   ├── Router.java                界面跳转路由
+    │   ├── RxBus.java                 事件管理
+    │   ├── RxHelper.java              RxJava线程调度
+    │   └── UiHelper.java              界面工具集合
+    ├── http
+    │   ├── OkHttpHelper.java          okHttp管理
+    │   ├── SslCertHelper.java         ssl信任
+    │   ├── callback                   网络回调简单封装
+    │   ├── cookie                     cookie管理
+    │   └── intercaptor                拦截器
+    ├── model
+    │   ├── DeviceInfo.java            设备信息
+    │   └── event                      事件key常量
+    ├── ui
+    │   ├── BindingAdapters.java       dataBindingAdapter
+    │   ├── activity                   activity界面基类
+    │   ├── adapter                    基础适配器
+    │   ├── fragment                   fragment界面基类
+    │   ├── interfaces                 接口约束
+    │   └── web                        webView的简单封装处理
+    ├── util
+    │   ├── CallBacks.java             基础回调封装
+    │   ├── FileUtils.java
+    │   ├── StringHelper.java          字符串工具类集合
+    │   ├── ThreadHelper.java          线程调度工具类集合
+    │   └── UrlUtil.java               Url工具类集合
+    └── view                           自定义view集合
+        
+# 如何使用
+## 1. 引入依赖，在 app/build.gradle 处添加依赖
+
+```java
+implementation 'com.github.cchao:simpleLib:1.0.0'
+``` 
+## 2. 初始化类库，在应用初始化处 初始化 simpleLib
+
+```java
+public class App extends Application {
+    private static Application mInstance;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        App.mInstance = this;
+        initSimpleLib();
+        initMusic();
+    }
+
+    private void initSimpleLib() {
+        LibCore.init(this, new LibCore.InfoSupport() {
+            @Override
+            public OkHttpClient getOkHttpClient() {
+                return HttpClientManager.getWrapClient();
+            }
+
+            @Override
+            public boolean isDebug() {
+                return BuildConfig.DEBUG;
+            }
+
+            @Override
+            public String getAppName() {
+                return mInstance.getPackageName();
+            }
+
+            @Override
+            public int getAppVersionCode() {
+                return BuildConfig.VERSION_CODE;
+            }
+        });
+    }
+}
+```
+
+# 核心 - LibCore
 simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport 和 LibConfig 提供配置项
 * InfoSupport 返回基本且必须的参数
 * LibConfig 配置关于样式上的自定义
 
-## InfoSupport
-传入 HttpClient ，debug状态，appName，日志收集回调等。部分方法提供了默认实现，
-比如 getOkHttpClient(), 如果不传入 应用层的 OkHttp 则 SimpleLib 会提供 **默认的 OkHttpClient 对象**
-当 Logs 发生日志统计时，会调用 LibCore.ILogEvents 执行日志收集（比如如下的 Bugly 收集）
+> 篇幅有限，更详细的配置范例异步 [详细配置范例](./document/InitSample.MD) 查看
 
-## LibConfig
+## 应用层环境配置 - InfoSupport
+传入 应用层基础的状态。部分方法提供了默认实现，
+
+* isDebug  应用层状态
+* getAppName  应用名
+* getAppVersionCode  版本code
+* getOkHttpClient  返回应用层 okHttp Client，不复写，则使用 SimpleLib **默认的 OkHttpClient 对象**
+* getLogEvents  日志事件回调，当 Logs 发生日志统计时，会回调，可以在这里执行日志收集（比如 Bugly 收集）
+* getRouterConfig  路由配置，如：某些需要登录权限的页面会调用配置中的跳转代码
+
+## 样式自定义 - LibConfig
 自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
 
-像这样
-```java
-
-// 在 Application类对 SimpleLib 进行初始化，传入所需的 必要参数
-private void initSimpleLib() {
-    LibCore.init(this, new LibCore.InfoSupport() {
-
-        @Override
-        public OkHttpClient getOkHttpClient() {
-            return OkHttpManager.getOriginClient();
-        }
-
-        @Override
-        public boolean isDebug() {
-            return BuildConfig.Debug;
-        }
-
-        @Override
-        public String getAppName() {
-            return getApplicationContext().getString(R.string.app_name);
-        }
-
-        @Override
-        public LibCore.ILogEvents getLogEvents() {
-            return new LibCore.ILogEvents() {
-                @Override
-                public void logEvent(String tag, String event) {
-                    BuglyLog.i(tag, event);
-                }
-
-                @Override
-                public void logException(Throwable e) {
-                    CrashReport.postCatchedException(e);
-                }
-            };
-        }
-    });
-
-    LibCore.setLibConfig(new LibCore.LibConfig() {
-        @Override
-        public BaseView getBaseViewDelegate(Context context) {
-            return new MyBaseViewDelegate(context);
-        }
-
-        @Override
-        public BaseStateView getStateViewDelegate(Context context, View childContent, Runnable retryCallBack) {
-            return new MyStateViewDelegate(context, childContent, retryCallBack);
-        }
-
-        @Override
-        public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {
-            return new MyTitleBarDelegate(context, parent);
-        }
-    });
-}
-```
-
-# ui
+# 界面相关 - ui 
 ui提供了 基础的 Activity 和 Fragment ,各级 Base 类通过实现接口方便上层业务交互时调用
 ## 接口 
 
@@ -132,8 +170,7 @@ public interface BaseStateView extends BaseView {
 - BaseTitleBarActivity 提供简单 TitleBar 操作的基类，该类通过委托类提供了 自定义的线性布局和Toolbar（暂未实现）两种实现
 - SimpleLazyFragment 懒加载的 Fragment，用于ViewPager 等，
 
-# Core
-该目录提供核心的基础类，
+# 核心基础类 - Core
 - Logs 日志类，包括日志输出与日志收集
 - RxBus 基于 RxJava 的事件总线
 - PrefHelper 对 SharedPreferences 基本操作
@@ -199,7 +236,6 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
     }, RxUtil.getHideProgressError(this));
 
 ```
-getSwitchErrorConsumer
 
 ## UiHelper
 提供笔者认为能简化代码，提高效率的工具方法，
