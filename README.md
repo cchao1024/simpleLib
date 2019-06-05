@@ -1,4 +1,6 @@
 # Desc
+[ ![](https://api.bintray.com/packages/cchao1024/maven/simpleLib/images/download.svg) ](https://bintray.com/cchao1024/maven/simpleLib/_latestVersion)
+
 🔥 simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
 
 笔者基于 simpleLib 编写了另一全栈项目 [insomnia](https://github.com/cchao1024/insomnia-android)，可以通过查阅android端的代码，了解simpleLib的使用。
@@ -13,7 +15,7 @@ simpleLib 深度依赖以下开源类库
 * [Gson](https://github.com/google/gson)
 
 # 项目基本结构
-
+```
 └── simplelib
     ├── Const.java                     类库所需常量
     ├── LibCore.java                   初始化核心
@@ -47,19 +49,19 @@ simpleLib 深度依赖以下开源类库
     │   └── web                        webView的简单封装处理
     ├── util
     │   ├── CallBacks.java             基础回调封装
-    │   ├── FileUtils.java
     │   ├── StringHelper.java          字符串工具类集合
     │   ├── ThreadHelper.java          线程调度工具类集合
     │   └── UrlUtil.java               Url工具类集合
     └── view                           自定义view集合
-        
+ ```   
 # 如何使用
-## 1. 引入依赖，在 app/build.gradle 处添加依赖
+### 1. 引入依赖，在 app/build.gradle 处添加依赖
 
 ```java
-implementation 'com.github.cchao:simpleLib:1.0.0'
+implementation 'com.github.cchao:simpleLib:1.0.1'
 ``` 
-## 2. 初始化类库，在应用初始化处 初始化 simpleLib
+ 或 clone 类库作为项目的子模块引用
+### 2. 初始化类库，在应用初始化处 初始化 simpleLib
 
 ```java
 public class App extends Application {
@@ -69,11 +71,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         App.mInstance = this;
-        initSimpleLib();
-        initMusic();
-    }
-
-    private void initSimpleLib() {
+        // init Lib
         LibCore.init(this, new LibCore.InfoSupport() {
             @Override
             public OkHttpClient getOkHttpClient() {
@@ -98,13 +96,13 @@ public class App extends Application {
     }
 }
 ```
-
+----------
 # 核心 - LibCore
 simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport 和 LibConfig 提供配置项
 * InfoSupport 返回基本且必须的参数
 * LibConfig 配置关于样式上的自定义
 
-> 篇幅有限，更详细的配置范例异步 [详细配置范例](./document/InitSample.MD) 查看
+> 篇幅有限，更详细的配置范例异步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
 ## 应用层环境配置 - InfoSupport
 传入 应用层基础的状态。部分方法提供了默认实现，
