@@ -3,10 +3,10 @@
 
 🔥 simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
 
-笔者基于 simpleLib 编写了另一全栈项目 [insomnia](https://github.com/cchao1024/insomnia-android)，可以通过查阅android端的代码，了解simpleLib的使用。
+笔者基于 simpleLib 编写了另一全栈项目 [insomnia](https://github.com/cchao1024/insomnia-android)，可以通过查阅 android 端的代码，了解 simpleLib 的使用。
 项目持续迭代更新中，会继续丰富类库功能。
 
-simpleLib 深度依赖以下开源类库
+simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
 
 * [data-binding](https://developer.android.com/topic/libraries/data-binding)
 * [RxJava](https://github.com/ReactiveX/RxJava)
@@ -58,7 +58,7 @@ simpleLib 深度依赖以下开源类库
 ### 1. 引入依赖，在 app/build.gradle 处添加依赖
 
 ```java
-implementation 'com.github.cchao:simpleLib:1.0.1'
+implementation 'com.github.cchao:simpleLib:1.0.3'
 ``` 
  或 clone 类库作为项目的子模块引用
 ### 2. 初始化类库，在应用初始化处 初始化 simpleLib
