@@ -58,7 +58,7 @@ simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
 ### 1. 引入依赖，在 app/build.gradle 处添加依赖
 
 ```java
-implementation 'com.github.cchao:simpleLib:1.0.3'
+implementation 'com.github.cchao:simpleLib:1.0.2'
 ``` 
  或 clone 类库作为项目的子模块引用
 ### 2. 初始化类库，在应用初始化处 初始化 simpleLib
@@ -99,20 +99,19 @@ public class App extends Application {
 ----------
 # 核心 - LibCore
 simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport 和 LibConfig 提供配置项
-* InfoSupport 返回基本且必须的参数
-* LibConfig 配置关于样式上的自定义
+* **InfoSupport** 返回基本且必须的参数
+* **LibConfig** 配置关于样式上的自定义
 
 > 篇幅有限，更详细的配置范例异步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
 ## 应用层环境配置 - InfoSupport
 传入 应用层基础的状态。部分方法提供了默认实现，
 
-* isDebug  应用层状态
-* getAppName  应用名
-* getAppVersionCode  版本code
-* getOkHttpClient  返回应用层 okHttp Client，不复写，则使用 SimpleLib **默认的 OkHttpClient 对象**
-* getLogEvents  日志事件回调，当 Logs 发生日志统计时，会回调，可以在这里执行日志收集（比如 Bugly 收集）
-* getRouterConfig  路由配置，如：某些需要登录权限的页面会调用配置中的跳转代码
+* **isDebug**  应用层状态
+* **getAppName**  应用名
+* **getOkHttpClient**  返回应用层 okHttp Client，不复写，则使用 SimpleLib **默认的 OkHttpClient 对象**
+* **getLogEvents**  日志事件回调，当 Logs 发生日志统计时，会回调，可以在这里执行日志收集（比如 Bugly 收集）
+* **getRouterConfig**  路由配置，如：某些需要登录权限的页面会调用配置中的跳转代码
 
 ## 样式自定义 - LibConfig
 自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
@@ -121,9 +120,9 @@ simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport �
 ui提供了 基础的 Activity 和 Fragment ,各级 Base 类通过实现接口方便上层业务交互时调用
 ## 接口 
 
-- BaseView 提供简单的界面交互操作
-- BaseStateView 提供界面状态切换（加载、异常、空数据等）
-- TitleBar 提供基本的标题栏操作
+- **BaseView** 提供简单的界面交互操作
+- **BaseStateView** 提供界面状态切换（加载、异常、空数据等）
+- **TitleBar** 提供基本的标题栏操作
 
 ```java
 public interface BaseView {
@@ -163,19 +162,19 @@ public interface BaseStateView extends BaseView {
 ## 实现
 基类是有 RxJava 的 CompositeDisposable 成员变量，在执行**网路交互、事件订阅**时需要调用 **addSubscribe** 将订阅收集起来，会在 **OnDestroy** 时取消订阅的回调。
 
-- BaseActivity/BaseFragment 实现接口 BaseView 的基类。特别的，
-- BaseStatefulActivity/BaseStatefulFragment 实现接口 BaseStateView 的基类
-- BaseTitleBarActivity 提供简单 TitleBar 操作的基类，该类通过委托类提供了 自定义的线性布局和Toolbar（暂未实现）两种实现
-- SimpleLazyFragment 懒加载的 Fragment，用于ViewPager 等，
+- **BaseActivity/BaseFragment** 实现接口 BaseView 的基类。特别的，
+- **BaseStatefulActivity/BaseStatefulFragment** 实现接口 BaseStateView 的基类
+- **BaseTitleBarActivity** 提供简单 TitleBar 操作的基类，该类通过委托类提供了 自定义的线性布局和Toolbar（暂未实现）两种实现
+- **SimpleLazyFragment** 懒加载的 Fragment，用于ViewPager 等，
 
 # 核心基础类 - Core
-- Logs 日志类，包括日志输出与日志收集
-- RxBus 基于 RxJava 的事件总线
-- PrefHelper 对 SharedPreferences 基本操作
-- RxHelper 对 RxJava 一些方法调用封装
-- Router 对 Activity 跳转和传参的封装
-- UiHelper 界面相关操作的整合
-- GsonUtil 对 Json 的操作
+- **Logs** 日志类，包括日志输出与日志收集
+- **RxBus** 基于 RxJava 的事件总线
+- **PrefHelper** 对 SharedPreferences 基本操作
+- **RxHelper** 对 RxJava 一些方法调用封装
+- **Router** 对 Activity 跳转和传参的封装
+- **UiHelper** 界面相关操作的整合
+- **GsonUtil** 对 Json 的操作
 
 ## Logs
 日志使用的默认的Log实现，其中 logEvent 和 logException 是作为日志事件收集（InfoSupport 需实现异常收集平台的收集代码）使用的，便于异常发生时能够回溯用户的行为。
@@ -207,10 +206,10 @@ addSubscribe(RxBus.get().toObservable(event -> {
 ## RxHelper
 RxHelper 提供了线程切换和结合基础界面接口 BaseView/BaseStateView 的交互和状态切换
 
-- toMain 线程从 io 到 main 的切换
-- getSwitchErrorConsumer 传入 BaseStateView 切换视图为网络异常状态
-- getHideProgressConsumer 隐藏 加载框
-- getErrorTextConsumer 弹出网络异常文案
+- **toMain** 线程从 io 到 main 的切换
+- **getSwitchErrorConsumer** 传入 BaseStateView 切换视图为网络异常状态
+- **getHideProgressConsumer** 隐藏 加载框
+- **getErrorTextConsumer** 弹出网络异常文案
 
 执行 Error consumer 均会触发 Logs 的异常日志收集上报
 
@@ -238,17 +237,17 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
 ## UiHelper
 提供笔者认为能简化代码，提高效率的工具方法，
 
-- dp2px/sp2px , getScreenWidth/Height dp转化，屏幕宽高
-- setVisibleElseGone(View,boolean) 传入 true 显示 visible，否则 gone
-- runOnUiThread 使用主线程运行传入的方法
-- getDrawable/Color/String 获取资源
+- **dp2px/sp2px , getScreenWidth/Height** dp转化，屏幕宽高
+- **setVisibleElseGone(View,boolean)** 传入 true 显示 visible，否则 gone
+- **runOnUiThread** 使用主线程运行传入的方法
+- **getDrawable/Color/String** 获取资源
 
 Note： 部分需要 Context 的方法会使用 LibCore 传入的上下文，无需调用者再传入
 
 # 其他目录
-- util 该模块为基础工具类的整合，包含均为核心常用方法
-- view 一些笔者觉得能用且好用的 View，特别的 *state* 目录下是 BaseStateView 状态切换使用到的默认界面
-- Const 类库依赖的常量
+- **util** 该模块为基础工具类的整合，包含均为核心常用方法
+- **view** 一些笔者觉得能用且好用的 View，特别的 *state* 目录下是 BaseStateView 状态切换使用到的默认界面
+- **Const** 类库依赖的常量
 
 # Todo
 - TitleBarDelegate 提供 Toolbar的添加右侧按钮 的实现
