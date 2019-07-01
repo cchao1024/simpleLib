@@ -56,11 +56,6 @@ public class FieldStateLayout extends MultiStateView {
         if (getView(MultiStateView.VIEW_STATE_CONTENT) == null) {
             setViewForState(new View(mContext), MultiStateView.VIEW_STATE_CONTENT);
         }
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
         setViewForState(mLoadingView, MultiStateView.VIEW_STATE_LOADING);
         setViewForState(mNetErrorView, MultiStateView.VIEW_STATE_ERROR);
         setViewForState(mEmptyView, MultiStateView.VIEW_STATE_EMPTY);

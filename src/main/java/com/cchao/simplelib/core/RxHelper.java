@@ -2,6 +2,7 @@ package com.cchao.simplelib.core;
 
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.kennyc.view.MultiStateView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +39,7 @@ public class RxHelper {
     /**
      * 返回通用的 异常处理 consumer
      *
-     * @return Consumer<?       super       Throwable>
+     * @return Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getErrorConsumer() {
         return new Consumer<Throwable>() {
@@ -50,10 +51,27 @@ public class RxHelper {
     }
 
     /**
+     * MultiStateView 异常处理 consumer
+     *
+     * @return Consumer  T super Throwable
+     */
+    public static Consumer<? super Throwable> getSwitchErrorConsumer(MultiStateView multiStateView) {
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                if (multiStateView != null) {
+                    multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                }
+                Logs.logException(throwable);
+            }
+        };
+    }
+
+    /**
      * 返回 发生异常切换Error界面 consumer
      *
      * @param stateView 状态view接口
-     * @return Consumer<?       super       Throwable>
+     * @return Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getSwitchErrorConsumer(BaseStateView stateView) {
         return new Consumer<Throwable>() {
@@ -71,7 +89,7 @@ public class RxHelper {
      * 返回 发生异常隐藏进度加载 consumer
      *
      * @param stateView 状态切换接口
-     * @return Consumer<?       super       Throwable>
+     * @return  Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getHideProgressConsumer(BaseStateView stateView) {
         return new Consumer<Throwable>() {
@@ -89,7 +107,7 @@ public class RxHelper {
      * 返回 发生异常显示异常文案 consumer
      *
      * @param baseView 基础界面接口
-     * @return Consumer<?       super       Throwable>
+     * @return  Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getErrorTextConsumer(BaseView baseView) {
         return new Consumer<Throwable>() {

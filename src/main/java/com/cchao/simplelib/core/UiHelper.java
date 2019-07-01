@@ -1,6 +1,7 @@
 package com.cchao.simplelib.core;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
@@ -193,6 +194,24 @@ public class UiHelper {
     //</editor-fold>
 
     //<editor-fold desc="Dialog 操作">
+    public static ProgressDialog showProgress(Context context, String msg) {
+        if (AndroidHelper.isContextDestroyed(context)) {
+            return null;
+        }
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage(msg);
+        dialog.show();
+        return dialog;
+    }
+
+    public static void dismissProgress(ProgressDialog dialog) {
+        if (AndroidHelper.isContextDestroyed(dialog.getContext())) {
+            return;
+        }
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
 
     public static void showItemsDialog(Context context, String title, String[] items, DialogInterface.OnClickListener listener) {
         new AlertDialog.Builder(context)
