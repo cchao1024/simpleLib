@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="network_error">Ошибка сети, повторите попытку позже</string>
+	<string name="loading">загрузка</string>
+	<string name="confirm">определить</string>
+</resources>

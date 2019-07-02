@@ -40,13 +40,11 @@ public class DefaultTitleBarDelegate implements TitleBar {
      */
     Const.TitleStyle mStyle = LibCore.getLibConfig().getTitleBarStyle();
 
-    // titleBar
     protected View mTitleBar;
     protected TextView mTitleBarTitle;
     protected View mTitleBarBack;
     protected ViewGroup mTitleBarActionGroup;
 
-    // toolbar
     CommonToolBarBinding mToolBinding;
     Toolbar mToolbar;
     List<MenuBean> mMenuList = new ArrayList<>();

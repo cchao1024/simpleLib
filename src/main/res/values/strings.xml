@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">SimpleLibrary</string>
+    <string name="app_name" translatable="false">SimpleLibrary</string>
     <string name="network_error">网络出错，请稍后再试</string>
+    <string name="loading">正在加载</string>
+    <string name="confirm">确定</string>
 </resources>
