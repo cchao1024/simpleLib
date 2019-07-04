@@ -100,13 +100,14 @@ public class Router {
         /**
          * 需要复写 LibCore 的 checkStatus 来进行业务判断，不复写默认为 true
          *
-         * @param isNeedLogin 不满足 是否需要跳转授权页
+         * @param isNeedAuthorize 不满足 是否需要跳转授权页
          */
-        public BundleHelper checkStatus(String status, boolean isNeedLogin) {
-            boolean result  = LibCore.getInfo().getRouterConfig().checkStatus(mFrom, status, isNeedLogin);
+        public BundleHelper checkStatus(String status, boolean isNeedAuthorize) {
+            boolean result = LibCore.getInfo().getRouterConfig().checkStatus(mFrom, status, isNeedAuthorize);
             if (!result) {
                 mTurnStatusMatch = false;
-            }return this;
+            }
+            return this;
         }
 
         // region 各个putExtra
