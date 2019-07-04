@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.core.UiHelper;
+import com.cchao.simplelib.view.state.StateSwitchable;
 import com.kennyc.view.MultiStateView;
 
 /**
@@ -16,7 +17,7 @@ import com.kennyc.view.MultiStateView;
  * @author cchao
  * @version 2018/9/13.
  */
-public class FieldStateLayout extends MultiStateView {
+public class FieldStateLayout extends MultiStateView implements StateSwitchable {
     protected Context mContext;
     public FieldLoadingViewImpl mLoadingView;
     public FieldNetErrorViewImpl mNetErrorView;
@@ -80,6 +81,7 @@ public class FieldStateLayout extends MultiStateView {
         }
     }
 
+    @Override
     public void setReloadListener(OnClickListener onClickListener) {
         if (mNetErrorView == null) {
             return;
