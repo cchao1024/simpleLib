@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
 import com.cchao.simplelib.R;
+import com.cchao.simplelib.core.AndroidHelper;
 import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.core.RxBus;
 import com.cchao.simplelib.core.UiHelper;
@@ -57,33 +58,27 @@ public class BaseFragment extends Fragment implements BaseView, EventSubscriber 
 
     @Override
     public void showProgress() {
-        showProgress("正在加载...");
+        showProgress(getString(R.string.loading));
     }
 
     @Override
     public void showProgress(String msg) {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+        if (AndroidHelper.isContextDestroyed(mContext) || (mProgressDialog != null && mProgressDialog.isShowing())) {
             return;
         }
-        mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setMessage(msg);
-        mProgressDialog.show();
+        mProgressDialog = UiHelper.showProgress(mContext, msg);
     }
 
     @Override
     public void hideProgress() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        UiHelper.dismissProgress(mProgressDialog);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mDisposable.dispose();
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        UiHelper.dismissProgress(mProgressDialog);
     }
 
     /**

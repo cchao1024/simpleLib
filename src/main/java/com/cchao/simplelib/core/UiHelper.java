@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cchao.simplelib.LibCore;
+import com.cchao.simplelib.R;
 
 /**
  * 一些常用的 ui核心工具方法
@@ -205,7 +206,7 @@ public class UiHelper {
     }
 
     public static void dismissProgress(ProgressDialog dialog) {
-        if (AndroidHelper.isContextDestroyed(dialog.getContext())) {
+        if (dialog == null || AndroidHelper.isContextDestroyed(dialog.getContext())) {
             return;
         }
         if (dialog.isShowing()) {
@@ -216,12 +217,9 @@ public class UiHelper {
     public static void showItemsDialog(Context context, String title, String[] items, DialogInterface.OnClickListener listener) {
         new AlertDialog.Builder(context)
             .setTitle(title)
-            .setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (listener != null) {
-                        listener.onClick(dialogInterface, i);
-                    }
+            .setItems(items, (dialogInterface, i) -> {
+                if (listener != null) {
+                    listener.onClick(dialogInterface, i);
                 }
             }).show();
     }
@@ -229,14 +227,11 @@ public class UiHelper {
     public static void showConfirmDialog(Context context, String msg, DialogInterface.OnClickListener listener) {
         new AlertDialog.Builder(context)
             .setMessage(msg)
-            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (listener == null) {
-                        return;
-                    }
-                    listener.onClick(dialogInterface, i);
+            .setPositiveButton(UiHelper.getString(R.string.confirm), (dialogInterface, i) -> {
+                if (listener == null) {
+                    return;
                 }
+                listener.onClick(dialogInterface, i);
             }).show();
     }
 
@@ -246,23 +241,17 @@ public class UiHelper {
 
         new AlertDialog.Builder(context)
             .setMessage(msg)
-            .setPositiveButton(confirm.first, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (confirm.second == null) {
-                        return;
-                    }
-                    confirm.second.onClick(dialogInterface, i);
+            .setPositiveButton(confirm.first, (dialogInterface, i) -> {
+                if (confirm.second == null) {
+                    return;
                 }
+                confirm.second.onClick(dialogInterface, i);
             })
-            .setNegativeButton(cancel.first, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (cancel.second == null) {
-                        return;
-                    }
-                    cancel.second.onClick(dialogInterface, i);
+            .setNegativeButton(cancel.first, (dialogInterface, i) -> {
+                if (cancel.second == null) {
+                    return;
                 }
+                cancel.second.onClick(dialogInterface, i);
             })
             .show();
     }

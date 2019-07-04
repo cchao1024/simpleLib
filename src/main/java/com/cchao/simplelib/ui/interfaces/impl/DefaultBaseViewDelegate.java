@@ -30,7 +30,7 @@ public class DefaultBaseViewDelegate implements BaseView {
 
     @Override
     public void showProgress() {
-        showProgress("正在加载...");
+        showProgress(UiHelper.getString(R.string.loading));
     }
 
     @Override
@@ -38,16 +38,12 @@ public class DefaultBaseViewDelegate implements BaseView {
         if (AndroidHelper.isContextDestroyed(mContext) || (mProgressDialog != null && mProgressDialog.isShowing())) {
             return;
         }
-        mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setMessage(msg);
-        mProgressDialog.show();
+        mProgressDialog = UiHelper.showProgress(mContext, msg);
     }
 
     @Override
     public void hideProgress() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        UiHelper.dismissProgress(mProgressDialog);
     }
 
     @Override
