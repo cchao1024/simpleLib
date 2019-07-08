@@ -66,4 +66,8 @@ public class Const {
 
     }
 
+    public interface Pref {
+        String Language= "language";
+    }
+
 }

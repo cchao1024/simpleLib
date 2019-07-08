@@ -11,6 +11,7 @@ import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultBaseViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultStateViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
+import com.cchao.simplelib.util.LanguageUtil;
 
 import okhttp3.OkHttpClient;
 
@@ -36,6 +37,7 @@ public class LibCore {
         mInfoSupport = infoSupport;
 
         PrefHelper.init(mContext, mInfoSupport.getAppName());
+        LanguageUtil.init();
     }
 
     public static Context getContext() {
