@@ -16,7 +16,7 @@ public class CallBacks {
         void onCallBack(int intValue);
     }
 
-    public interface String {
+    public interface Str {
         void onCallBack(String str);
     }
 

@@ -11,6 +11,8 @@ import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultBaseViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultStateViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
+import com.cchao.simplelib.view.state.StateSwitchable;
+import com.cchao.simplelib.view.state.field.FieldStateLayout;
 import com.cchao.simplelib.util.LanguageUtil;
 
 import okhttp3.OkHttpClient;
@@ -189,6 +191,13 @@ public class LibCore {
 
         public BaseStateView getStateViewDelegate(Context context, View childContent, Runnable retryCallBack) {
             return new DefaultStateViewDelegate(context, childContent, retryCallBack);
+        }
+
+        /**
+         * 返回局部多状态加载View
+         */
+        public StateSwitchable getFieldStateView(Context context) {
+            return new FieldStateLayout(context);
         }
 
         public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {

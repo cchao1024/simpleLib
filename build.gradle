@@ -71,6 +71,8 @@ dependencies {
 
     // https://github.com/Ereza/CustomActivityOnCrash
     api 'cat.ereza:customactivityoncrash:2.2.0'
+
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
 }
 
 publish {

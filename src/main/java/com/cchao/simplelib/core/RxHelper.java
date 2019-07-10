@@ -2,6 +2,7 @@ package com.cchao.simplelib.core;
 
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.cchao.simplelib.view.state.StateSwitchable;
 import com.kennyc.view.MultiStateView;
 
 import java.util.concurrent.TimeUnit;
@@ -61,6 +62,18 @@ public class RxHelper {
             public void accept(Throwable throwable) throws Exception {
                 if (multiStateView != null) {
                     multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                }
+                Logs.logException(throwable);
+            }
+        };
+    }
+
+    public static Consumer<? super Throwable> getSwitchableErrorConsumer(StateSwitchable switchable) {
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                if (switchable != null) {
+                    switchable.setViewState(MultiStateView.VIEW_STATE_ERROR);
                 }
                 Logs.logException(throwable);
             }
