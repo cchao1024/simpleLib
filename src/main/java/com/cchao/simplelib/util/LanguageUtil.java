@@ -1,5 +1,6 @@
 package com.cchao.simplelib.util;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -25,7 +26,7 @@ public class LanguageUtil {
      * 改变语言
      */
     public static void changeLanguage(String to) {
-        Locale locale = new Locale(to);
+        Locale locale = new Locale(to.split("_")[0], to.split("_")[1]);
         Resources resources = LibCore.getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = new Configuration();
@@ -75,5 +76,21 @@ public class LanguageUtil {
         if (!languageAbbr.equalsIgnoreCase(Default_Language)) {
             changeLanguage(languageAbbr);
         }
+    }
+
+    public static Context attachBaseContext(Context context) {
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale = new Locale(Cur_Language.split("_")[0], Cur_Language.split("_")[1]);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //指定了语言使用指定语言，没有则使用首选语言
+            configuration.setLocale(locale);
+            return context.createConfigurationContext(configuration);
+        } else {
+            configuration.locale = locale;
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            resources.updateConfiguration(configuration, dm);
+        }
+        return context;
     }
 }

@@ -12,6 +12,7 @@ import com.cchao.simplelib.core.RxBus;
 import com.cchao.simplelib.model.event.CommonEvent;
 import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.ui.interfaces.EventSubscriber;
+import com.cchao.simplelib.util.LanguageUtil;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -81,6 +82,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void onEvent(CommonEvent event) {/*子类复写实现*/}
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageUtil.attachBaseContext(newBase));
+    }
 
     @Override
     protected void onDestroy() {
