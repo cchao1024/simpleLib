@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:text="正在加载..."
+            android:text="@string/loading"
             android:textColor="#333333"
             android:textSize="@dimen/sp_17"/>
     </LinearLayout>
