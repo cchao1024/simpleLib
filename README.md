@@ -58,7 +58,7 @@ simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
 ### 1. 引入依赖，在 app/build.gradle 处添加依赖
 
 ```java
-implementation 'com.github.cchao:simpleLib:1.0.2'
+implementation 'com.github.cchao:simpleLib:[last_version]'
 ``` 
  或 clone 类库作为项目的子模块引用
 ### 2. 初始化类库，在应用初始化处 初始化 simpleLib
