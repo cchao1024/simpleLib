@@ -200,6 +200,13 @@ public class LibCore {
             return new FieldStateLayout(context);
         }
 
+/*        *//**
+         * 返回Recycler的多状态加载View
+         *//*
+        public StateSwitchable getRecyclerStateView(Context context) {
+            return new FieldStateLayout(context);
+        }*/
+
         public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {
             return new DefaultTitleBarDelegate(context, parent);
         }

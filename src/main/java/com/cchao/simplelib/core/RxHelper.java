@@ -104,7 +104,7 @@ public class RxHelper {
      * @param stateView 状态切换接口
      * @return  Consumer  T super Throwable
      */
-    public static Consumer<? super Throwable> getHideProgressConsumer(BaseStateView stateView) {
+    public static Consumer<? super Throwable> getHideProgressConsumer(BaseView stateView) {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {

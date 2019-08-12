@@ -47,7 +47,7 @@ public class Const {
         /**
          * api请求超时
          */
-        int DEFAULT_TIMEOUT = 30;
+        int DEFAULT_TIMEOUT = 15;
 
         /**
          * 图片请求超时

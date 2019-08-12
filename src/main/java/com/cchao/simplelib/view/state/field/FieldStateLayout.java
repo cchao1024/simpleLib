@@ -22,7 +22,7 @@ public class FieldStateLayout extends MultiStateView implements StateSwitchable 
     public FieldLoadingViewImpl mLoadingView;
     public FieldNetErrorViewImpl mNetErrorView;
     View mEmptyView;
-    int mFieldHeight;
+    public int mFieldHeight;
 
     public FieldStateLayout(Context context) {
         this(context, null);

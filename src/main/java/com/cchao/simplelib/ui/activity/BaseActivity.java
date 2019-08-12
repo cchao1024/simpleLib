@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      *
      * @param subscription s
      */
-    protected void addSubscribe(Disposable subscription) {
+    public void addSubscribe(Disposable subscription) {
         mDisposable.add(subscription);
     }
 

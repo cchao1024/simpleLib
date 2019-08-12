@@ -1,6 +1,7 @@
 package com.cchao.simplelib.ui.web;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.GeolocationPermissions;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -96,7 +98,6 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         mCurLoadWebUrl = mInitLoadWebUrl;
     }
 
-
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
         WebSettings settings = mWebView.getSettings();
@@ -104,11 +105,18 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         settings.setBuiltInZoomControls(true);
         // ZoomControls（就是放大放小按钮） 是个渐变的过程（渐变未完成就destroy）会导致View not attached to window manager
         settings.setDisplayZoomControls(false);
+        // 设置定位的数据库路径
+        settings.setDatabaseEnabled(true);
+        String dir = mContext.getDir("database", Context.MODE_PRIVATE).getPath();
+        settings.setGeolocationDatabasePath(dir);
+        // 启用地理定位
+        settings.setGeolocationEnabled(true);
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setAllowFileAccess(true);
-        settings.setDomStorageEnabled(true); //设置支持DomStorage
+        // 设置支持DomStorage
+        settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= 21) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -230,6 +238,12 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
             }
 
             UiHelper.setVisibleElseGone(mProgressBar, progress < 100);
+        }
+
+        @Override
+        public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+            callback.invoke(origin, true, true);
+            super.onGeolocationPermissionsShowPrompt(origin, callback);
         }
 
         @Override

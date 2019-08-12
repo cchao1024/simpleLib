@@ -7,36 +7,32 @@ import android.view.ViewGroup;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.CollectionHelper;
-import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.view.state.StateSwitchable;
-import com.cchao.simplelib.view.state.field.FieldStateLayout;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.kennyc.view.MultiStateView;
+import com.rzj.zhongshi.lib.adapter.DataBindMultiQuickAdapter;
 
 import java.util.List;
 
 /**
- * 具备状态切换和分页加载的 adapter， 通过设置 StateSwitchable 来作为adapter的empty View
+ * 具备状态切换和分页加载的 多样式adapter， 通过设置 StateSwitchable 来作为adapter的empty View
  *
  * @author cchao
- * @version 2019-07-03.
+ * @version 2019-07-31.
  */
-public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T> implements StateSwitchable {
+public abstract class StatefulBindMultiQuickAdapter<T extends MultiItemEntity> extends DataBindMultiQuickAdapter<T> implements StateSwitchable {
     public StateSwitchable mStateView;
     int mCurPage;
 
-    public StatefulBindQuickAdapter(int layoutResId) {
-        super(layoutResId);
-    }
-
-    public StatefulBindQuickAdapter(int layoutResId, List data) {
-        super(layoutResId, data);
+    public StatefulBindMultiQuickAdapter(List<T> data) {
+        super(data);
     }
 
     @Override
-    public DataBindViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    protected DataBindViewHolder onCreateDefViewHolder(ViewGroup parent, int viewType) {
         initSwitchableView(parent.getContext());
-        return super.onCreateViewHolder(parent, viewType);
+        return super.onCreateDefViewHolder(parent, viewType);
     }
 
     @Override
@@ -50,14 +46,12 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
             return;
         }
         mStateView = LibCore.getLibConfig().getFieldStateView(context);
-        if (mStateView instanceof FieldStateLayout) {
-            ((FieldStateLayout) mStateView).mFieldHeight = (int) (UiHelper.getScreenHeight() * 3.0 / 4);
-        }
 
         setLoadMoreView(new SimpleLoadMoreView());
         setEmptyView((View) mStateView);
         setHeaderAndEmpty(true);
-        mStateView.setReloadListener(click -> {
+        setReloadListener(click -> {
+            mStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
             loadPageData(1);
         });
         setOnLoadMoreListener(new RequestLoadMoreListener() {
@@ -111,4 +105,5 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
     public void setReloadListener(View.OnClickListener onClickListener) {
         mStateView.setReloadListener(onClickListener);
     }
+
 }
