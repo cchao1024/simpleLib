@@ -115,6 +115,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setAllowFileAccess(true);
+        settings.setAppCacheEnabled(true);
         // 设置支持DomStorage
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -242,7 +243,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
         @Override
         public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-            callback.invoke(origin, true, true);
+            callback.invoke(origin, true, false);
             super.onGeolocationPermissionsShowPrompt(origin, callback);
         }
 
