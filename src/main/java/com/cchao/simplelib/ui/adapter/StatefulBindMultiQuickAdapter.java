@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.CollectionHelper;
+import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.view.state.StateSwitchable;
+import com.cchao.simplelib.view.state.field.FieldStateLayout;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.kennyc.view.MultiStateView;
@@ -46,7 +48,9 @@ public abstract class StatefulBindMultiQuickAdapter<T extends MultiItemEntity> e
             return;
         }
         mStateView = LibCore.getLibConfig().getFieldStateView(context);
-
+        if (mStateView instanceof FieldStateLayout) {
+            ((FieldStateLayout) mStateView).mFieldHeight = (int) (UiHelper.getScreenHeight() * 3.0 / 4);
+        }
         setLoadMoreView(new SimpleLoadMoreView());
         setEmptyView((View) mStateView);
         setHeaderAndEmpty(true);

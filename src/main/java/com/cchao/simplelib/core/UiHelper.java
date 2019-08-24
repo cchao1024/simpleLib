@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cchao.simplelib.LibCore;
@@ -167,6 +169,11 @@ public class UiHelper {
         layoutParams.width = width;
 
         view.setLayoutParams(layoutParams);
+    }
+
+    public static void setDeleteLine(TextView textView){
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        textView.getPaint().setAntiAlias(true);
     }
     //</editor-fold>
 
