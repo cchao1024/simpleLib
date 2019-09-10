@@ -8,10 +8,10 @@ public interface BaseView {
 
     void showError();
 
-    void showText(String string);
+    void showToast(String string);
 
-    default void showText(@StringRes int string) {
-        showText(UiHelper.getString(string));
+    default void showToast(@StringRes int string) {
+        showToast(UiHelper.getString(string));
     }
 
     void showProgress(String string);

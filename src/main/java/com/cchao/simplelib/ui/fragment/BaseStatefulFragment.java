@@ -61,7 +61,7 @@ public abstract class BaseStatefulFragment<B extends ViewDataBinding> extends Ba
         try {
             mDataBind = DataBindingUtil.bind(contentView);
         } catch (Exception ex) {
-            showText(" View is not a binding layout");
+            showToast(" View is not a binding layout");
         }
         mStateView.setViewForState(contentView, MultiStateView.VIEW_STATE_CONTENT);
         // 网络出错重新加载

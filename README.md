@@ -129,10 +129,10 @@ public interface BaseView {
 
     void showError();
 
-    void showText(String string);
+    void showToast(String string);
 
-    default void showText(@StringRes int string) {
-        showText(UiHelper.getString(string));
+    default void showToast(@StringRes int string) {
+        showToast(UiHelper.getString(string));
     }
 
     void showProgress(String string);
@@ -191,13 +191,13 @@ RxBus.get().postEvent(Constant.Code.LOG_IN);
 addSubscribe(RxBus.get().toObservable(event -> {
     switch (event.getCode()) {
         case Constant.Code.LOG_IN:
-            showText("Login");
+            showToast("Login");
             break;
         case Constant.Code.LOG_OUT:
-            showText("LogOut");
+            showToast("LogOut");
             break;
         case Constant.Code.SIGN_UP:
-            showText("SignUp");
+            showToast("SignUp");
             break;
     }
 }));
@@ -225,7 +225,7 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
         hideProgress();
         // 如果失败，弹出异常文案
         if (respBean.isCodeFail()) {
-            showText(respBean.getMsg());
+            showToast(respBean.getMsg());
             return;
         }
         // 发送事件，登录成功

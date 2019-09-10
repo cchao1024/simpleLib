@@ -48,11 +48,11 @@ public class BaseFragment extends Fragment implements BaseView, EventSubscriber 
 
     @Override
     public void showError() {
-        showText(R.string.network_error);
+        showToast(R.string.network_error);
     }
 
     @Override
-    public void showText(String string) {
+    public void showToast(String string) {
         UiHelper.showToast(string);
     }
 

@@ -24,7 +24,7 @@ public class DefaultBaseViewDelegate implements BaseView {
     }
 
     @Override
-    public void showText(String stringId) {
+    public void showToast(String stringId) {
         UiHelper.showToast(stringId);
     }
 
@@ -48,6 +48,6 @@ public class DefaultBaseViewDelegate implements BaseView {
 
     @Override
     public void showError() {
-        showText(R.string.network_error);
+        showToast(R.string.network_error);
     }
 }

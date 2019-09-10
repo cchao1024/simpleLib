@@ -45,8 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     //<editor-fold desc="委托实现">
     @Override
-    public void showText(String stringId) {
-        mDelegate.showText(stringId);
+    public void showToast(String stringId) {
+        mDelegate.showToast(stringId);
     }
 
     @Override
