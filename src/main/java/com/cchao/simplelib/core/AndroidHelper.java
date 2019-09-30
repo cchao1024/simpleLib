@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -111,6 +112,13 @@ public class AndroidHelper {
         return 0;
     }
 
+    public static boolean versionThanLOLLIPOP() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean versionThanM() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
 
     /**
      * 检查activity 是不是已经被 destroy 了

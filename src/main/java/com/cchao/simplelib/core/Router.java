@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.cchao.simplelib.LibCore;
 
@@ -57,7 +58,7 @@ public class Router {
     }
 
     public static class BundleHelper {
-        Bundle mBundle = new Bundle();
+        public Bundle mBundle = new Bundle();
         Context mFrom;
         // 跳转状态是否满足
         boolean mTurnStatusMatch = true;
@@ -131,5 +132,20 @@ public class Router {
             return this;
         }
         //endregion
+
+        // 外部调用
+        public static BundleHelper get() {
+            return new BundleHelper(null,null);
+        }
+
+        /**
+         * setArguments fragment
+         * @param fragment fragment
+         */
+        public Fragment injectFragment(Fragment fragment) {
+            fragment.setArguments(mBundle);
+            return fragment;
+        }
+
     }
 }
