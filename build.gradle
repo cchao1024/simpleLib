@@ -70,9 +70,11 @@ dependencies {
     api 'com.karumi:dexter:5.0.0'
 
     // https://github.com/Ereza/CustomActivityOnCrash
-    api 'cat.ereza:customactivityoncrash:2.2.0'
+//    api 'cat.ereza:customactivityoncrash:2.2.0'
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+    // https://x5.tencent.com/tbs/guide/sdkInit.html
+    api 'com.tencent.tbs.tbssdk:sdk:43697'
 }
 
 publish {

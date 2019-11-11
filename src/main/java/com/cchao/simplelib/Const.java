@@ -47,12 +47,12 @@ public class Const {
         /**
          * api请求超时
          */
-        int DEFAULT_TIMEOUT = 15;
+        int DEFAULT_TIMEOUT = LibCore.isDebug() ? 1000 : 30;
 
         /**
          * 图片请求超时
          */
-        int IMAGE_TIMEOUT = 60;
+        int IMAGE_TIMEOUT = LibCore.isDebug() ? 1000 : 60;
 
     }
 
@@ -67,7 +67,7 @@ public class Const {
     }
 
     public interface Pref {
-        String Language= "language";
+        String Language = "language";
     }
 
 }

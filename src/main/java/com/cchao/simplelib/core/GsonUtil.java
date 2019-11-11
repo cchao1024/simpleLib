@@ -18,7 +18,9 @@ import java.util.Map;
  * description json 工具类包装
  * author  cchao
  * date  2016/12/2
+ * 新版 {@link JsonHelper}
  **/
+@Deprecated
 public class GsonUtil {
     private static Gson gson = new Gson();
 

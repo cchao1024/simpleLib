@@ -23,7 +23,7 @@ simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
     │   ├── AndroidHelper.java         设备工具类集合
     │   ├── CollectionHelper.java      集合工具类集合
     │   ├── GlideAppModule.java        glide配置
-    │   ├── GsonUtil.java              json转化
+    │   ├── JsonHelper.java              json转化
     │   ├── ImageLoader.java           图片加载    
     │   ├── Logs.java                  日志管理
     │   ├── PrefHelper.java            sharePreference管理

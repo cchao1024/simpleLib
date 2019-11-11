@@ -1,5 +1,6 @@
 package com.cchao.simplelib.core;
 
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.view.state.StateSwitchable;

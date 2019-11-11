@@ -2,20 +2,13 @@ package com.cchao.simplelib.ui.web;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.GeolocationPermissions;
-import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.cchao.simplelib.Const;
@@ -27,12 +20,23 @@ import com.cchao.simplelib.databinding.WebViewFragmentBinding;
 import com.cchao.simplelib.http.OkHttpHelper;
 import com.cchao.simplelib.ui.fragment.BaseStatefulFragment;
 import com.cchao.simplelib.util.UrlUtil;
+import com.tencent.smtt.export.external.interfaces.GeolocationPermissionsCallback;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
+
+import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
 
 /**
  * 包含 webView 的Fragment，有进度条，出错会调用 switch Error
@@ -77,7 +81,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
                 mCurLoadWebUrl = UrlUtil.appendParament(mCurLoadWebUrl, entry.getKey(), entry.getValue());
             }
             if (Build.VERSION.SDK_INT >= 21) {
-                mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+                mWebView.getSettings().setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
             }
         }
         switchView(CONTENT);
@@ -119,7 +123,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         // 设置支持DomStorage
         settings.setDomStorageEnabled(true);
         if (Build.VERSION.SDK_INT >= 21) {
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            settings.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && LibCore.getInfo().isDebug()) {
@@ -175,7 +179,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         }
 
         @Override
-        public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, com.tencent.smtt.export.external.interfaces.SslError error) {
             // 开发者忽略证书的认证
             if (LibCore.getInfo().isDebug()) {
                 handler.proceed();
@@ -213,6 +217,17 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // 自定义协议，跳转交由系统决定
+            if (!url.startsWith("http")) {
+                try {
+                    final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    view.getContext().startActivity(intent);
+                } catch (Exception e) {
+                    Logs.logException(e);
+                }
+                return true;
+            }
             syncCookies(url);
             mCurLoadWebUrl = url;
             return false;
@@ -242,9 +257,9 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         }
 
         @Override
-        public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-            callback.invoke(origin, true, false);
-            super.onGeolocationPermissionsShowPrompt(origin, callback);
+        public void onGeolocationPermissionsShowPrompt(String s, GeolocationPermissionsCallback geolocationPermissionsCallback) {
+            geolocationPermissionsCallback.invoke(s, true, false);
+            super.onGeolocationPermissionsShowPrompt(s, geolocationPermissionsCallback);
         }
 
         @Override
