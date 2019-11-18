@@ -68,6 +68,8 @@ public class Const {
 
     public interface Pref {
         String Language = "language";
+        String Dev_Mode = "dev_mode";
+        String Dev_Signal = "dev_signal";
     }
 
 }

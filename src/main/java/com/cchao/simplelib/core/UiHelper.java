@@ -114,16 +114,13 @@ public class UiHelper {
                 mToast = null;
             }
         }
-        mToast = Toast.makeText(getContext(), text, duration);
-        mToast.setText(text);
-        mToast.setDuration(duration);
-        Logs.d("toast " + text);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mToast.show();
-            }
+        runOnUiThread(() -> {
+            mToast = Toast.makeText(getContext(), text, duration);
+            mToast.setText(text);
+            mToast.setDuration(duration);
+            Logs.d("toast " + text);
+            mToast.show();
         });
     }
 
@@ -171,14 +168,18 @@ public class UiHelper {
         view.setLayoutParams(layoutParams);
     }
 
-    public static void setDeleteLine(TextView textView){
+    public static void setDeleteLine(TextView textView) {
         textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         textView.getPaint().setAntiAlias(true);
     }
     //</editor-fold>
 
     public static void runOnUiThread(Runnable runnable) {
-        mHandler.post(runnable);
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            runnable.run();
+        } else {
+            mHandler.post(runnable);
+        }
     }
 
     //<editor-fold desc="获取资源 Compat 方法">

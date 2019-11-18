@@ -1,9 +1,12 @@
 package com.cchao.simplelib.core;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -219,5 +222,14 @@ public class AndroidHelper {
         String NETWORK_TYPE_4G = "4G";
         String NETWORK_TYPE_NONE = "NONE";
         String NETWORK_TYPE_UNKNOWN = "UNKNOWN";
+    }
+
+    public static void restartApp(Context context) {
+        RxHelper.timerConsumer(300, aLong -> System.exit(0));
+        Intent intent = context.getApplicationContext().getPackageManager()
+            .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
+        PendingIntent restartIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1500, restartIntent);
     }
 }
