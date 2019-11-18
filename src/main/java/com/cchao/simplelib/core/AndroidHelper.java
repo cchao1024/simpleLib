@@ -224,7 +224,8 @@ public class AndroidHelper {
         String NETWORK_TYPE_UNKNOWN = "UNKNOWN";
     }
 
-    public static void restartApp(Context context) {
+    public static void restartApp() {
+        Context context = LibCore.getContext();
         RxHelper.timerConsumer(300, aLong -> System.exit(0));
         Intent intent = context.getApplicationContext().getPackageManager()
             .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
