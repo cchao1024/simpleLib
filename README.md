@@ -83,14 +83,12 @@ public class App extends Application {
     }
 }
 ```
-----------
-
 
 # 类库说明
 
 ## 核心依赖
 
-**simpleLib** 的核心，进行初始化和依赖对象的赋值, 由 **InfoSupport** 和 **LibConfig** 提供配置项
+基础核心，进行初始化和依赖对象的注入, 由 **InfoSupport** 和 **LibConfig** 提供配置项
 
 * **InfoSupport** 返回基本且必须的参数
   
@@ -106,7 +104,7 @@ public class App extends Application {
 
 > 篇幅有限，更详细的配置范例移步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
-# 界面基础
+## 界面基础
 **ui**目录提供了 基础的 **BaseActivity** 和 **BaseFragment** 实现，各级界面 Base 类通过接口实现 **约束**，方便子类业务交互调用
 
 - **BaseView** - 简单的界面交互操作，如： `showToast`  `showProgress`
@@ -156,11 +154,10 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
 > 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](./document/coreSample.MD) 查看
 
 
-
 # ChangeLog
 
 ## 2019-11-20_v1.1.0 
-新增 **JsonHelper**（弃用GsonUtil）
-新增 **DevHelper** 提供应用内的开发者选项（方便调试）
-修改 **WebViewFragment** 使用 **X5** 内核做网页的解析
+- 新增 **JsonHelper**（弃用GsonUtil）
+- 新增 **DevHelper** 提供应用内的开发者选项（方便调试）
+- 修改 **WebViewFragment** 使用 **X5** 内核做网页的解析
                  
