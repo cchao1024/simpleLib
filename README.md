@@ -1,18 +1,13 @@
-# Desc
+# SimpleLib
 [ ![](https://api.bintray.com/packages/cchao1024/maven/simpleLib/images/download.svg) ](https://bintray.com/cchao1024/maven/simpleLib/_latestVersion)
 
-🔥 simpleLib 是笔者开发中积累下来，觉得切实好用的一些方法和约束整合。旨在**帮助基于该类库的开发者能够高效的完成项目开发**。
+🔥 **simpleLib** 是笔者开发历程中积累下来的能大幅提升效率的方法和约束整合。旨在 **帮助基于该类库的开发者能够高效的完成 Android 项目搭建和开发**
 
-笔者基于 simpleLib 编写了另一全栈项目 [insomnia](https://github.com/cchao1024/insomnia-android)，可以通过查阅 android 端的代码，了解 simpleLib 的使用。
-项目持续迭代更新中，会继续丰富类库功能。
+项目 **持续迭代更新** 中，会继续丰富类库功能。
 
-simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
+基于 **Java1.8** 开发，深度依赖以下开源类库
 
-* [data-binding](https://developer.android.com/topic/libraries/data-binding)
-* [RxJava](https://github.com/ReactiveX/RxJava)
-* [glide](https://github.com/bumptech/glide)
-* [okHttp](https://github.com/square/okhttp)
-* [Gson](https://github.com/google/gson)
+ [data-binding](https://developer.android.com/topic/libraries/data-binding)   [RxJava](https://github.com/ReactiveX/RxJava)  [glide](https://github.com/bumptech/glide)  [okHttp](https://github.com/square/okhttp)  [Gson](https://github.com/google/gson)
 
 # 项目基本结构
 ```
@@ -20,210 +15,123 @@ simpleLib 基于 Java1.8 开发，深度依赖以下开源类库
     ├── Const.java                     类库所需常量
     ├── LibCore.java                   初始化核心
     ├── core                              
-    │   ├── AndroidHelper.java         设备工具类集合
-    │   ├── CollectionHelper.java      集合工具类集合
-    │   ├── GlideAppModule.java        glide配置
-    │   ├── JsonHelper.java              json转化
-    │   ├── ImageLoader.java           图片加载    
-    │   ├── Logs.java                  日志管理
-    │   ├── PrefHelper.java            sharePreference管理
-    │   ├── Router.java                界面跳转路由
-    │   ├── RxBus.java                 事件管理
-    │   ├── RxHelper.java              RxJava线程调度
-    │   └── UiHelper.java              界面工具集合
+    │   ├── JsonHelper.java            Json转化
+    │   ├── ImageLoader.java           图片加载    
+    │   ├── Logs.java                  日志管理
+    │   ├── PrefHelper.java            SharePreference管理
+    │   ├── Router.java                界面跳转路由
+    │   ├── RxBus.java                 事件管理
+    │   ├── RxHelper.java              RxJava线程调度
+    │   └── UiHelper.java              界面工具集合
     ├── http
-    │   ├── OkHttpHelper.java          okHttp管理
-    │   ├── SslCertHelper.java         ssl信任
-    │   ├── callback                   网络回调简单封装
-    │   ├── cookie                     cookie管理
-    │   └── intercaptor                拦截器
+    │   ├── OkHttpHelper.java          okHttp管理
+    │   ├── SslCertHelper.java         ssl信任
+    │   ├── cookie                     cookie管理
+    │   └── intercaptor                拦截器
     ├── model
-    │   ├── DeviceInfo.java            设备信息
-    │   └── event                      事件key常量
+    │   ├── DeviceInfo.java            设备信息
+    │   └── CommonEvent                事件载体
     ├── ui
-    │   ├── BindingAdapters.java       dataBindingAdapter
-    │   ├── activity                   activity界面基类
-    │   ├── adapter                    基础适配器
-    │   ├── fragment                   fragment界面基类
-    │   ├── interfaces                 接口约束
-    │   └── web                        webView的简单封装处理
+    │   ├── BindingAdapters.java       dataBindingAdapter
+    │   ├── activity                   activity界面基类
+    │   ├── adapter                    基础适配器
+    │   ├── fragment                   fragment界面基类
+    │   ├── interfaces                 接口约束
+    │   └── web                        WebView的封装处理(腾讯x5)
     ├── util
-    │   ├── CallBacks.java             基础回调封装
-    │   ├── StringHelper.java          字符串工具类集合
-    │   ├── ThreadHelper.java          线程调度工具类集合
-    │   └── UrlUtil.java               Url工具类集合
+    │   ├── CallBacks.java             基础回调封装
+    │   ├── StringHelper.java          字符串工具类集合
+    │   ├── ThreadHelper.java          线程调度工具类集合
+    │   └── UrlUtil.java               Url工具类集合
     └── view                           自定义view集合
- ```   
+```
 # 如何使用
-### 1. 引入依赖，在 app/build.gradle 处添加依赖
+### 1. 引入依赖
 
 ```java
+// app/build.gradle 处添加依赖
 implementation 'com.github.cchao:simpleLib:[last_version]'
-``` 
- 或 clone 类库作为项目的子模块引用
-### 2. 初始化类库，在应用初始化处 初始化 simpleLib
+```
+ **或** clone 类库作为项目的子模块引用
+### 2. 初始化类库
 
 ```java
 public class App extends Application {
-    private static Application mInstance;
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
-        App.mInstance = this;
-        // init Lib
-        LibCore.init(this, new LibCore.InfoSupport() {
-            @Override
+        
+        // 核心 初始化
+        LibCore.init(mContext, new LibCore.InfoSupport() {
+            // 使用Lib提供的 OkhttpClient 能获取基本的网络交互日志
             public OkHttpClient getOkHttpClient() {
-                return HttpClientManager.getWrapClient();
+                return OkHttpManager.getOriginClient();
             }
 
-            @Override
-            public boolean isDebug() {
-                return BuildConfig.DEBUG;
+            public LibCore.ILogEvents getLogEvents() {
+                return new LibCore.ILogEvents() { /* 自定义日志上报规则 */};
             }
 
-            @Override
-            public String getAppName() {
-                return mInstance.getPackageName();
-            }
-
-            @Override
-            public int getAppVersionCode() {
-                return BuildConfig.VERSION_CODE;
+            public LibCore.RouterConfig getRouterConfig() {
+                return new LibCore.RouterConfig() { /* 自定义路由拦截规则 */};
             }
         });
+        
+        // 自定义基础样式
+        LibCore.setLibConfig(new LibCore.LibConfig() { /* 自定义界面基础样式 */ });
     }
 }
 ```
 ----------
-# 核心 - LibCore
-simpleLib 的核心，进行初始化和依赖对象的赋值, 由 InfoSupport 和 LibConfig 提供配置项
+
+
+# 类库说明
+
+## 核心依赖
+
+**simpleLib** 的核心，进行初始化和依赖对象的赋值, 由 **InfoSupport** 和 **LibConfig** 提供配置项
+
 * **InfoSupport** 返回基本且必须的参数
+  
+  * **getOkHttpClient**  提供给上层调用，默认使用 SimpleLib **默认的 OkHttpClient 实例**
+  * **getLogEvents**  日志事件回调，可以在这执行日志收集（比如 Bugly 收集）
+  * **getRouterConfig**  路由配置，如：某些需要登录权限的页面会调用配置中的跳转代码
 * **LibConfig** 配置关于样式上的自定义
+  
+  - 自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
 
-> 篇幅有限，更详细的配置范例异步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
-## 应用层环境配置 - InfoSupport
-传入 应用层基础的状态。部分方法提供了默认实现，
+![LibCore](./document/Snipaste_5.png)
 
-* **isDebug**  应用层状态
-* **getAppName**  应用名
-* **getOkHttpClient**  返回应用层 okHttp Client，不复写，则使用 SimpleLib **默认的 OkHttpClient 对象**
-* **getLogEvents**  日志事件回调，当 Logs 发生日志统计时，会回调，可以在这里执行日志收集（比如 Bugly 收集）
-* **getRouterConfig**  路由配置，如：某些需要登录权限的页面会调用配置中的跳转代码
+> 篇幅有限，更详细的配置范例移步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
-## 样式自定义 - LibConfig
-自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
+# 界面基础
+**ui**目录提供了 基础的 **BaseActivity** 和 **BaseFragment** 实现，各级界面 Base 类通过接口实现 **约束**，方便子类业务交互调用
 
-# 界面相关 - ui 
-ui提供了 基础的 Activity 和 Fragment ,各级 Base 类通过实现接口方便上层业务交互时调用
-## 接口 
+- **BaseView** - 简单的界面交互操作，如： `showToast`  `showProgress`
+- **BaseStateView** - 界面状态切换（加载、异常、空数据等）
+- **TitleBar** - 配合 **LibCore.LibConfig** 提供标题栏操作
+- **EventSubscriber** - 事件订阅回调接口
 
-- **BaseView** 提供简单的界面交互操作
-- **BaseStateView** 提供界面状态切换（加载、异常、空数据等）
-- **TitleBar** 提供基本的标题栏操作
+![ui](./document/Snipaste_1.jpg)
 
-```java
-public interface BaseView {
 
-    void showError();
 
-    void showToast(String string);
+## 网络交互
 
-    default void showToast(@StringRes int string) {
-        showToast(UiHelper.getString(string));
-    }
+**RxHelper** 依赖 **Rxjava** 提供了线程切换和结合基础界面接口 **BaseView/BaseStateView** 的交互和状态切换
 
-    void showProgress(String string);
-
-    void showProgress();
-
-    void hideProgress();
-}
-
-public interface BaseStateView extends BaseView {
-
-    String LOADING = "Loading";
-    String NET_ERROR = "NetError";
-    String CONTENT = "Content";
-    String EMPTY = "Empty";
-
-    @StringDef({LOADING, NET_ERROR, CONTENT, EMPTY})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface ViewType {
-    }
-
-    /** 切换不同的View状态 */
-    void switchView(@ViewType String viewType);
-}
-```
-
-## 实现
-基类是有 RxJava 的 CompositeDisposable 成员变量，在执行**网路交互、事件订阅**时需要调用 **addSubscribe** 将订阅收集起来，会在 **OnDestroy** 时取消订阅的回调。
-
-- **BaseActivity/BaseFragment** 实现接口 BaseView 的基类。特别的，
-- **BaseStatefulActivity/BaseStatefulFragment** 实现接口 BaseStateView 的基类
-- **BaseTitleBarActivity** 提供简单 TitleBar 操作的基类，该类通过委托类提供了 自定义的线性布局和Toolbar（暂未实现）两种实现
-- **SimpleLazyFragment** 懒加载的 Fragment，用于ViewPager 等，
-
-# 核心基础类 - Core
-- **Logs** 日志类，包括日志输出与日志收集
-- **RxBus** 基于 RxJava 的事件总线
-- **PrefHelper** 对 SharedPreferences 基本操作
-- **RxHelper** 对 RxJava 一些方法调用封装
-- **Router** 对 Activity 跳转和传参的封装
-- **UiHelper** 界面相关操作的整合
-- **GsonUtil** 对 Json 的操作
-
-## Logs
-日志使用的默认的Log实现，其中 logEvent 和 logException 是作为日志事件收集（InfoSupport 需实现异常收集平台的收集代码）使用的，便于异常发生时能够回溯用户的行为。
-NOTE: 网络请求默认输出并上报异常到日志收集，具体请查阅http目录下的 RequestLogInterceptor 和 RespExceptionLogInterceptor
-
-## RxBus 
-RxBus 基于 Rxjava 的事件订阅，可以在任一线程 发送事件，事件可以为通用事件 CommonEvent，加上数字 Code 作为标识，也可以通过特定对象传递大的事件数据。
-简单的事件传递 像这样
-```java
-// 发送事件
-RxBus.get().postEvent(Constant.Code.LOG_IN);
-
-// 订阅事件
-addSubscribe(RxBus.get().toObservable(event -> {
-    switch (event.getCode()) {
-        case Constant.Code.LOG_IN:
-            showToast("Login");
-            break;
-        case Constant.Code.LOG_OUT:
-            showToast("LogOut");
-            break;
-        case Constant.Code.SIGN_UP:
-            showToast("SignUp");
-            break;
-    }
-}));
-```
-
-## RxHelper
-RxHelper 提供了线程切换和结合基础界面接口 BaseView/BaseStateView 的交互和状态切换
-
-- **toMain** 线程从 io 到 main 的切换
-- **getSwitchErrorConsumer** 传入 BaseStateView 切换视图为网络异常状态
-- **getHideProgressConsumer** 隐藏 加载框
-- **getErrorTextConsumer** 弹出网络异常文案
-
-执行 Error consumer 均会触发 Logs 的异常日志收集上报
-
-我们来个简单的网络交互例子：
+(执行 **Error consumer** 均会触发 **Logs** 的异常日志收集上报)
 
 ```java
 // 显示 加载框，开始发起网络请求
 showProgress();
 addSubscribe(RetrofitHelper.getApis().login(email, password)
-    .compose(RxUtil.rxSchedulerHelper())
+    .compose(RxHelper.toMain())
     .subscribe((respBean -> {
-        // 不论返回啥，均取消加载框
         hideProgress();
-        // 如果失败，弹出异常文案
+        // 失败，弹出异常文案
         if (respBean.isCodeFail()) {
             showToast(respBean.getMsg());
             return;
@@ -231,24 +139,28 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
         // 发送事件，登录成功
         RxBus.get().postEvent(Constant.Code.LOG_IN);
     }, RxUtil.getHideProgressError(this));
-
 ```
 
-## UiHelper
-提供笔者认为能简化代码，提高效率的工具方法，
 
-- **dp2px/sp2px , getScreenWidth/Height** dp转化，屏幕宽高
-- **setVisibleElseGone(View,boolean)** 传入 true 显示 visible，否则 gone
-- **runOnUiThread** 使用主线程运行传入的方法
-- **getDrawable/Color/String** 获取资源
 
-Note： 部分需要 Context 的方法会使用 LibCore 传入的上下文，无需调用者再传入
+## 其他核心类
 
-# 其他目录
-- **util** 该模块为基础工具类的整合，包含均为核心常用方法
-- **view** 一些笔者觉得能用且好用的 View，特别的 *state* 目录下是 BaseStateView 状态切换使用到的默认界面
-- **Const** 类库依赖的常量
+- **Logs** 日志类，包括日志输出与日志收集
+- **RxBus** 基于 RxJava 的事件总线
+- **PrefHelper** 对 SharedPreferences 基本操作
+- **RxHelper** 对 RxJava 一些方法调用封装
+- **Router** 对 Activity 跳转和传参的封装
+- **UiHelper** 界面相关操作的整合
+- **JsonHelper** - 对 Json 的操作
 
-# Todo
-- TitleBarDelegate 提供 Toolbar的添加右侧按钮 的实现
-- 提供 MVVM 的支持(mvvm分支在尝试)，做到既可以简单实用，又可以在复杂业务中使用 MVVM 
+> 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](./document/coreSample.MD) 查看
+
+
+
+# ChangeLog
+
+## 2019-11-20_v1.1.0 
+新增 **JsonHelper**（弃用GsonUtil）
+新增 **DevHelper** 提供应用内的开发者选项（方便调试）
+修改 **WebViewFragment** 使用 **X5** 内核做网页的解析
+                 
