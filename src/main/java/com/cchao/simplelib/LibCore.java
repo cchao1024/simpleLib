@@ -1,5 +1,6 @@
 package com.cchao.simplelib;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,10 @@ import com.cchao.simplelib.ui.interfaces.BaseView;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultBaseViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultStateViewDelegate;
 import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
+import com.cchao.simplelib.util.LanguageUtil;
 import com.cchao.simplelib.view.state.StateSwitchable;
 import com.cchao.simplelib.view.state.field.FieldStateLayout;
-import com.cchao.simplelib.util.LanguageUtil;
+import com.didichuxing.doraemonkit.DoraemonKit;
 
 import okhttp3.OkHttpClient;
 
@@ -38,8 +40,20 @@ public class LibCore {
         mContext = appContext;
         mInfoSupport = infoSupport;
 
+        initDebugMode();
         PrefHelper.init(mContext, mInfoSupport.getAppName());
         LanguageUtil.init();
+    }
+
+    /**
+     * debug 环境下的类库初始化
+     */
+    private static void initDebugMode() {
+        if (!mInfoSupport.isDebug()) {
+            return;
+        }
+        // 滴滴 DoKit init
+        DoraemonKit.install((Application) mContext);
     }
 
     public static Context getContext() {
@@ -81,7 +95,6 @@ public class LibCore {
         boolean isDebug();
 
         String getAppName();
-
 
         default int getAppVersionCode() {
             return 1;

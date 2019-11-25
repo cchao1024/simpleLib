@@ -75,6 +75,10 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
     // https://x5.tencent.com/tbs/guide/sdkInit.html
     api 'com.tencent.tbs.tbssdk:sdk:43697'
+    
+    // https://github.com/didi/DoraemonKit
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
 }
 
 publish {

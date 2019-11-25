@@ -160,4 +160,7 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
 - 新增 **JsonHelper**（弃用GsonUtil）
 - 新增 **DevHelper** 提供应用内的开发者选项（方便调试）
 - 修改 **WebViewFragment** 使用 **X5** 内核做网页的解析
+        
+## 2019-11-25_v1.2.0
+- 新增滴滴 DoKit        
                  
