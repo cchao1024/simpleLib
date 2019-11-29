@@ -151,7 +151,7 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
 - **UiHelper** 界面相关操作的整合
 - **JsonHelper** - 对 Json 的操作
 
-> 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
+> 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](https://github.com/cchao1024/simpleLib/blob/master/document/coreSample.MD) 查看
 
 
 # ChangeLog
