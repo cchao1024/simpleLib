@@ -100,7 +100,7 @@ public class App extends Application {
   - 自定义的配置项，比如加载对话框，标题栏，页面加载图，加载失败图等。非必选的，不配置的话 会返回默认的实现。
 
 
-![LibCore](./document/Snipaste_5.png)
+![LibCore](https://github.com/cchao1024/simpleLib/raw/master/document/Snipaste_5.png)
 
 > 篇幅有限，更详细的配置范例移步 [详细配置范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
@@ -112,7 +112,7 @@ public class App extends Application {
 - **TitleBar** - 配合 **LibCore.LibConfig** 提供标题栏操作
 - **EventSubscriber** - 事件订阅回调接口
 
-![ui](./document/Snipaste_1.jpg)
+![ui](https://github.com/cchao1024/simpleLib/raw/master/document/Snipaste_1.jpg)
 
 
 
@@ -151,7 +151,7 @@ addSubscribe(RetrofitHelper.getApis().login(email, password)
 - **UiHelper** 界面相关操作的整合
 - **JsonHelper** - 对 Json 的操作
 
-> 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](./document/coreSample.MD) 查看
+> 篇幅有限，更多的类库使用范例移步 [核心类库使用范例](https://github.com/cchao1024/simpleLib/blob/master/document/InitSample.MD) 查看
 
 
 # ChangeLog
