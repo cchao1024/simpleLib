@@ -40,8 +40,8 @@ public class LibCore {
         mContext = appContext;
         mInfoSupport = infoSupport;
 
-        initDebugMode();
         PrefHelper.init(mContext, mInfoSupport.getAppName());
+        initDebugMode();
         LanguageUtil.init();
     }
 

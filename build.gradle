@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 120
-        versionName "1.2.0"
+        versionCode 121
+        versionName "1.2.1"
         multiDexEnabled true
     }
 
@@ -86,7 +86,7 @@ publish {
     userOrg = 'cchao1024' // 改成你在 bintray 上注册的用户名
     groupId = 'com.github.cchao' // 改成你的包名（影响别人引用的第一段）
     artifactId = 'simpleLib' // 改成你的 Library 名字（影响别人引用的第二段）
-    publishVersion = '1.2.0' // 版本号 （影响别人引用的第三段）
+    publishVersion = '1.2.1' // 版本号 （影响别人引用的第三段）
     desc = 'Help to complete the android project fleetly'
     website = 'https://github.com/cchao1024/simpleLib'
 }
