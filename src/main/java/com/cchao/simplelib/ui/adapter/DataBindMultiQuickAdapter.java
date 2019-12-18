@@ -1,4 +1,4 @@
-package com.rzj.zhongshi.lib.adapter;
+package com.youbei.lib.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

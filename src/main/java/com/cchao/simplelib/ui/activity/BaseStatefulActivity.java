@@ -26,7 +26,7 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_linear);
+        setContentView(R.layout.base_frame);
 
         View childViewRoot = mLayoutInflater.inflate(getLayout(), null);
         try {
