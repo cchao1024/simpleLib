@@ -53,7 +53,9 @@ public class LibCore {
             return;
         }
         // 滴滴 DoKit init
-//        DoraemonKit.install((Application) mContext);
+        if (LibCore.mLibConfig.mToggleDokit) {
+            DoraemonKit.install((Application) mContext);
+        }
     }
 
     public static Context getContext() {
@@ -179,6 +181,7 @@ public class LibCore {
          * 是否应用层覆盖Lib默认cookie的管理
          */
         boolean mOverrideCookieJar = false;
+        boolean mToggleDokit = false;
 
         public Const.TitleStyle getTitleBarStyle() {
             return mTitleBarStyle;
@@ -213,13 +216,14 @@ public class LibCore {
             return new FieldStateLayout(context);
         }
 
-/*        *//**
+        /*        */
+
+        /**
          * 返回Recycler的多状态加载View
          *//*
         public StateSwitchable getRecyclerStateView(Context context) {
             return new FieldStateLayout(context);
         }*/
-
         public DefaultTitleBarDelegate getTitleBarDelegate(Context context, ViewGroup parent) {
             return new DefaultTitleBarDelegate(context, parent);
         }
