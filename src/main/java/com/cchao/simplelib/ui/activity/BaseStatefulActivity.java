@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
@@ -26,9 +27,10 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_frame);
+        setContentView(R.layout.base_linear);
 
-        View childViewRoot = mLayoutInflater.inflate(getLayout(), null);
+        View childViewRoot = mLayoutInflater.inflate(getLayout(), findViewById(R.id.root_linear), false);
+        childViewRoot.getLayoutParams().height = LinearLayout.LayoutParams.MATCH_PARENT;
         try {
             mDataBind = DataBindingUtil.bind(childViewRoot);
         } catch (IllegalArgumentException e) {
@@ -41,7 +43,8 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
                 onLoadData();
             }
         });
-        ((ViewGroup) findViewById(R.id.root_content_linear)).addView(mDelegate.getRootViewGroup());
+        ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        ((ViewGroup) findViewById(R.id.root_linear)).addView(mDelegate.getRootViewGroup(), layoutParams);
         initEventAndData();
     }
 

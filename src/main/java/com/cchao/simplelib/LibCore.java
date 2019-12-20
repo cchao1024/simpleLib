@@ -53,7 +53,7 @@ public class LibCore {
             return;
         }
         // 滴滴 DoKit init
-        DoraemonKit.install((Application) mContext);
+//        DoraemonKit.install((Application) mContext);
     }
 
     public static Context getContext() {

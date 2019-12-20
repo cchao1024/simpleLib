@@ -4,7 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
@@ -24,13 +24,13 @@ public abstract class BaseTitleBarActivity<B extends ViewDataBinding> extends Ba
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        LinearLayout rootLinear = findViewById(R.id.root_content_linear);
+        ViewGroup viewGroup = findViewById(R.id.root_linear);
 
         // 从委派类拿到 view
-        mTitleDelegate = LibCore.getLibConfig().getTitleBarDelegate(mContext, rootLinear);
+        mTitleDelegate = LibCore.getLibConfig().getTitleBarDelegate(mContext, viewGroup);
         mTitleDelegate.setBackActionVisible(true, v -> onBackPressed());
         // 添加到最顶部
-        rootLinear.addView(mTitleDelegate.getTitleBarView(), 0);
+        viewGroup.addView(mTitleDelegate.getTitleBarView(), 0);
     }
 
     @Override
