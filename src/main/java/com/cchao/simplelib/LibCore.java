@@ -37,8 +37,24 @@ public class LibCore {
      * @param infoSupport 应用信息提供
      */
     public static void init(Context appContext, InfoSupport infoSupport) {
+        LibConfig defaultConfig = new LibConfig()
+            .setTitleBarStyle(Const.TitleStyle.title)
+            .setOverrideCookieJar(false);
+
+        init(appContext,infoSupport,defaultConfig);
+    }
+
+    /**
+     * 初始化 lib
+     *
+     * @param appContext  应用上下文
+     * @param infoSupport 应用信息提供
+     * @param libConfig 其他配置项
+     */
+    public static void init(Context appContext, InfoSupport infoSupport, LibConfig libConfig) {
         mContext = appContext;
         mInfoSupport = infoSupport;
+        LibCore.mLibConfig = libConfig;
 
         PrefHelper.init(mContext, mInfoSupport.getAppName());
         initDebugMode();
@@ -70,16 +86,7 @@ public class LibCore {
         return mInfoSupport;
     }
 
-    public static void setLibConfig(LibConfig mLibConfig) {
-        LibCore.mLibConfig = mLibConfig;
-    }
-
     public static LibConfig getLibConfig() {
-        if (mLibConfig == null) {
-            mLibConfig = new LibConfig()
-                .setTitleBarStyle(Const.TitleStyle.title)
-                .setOverrideCookieJar(false);
-        }
         return mLibConfig;
     }
 
