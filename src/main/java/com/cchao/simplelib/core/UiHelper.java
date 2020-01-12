@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
+import com.cchao.simplelib.util.CallBacks;
 
 /**
  * 一些常用的 ui核心工具方法
@@ -262,6 +264,21 @@ public class UiHelper {
                 cancel.second.onClick(dialogInterface, i);
             })
             .show();
+    }
+
+    public static void showEditDialog(Context context, String title, String hint, CallBacks.Str callBack) {
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.dialog_edit, null);
+        EditText editText = viewGroup.findViewById(R.id.edit);
+        editText.setHint(hint);
+        new AlertDialog.Builder(context)
+            .setTitle(title)
+            .setView(viewGroup)
+            .setPositiveButton(UiHelper.getString(R.string.confirm), (dialogInterface, i) -> {
+                callBack.onCallBack(editText.getText().toString());
+            }).setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
+            //
+            dialogInterface.dismiss();
+        }).show();
     }
     //</editor-fold>
 

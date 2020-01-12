@@ -1,9 +1,10 @@
 package com.cchao.simplelib.ui;
 
 import android.databinding.BindingAdapter;
-import android.support.annotation.DrawableRes;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import com.cchao.simplelib.core.GlideApp;
 import com.cchao.simplelib.core.ImageLoader;
 import com.cchao.simplelib.util.StringHelper;
 
@@ -23,9 +24,13 @@ public class BindingAdapters {
     }
 
     @BindingAdapter(value = {"circleUrl", "placeholderRes"}, requireAll = false)
-    public static void setImageCircleUri(ImageView imageView, String url, @DrawableRes int placeholderRes) {
+    public static void setImageCircleUri(ImageView imageView, String url, Drawable placeholderRes) {
         if (StringHelper.isNotEmpty(url)) {
-            ImageLoader.loadImageCircle(imageView, url, placeholderRes);
+            GlideApp.with(imageView.getContext())
+                .load(url)
+                .placeholder(placeholderRes)
+                .circleCrop()
+                .into(imageView);
         }
     }
 
