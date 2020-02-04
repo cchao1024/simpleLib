@@ -30,7 +30,6 @@ public abstract class BaseStatefulActivity<B extends ViewDataBinding> extends Ba
         setContentView(R.layout.base_linear);
 
         View childViewRoot = mLayoutInflater.inflate(getLayout(), findViewById(R.id.root_linear), false);
-        childViewRoot.getLayoutParams().height = LinearLayout.LayoutParams.MATCH_PARENT;
         try {
             mDataBind = DataBindingUtil.bind(childViewRoot);
         } catch (IllegalArgumentException e) {
