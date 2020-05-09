@@ -109,6 +109,7 @@
     <color name="search_background">#7f000000</color>
     <color name="divider_b6">#B6B6B6</color>
     <color name="divider_e5">#e5e5e5</color>
+    <color name="divider_cc">#cccccc</color>
     <color name="search_body_text_1">#de000000</color>
     <color name="search_body_text_2">#8a000000</color>
     <color name="search_accent">#343434</color>
