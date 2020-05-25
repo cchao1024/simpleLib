@@ -20,6 +20,7 @@ public class Const {
     static {
         Req_Params.put("deviceNo", AndroidHelper.getDeviceNum());
         Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
+        Req_Params.put("app_id", String.valueOf(LibCore.getInfo().getAppId()));
     }
 
     /**

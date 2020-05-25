@@ -105,6 +105,8 @@ public class LibCore {
 
         String getAppName();
 
+        default String getAppId(){return getAppName();};
+
         default int getAppVersionCode() {
             return 1;
         }
