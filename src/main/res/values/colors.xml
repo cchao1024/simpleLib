@@ -13,9 +13,12 @@
     <color name="text_4c4c4c">#4c4c4c</color>
     <color name="text_1c1c1c">#1c1c1c</color>
     <color name="text_b2b2b2">#b2b2b2</color>
+    <color name="text_222">#222222</color>
     <color name="text_333">#333333</color>
     <color name="text_444">#444444</color>
     <color name="text_666">#666666</color>
+    <color name="text_777">#888888</color>
+    <color name="text_888">#888888</color>
     <color name="text_999">#999999</color>
     <color name="text_bababa">#bababa</color>
     <color name="text_ccc">#cccccc</color>
