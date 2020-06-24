@@ -20,8 +20,12 @@
     <color name="text_777">#888888</color>
     <color name="text_888">#888888</color>
     <color name="text_999">#999999</color>
+    <color name="text_aaa">#999999</color>
+    <color name="text_bbb">#999999</color>
     <color name="text_bababa">#bababa</color>
     <color name="text_ccc">#cccccc</color>
+    <color name="text_ddd">#cccccc</color>
+    <color name="text_eee">#cccccc</color>
     <color name="ddd_color">#dddddd</color>
     <color name="ccc_color">#cccccc</color>
     <color name="eee_color">#eeeeee</color>
