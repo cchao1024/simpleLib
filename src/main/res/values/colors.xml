@@ -8,7 +8,7 @@
 
     <!--text-->
     <color name="colorTextPrimary">#333333</color>
-    <color name="textPrimary">@color/text_333</color>
+    <color name="textPrimary">@color/text_222</color>
 
     <color name="text_4c4c4c">#4c4c4c</color>
     <color name="text_1c1c1c">#1c1c1c</color>
