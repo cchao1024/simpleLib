@@ -127,6 +127,9 @@ public class AndroidHelper {
      * 检查activity 是不是已经被 destroy 了
      */
     public static boolean isContextDestroyed(Context context) {
+        if (context == null) {
+            return true;
+        }
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             if (activity.isDestroyed()) {
