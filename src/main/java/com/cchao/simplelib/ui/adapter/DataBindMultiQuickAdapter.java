@@ -1,4 +1,4 @@
-package com.youbei.tourist.lib.adapter;
+package com.cchao.simplelib.ui.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

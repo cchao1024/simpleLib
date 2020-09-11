@@ -13,7 +13,6 @@ import com.cchao.simplelib.view.state.field.FieldStateLayout;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.loadmore.SimpleLoadMoreView;
 import com.kennyc.view.MultiStateView;
-import com.youbei.tourist.lib.adapter.DataBindMultiQuickAdapter;
 
 import java.util.List;
 

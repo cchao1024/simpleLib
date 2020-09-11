@@ -1,13 +1,14 @@
 package com.cchao.simplelib.core;
 
-import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.ui.interfaces.BaseStateView;
 import com.cchao.simplelib.ui.interfaces.BaseView;
+import com.cchao.simplelib.util.CallBacks;
 import com.cchao.simplelib.view.state.StateSwitchable;
 import com.kennyc.view.MultiStateView;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -103,7 +104,7 @@ public class RxHelper {
      * 返回 发生异常隐藏进度加载 consumer
      *
      * @param stateView 状态切换接口
-     * @return  Consumer  T super Throwable
+     * @return Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getHideProgressConsumer(BaseView stateView) {
         return new Consumer<Throwable>() {
@@ -121,7 +122,7 @@ public class RxHelper {
      * 返回 发生异常显示异常文案 consumer
      *
      * @param baseView 基础界面接口
-     * @return  Consumer  T super Throwable
+     * @return Consumer  T super Throwable
      */
     public static Consumer<? super Throwable> getErrorTextConsumer(BaseView baseView) {
         return new Consumer<Throwable>() {
@@ -146,6 +147,25 @@ public class RxHelper {
         return Observable.timer(delayMSeconds, TimeUnit.MILLISECONDS)
             .compose(toMain())
             .subscribe(consumer, RxHelper.getErrorConsumer());
+    }
+
+    /**
+     * 倒计时
+     *
+     * @param count    次数
+     * @param callback 定时回调
+     * @param complete 完成回调
+     */
+    public static Disposable countDownConsumer(int count, CallBacks.Int callback, Runnable complete) {
+        //
+        return Flowable.intervalRange(0, count, 0, 1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext(aLong -> {
+                //
+                callback.onCallBack(Integer.parseInt(String.valueOf(aLong)));
+            })
+            .doOnComplete(complete::run)
+            .subscribe();
     }
 
     /**
