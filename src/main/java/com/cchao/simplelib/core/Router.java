@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 
 import com.cchao.simplelib.LibCore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Description: 页面跳转路由，，页面跳转都经过他统一处理，，后期可以通过判断页面类型满足权限判断、登录状态、埋点需求
  * 注意链式的添加跳转目的页需要的参数
@@ -16,6 +19,8 @@ import com.cchao.simplelib.LibCore;
  * @version 2017.11.2.
  */
 public class Router {
+
+    public static Map<String, Long> mHistoryMap = new HashMap<>();
 
     /**
      * 这里对跳转进行各种处理，拦截，记录
@@ -27,6 +32,13 @@ public class Router {
         String logStr = from.getClass().getSimpleName() + " >>> " + toActivity.getName()
             + "bundle :" + bundleHelper.mBundle.toString();
         Logs.logEvent("Router", logStr);
+        // 记录到历史 router ，用于防抖动点击
+        if (mHistoryMap.containsKey(logStr) && (System.currentTimeMillis() - mHistoryMap.get(logStr)) < bundleHelper.mThrottleTime) {
+            Logs.i("Router 抖动", logStr);
+            return;
+        }
+        mHistoryMap.put(logStr, System.currentTimeMillis());
+
         // 需要登录，但未登录
         if (!bundleHelper.mTurnStatusMatch) {
             Logs.logEvent("Router 未满足跳转状态", logStr);
@@ -64,6 +76,7 @@ public class Router {
         boolean mTurnStatusMatch = true;
         boolean mInNewTask;
         int mRequestCode = -1;
+        int mThrottleTime = 800;
         Class mToActivity;
 
         public BundleHelper(Context from, Class toActivity) {
@@ -111,6 +124,12 @@ public class Router {
             return this;
         }
 
+        // 设置 防抖动点击的间隔时间
+        public BundleHelper setThrottleTime(int mThrottleTime) {
+            this.mThrottleTime = mThrottleTime;
+            return this;
+        }
+
         // region 各个putExtra
         public BundleHelper putExtra(String name, String value) {
             mBundle.putString(name, value);
@@ -135,11 +154,12 @@ public class Router {
 
         // 外部调用
         public static BundleHelper get() {
-            return new BundleHelper(null,null);
+            return new BundleHelper(null, null);
         }
 
         /**
          * setArguments fragment
+         *
          * @param fragment fragment
          */
         public Fragment injectFragment(Fragment fragment) {
