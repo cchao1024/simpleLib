@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 
 /**
  * <pre>
@@ -348,5 +349,29 @@ public class ConvertUtils {
      */
     public static Drawable bytes2Drawable(Resources res, byte[] bytes) {
         return bitmap2Drawable(res, bytes2Bitmap(bytes));
+    }
+
+    /**
+     * 使用md5
+     * @param content c
+     */
+    public static String md5(String content) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] bytes = digest.digest(content.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                int c = b & 0xff;
+                String result = Integer.toHexString(c);
+                if(result.length()<2){
+                    sb.append(0);
+                }
+                sb.append(result);
+            }
+            return sb.toString();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "";
+        }
     }
 }
