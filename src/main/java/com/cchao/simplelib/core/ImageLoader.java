@@ -2,6 +2,7 @@ package com.cchao.simplelib.core;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
@@ -12,6 +13,11 @@ import com.bumptech.glide.request.target.Target;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.util.ThreadHelper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 图片加载工具类  glide封装
@@ -70,6 +76,63 @@ public class ImageLoader {
         GlideApp.with(context)
             .load(url).listener(requestListener)
             .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+    }
+
+    /**
+     * 下载图片，
+     * 注意 manifest 配置 android:requestLegacyExternalStorage="true"
+     */
+    public static void downloadImageToLocalPicture(String url) {
+        ThreadHelper.execute(() -> {
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+            if (!dir.exists()) {
+                if (!dir.mkdirs()) {
+                    Logs.e("创建目录失败");
+                }
+            }
+            File imageFile = new File(dir, "jpg_" + System.currentTimeMillis() + ".jpg");
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+            File downloadFile = null;
+            try {
+                downloadFile = Glide.with(LibCore.getContext()).downloadOnly().load(url).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+            } catch (Exception e) {
+                UiHelper.showToast(e.getMessage());
+                e.printStackTrace();
+                return;
+            }
+            copy(downloadFile, imageFile);
+            UiHelper.showToast("图片下载完成");
+        });
+    }
+
+    /**
+     * 复制文件
+     *
+     * @param source 输入文件
+     * @param target 输出文件
+     */
+    public static void copy(File source, File target) {
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileInputStream = new FileInputStream(source);
+            fileOutputStream = new FileOutputStream(target);
+            byte[] buffer = new byte[1024];
+            while (fileInputStream.read(buffer) > 0) {
+                fileOutputStream.write(buffer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileInputStream.close();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void clearCache(Context context) {
