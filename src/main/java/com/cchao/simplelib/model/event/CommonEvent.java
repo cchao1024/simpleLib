@@ -40,6 +40,9 @@ public class CommonEvent {
     }
 
     public <T> T getBean() {
+        if (mBean == null) {
+            return null;
+        }
         return (T) mBean;
     }
 

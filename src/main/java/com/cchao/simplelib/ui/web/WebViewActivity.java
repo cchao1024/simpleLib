@@ -1,9 +1,11 @@
 package com.cchao.simplelib.ui.web;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.R;
+import com.cchao.simplelib.core.RxBus;
 import com.cchao.simplelib.databinding.WebViewActivityBinding;
 import com.cchao.simplelib.ui.activity.BaseTitleBarActivity;
 
@@ -30,6 +32,17 @@ public class WebViewActivity extends BaseTitleBarActivity<WebViewActivityBinding
     @Override
     protected void onLoadData() {
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //如果是文件选择
+        if (resultCode == RESULT_OK) {
+            //给文件选择的ValueCallback设置onReceiveValue值
+            RxBus.get().postEvent(Const.Event.X5_File_Chooser, data.getData());
+        } else {
+            //给文件选择的ValueCallback设置null值
+            RxBus.get().postEvent(Const.Event.X5_File_Chooser, null);
+        }
     }
 
     @Override

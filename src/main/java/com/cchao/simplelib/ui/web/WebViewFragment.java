@@ -15,6 +15,7 @@ import com.cchao.simplelib.Const;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
 import com.cchao.simplelib.core.Logs;
+import com.cchao.simplelib.core.RxBus;
 import com.cchao.simplelib.core.UiHelper;
 import com.cchao.simplelib.databinding.WebViewFragmentBinding;
 import com.cchao.simplelib.http.OkHttpHelper;
@@ -25,6 +26,7 @@ import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -57,6 +59,8 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
      * 当前加载的 Url
      */
     protected String mCurLoadWebUrl;
+    protected ValueCallback<Uri[]> mFilesChooserCallBack;
+    protected ValueCallback<Uri> mFileChooserCallBack;
 
     @Override
     protected int getLayoutId() {
@@ -70,6 +74,21 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         initExtra();
         initWebView();
         onLoadData();
+        RxBus.get().toObservable(commonEvent -> {
+            switch (commonEvent.getCode()) {
+                case Const.Event.X5_File_Chooser:
+                    if (mFilesChooserCallBack != null) {
+                        mFilesChooserCallBack.onReceiveValue(commonEvent.getBean() != null ? new Uri[]{commonEvent.getBean()} : null);
+                    }
+
+                    if (mFileChooserCallBack != null) {
+                        mFileChooserCallBack.onReceiveValue(commonEvent.getBean());
+                    }
+                    mFilesChooserCallBack = null;
+                    mFileChooserCallBack = null;
+                    break;
+            }
+        });
     }
 
     @Override
@@ -273,5 +292,26 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
             return true;
         }
+
+        @Override
+        public void openFileChooser(ValueCallback<Uri> valueCallback, String s, String s1) {
+            mFileChooserCallBack = valueCallback;
+            openFileChooseProcess();
+            super.openFileChooser(valueCallback, s, s1);
+        }
+
+        @Override
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> valueCallback, FileChooserParams fileChooserParams) {
+            mFilesChooserCallBack = valueCallback;
+            openFileChooseProcess();
+            return true;
+        }
+    }
+
+    void openFileChooseProcess() {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("*/*");
+        startActivityForResult(Intent.createChooser(i, "选择文件"), 0);
     }
 }

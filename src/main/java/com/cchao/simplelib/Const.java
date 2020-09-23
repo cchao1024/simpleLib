@@ -73,4 +73,7 @@ public class Const {
         String Dev_Signal = "dev_signal";
     }
 
+    public interface Event {
+        int X5_File_Chooser = 77;
+    }
 }
