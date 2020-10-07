@@ -1,6 +1,6 @@
 package com.cchao.simplelib;
 
-import com.cchao.simplelib.core.AndroidHelper;
+import com.cchao.simplelib.util.UuidUtil;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -18,9 +18,9 @@ public class Const {
     public static final Map<String, String> Req_Params = new HashMap<>();
 
     static {
-        Req_Params.put("deviceNo", AndroidHelper.getDeviceNum());
         Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
         Req_Params.put("app_id", String.valueOf(LibCore.getInfo().getAppId()));
+        Req_Params.put("uuid", UuidUtil.getUniqueID(LibCore.getContext()));
     }
 
     /**
