@@ -58,7 +58,7 @@ public class RespExceptionLogInterceptor implements Interceptor {
                     Logs.logException(e);
                 }
                 if (LibCore.getInfo().isDebug() && jsonObject != null) {
-                    Logs.logEvent("收到响应resp", jsonObject.toString());
+                    Logs.logEvent(LibCore.getInfo().getAppId()+" 收到响应resp", jsonObject.toString());
                 }
                 return response;
             }

@@ -1,5 +1,6 @@
 package com.cchao.simplelib.http.intercaptor;
 
+import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.util.StringHelper;
 
@@ -35,7 +36,7 @@ public class RequestLogInterceptor implements Interceptor {
             if (StringHelper.isNotEmpty(postBody)) {
                 postBody = "\n请求body" + postBody;
             }
-            Logs.logEvent("发送请求req", "Url【" + originUrl + '】' + postBody);
+            Logs.logEvent(LibCore.getInfo().getAppId() + " 发送请求req", "Url【" + originUrl + '】' + postBody);
 
         } catch (Exception e) {
             Logs.logException(e);

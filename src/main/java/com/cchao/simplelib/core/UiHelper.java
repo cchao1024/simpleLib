@@ -246,6 +246,18 @@ public class UiHelper {
             }).show();
     }
 
+    public static void showConfirmActionDialog(Context context, String msg, DialogInterface.OnClickListener listener) {
+        new AlertDialog.Builder(context)
+            .setMessage(msg)
+            .setNegativeButton(UiHelper.getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
+            .setPositiveButton(UiHelper.getString(R.string.confirm), (dialogInterface, i) -> {
+                if (listener == null) {
+                    return;
+                }
+                listener.onClick(dialogInterface, i);
+            }).show();
+    }
+
     public static void showCancelDialog(Context context, String msg
         , Pair<String, DialogInterface.OnClickListener> confirm
         , Pair<String, DialogInterface.OnClickListener> cancel) {
