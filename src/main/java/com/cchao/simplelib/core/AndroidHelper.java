@@ -170,6 +170,26 @@ public class AndroidHelper {
     }
 
     /**
+     * 清空剪切板内容
+     */
+    public static void setClipboardData(String content,Runnable runnable) {
+        try {
+            //获取剪贴板管理器
+            if (StringHelper.isEmpty(content)) {
+                return;
+            }
+            ClipboardManager cm = (ClipboardManager) LibCore.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            // 创建普通字符型ClipData
+            ClipData mClipData = ClipData.newPlainText("Label", content);
+            // 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+            runnable.run();
+        } catch (Exception e) {
+            Logs.logException(e);
+        }
+    }
+
+    /**
      * 获取当前网络状态
      */
     public static String getNetworkType(Context context) {

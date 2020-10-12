@@ -94,7 +94,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
     @Override
     protected void onLoadData() {
         syncCookies(mCurLoadWebUrl);
-        for (Map.Entry<String, String> entry : Const.Req_Params.entrySet()) {
+        for (Map.Entry<String, String> entry : Const.Web_Req_Params.entrySet()) {
             // 追加AppBuild
             if (!mCurLoadWebUrl.contains(entry.getKey())) {
                 mCurLoadWebUrl = UrlUtil.appendParament(mCurLoadWebUrl, entry.getKey(), entry.getValue());

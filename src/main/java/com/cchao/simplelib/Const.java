@@ -15,12 +15,12 @@ import java.util.Map;
 public class Const {
     public static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final String STRING_UTF_8 = "utf-8";
-    public static final Map<String, String> Req_Params = new HashMap<>();
+    public static final Map<String, String> Web_Req_Params = new HashMap<>();
 
     static {
-        Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
-        Req_Params.put("app_id", String.valueOf(LibCore.getInfo().getAppId()));
-        Req_Params.put("uuid", UuidUtil.getUniqueID(LibCore.getContext()));
+        Web_Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
+        Web_Req_Params.put("app_id", String.valueOf(LibCore.getInfo().getAppId()));
+        Web_Req_Params.put("uuid", UuidUtil.getUniqueID(LibCore.getContext()));
     }
 
     /**
