@@ -61,6 +61,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
     protected String mCurLoadWebUrl;
     protected ValueCallback<Uri[]> mFilesChooserCallBack;
     protected ValueCallback<Uri> mFileChooserCallBack;
+    protected WebViewHandler mWebViewHandler;
 
     @Override
     protected int getLayoutId() {
@@ -96,7 +97,8 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         syncCookies(mCurLoadWebUrl);
         for (Map.Entry<String, String> entry : Const.Web_Req_Params.entrySet()) {
             // 追加AppBuild
-            if (!mCurLoadWebUrl.contains(entry.getKey())) {
+            if (!mCurLoadWebUrl.contains(entry.getKey())
+                && (mWebViewHandler != null && mWebViewHandler.needAppendCommonParam())) {
                 mCurLoadWebUrl = UrlUtil.appendParament(mCurLoadWebUrl, entry.getKey(), entry.getValue());
             }
             if (Build.VERSION.SDK_INT >= 21) {
@@ -236,6 +238,10 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // 被 handler 拦截
+            if (mWebViewHandler != null && mWebViewHandler.shouldOverrideUrlLoading(view, url)) {
+                return true;
+            }
             // 自定义协议，跳转交由系统决定
             if (!url.startsWith("http")) {
                 try {
@@ -313,5 +319,23 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("*/*");
         startActivityForResult(Intent.createChooser(i, "选择文件"), 0);
+    }
+
+    public void setWebViewHandler(WebViewHandler handler) {
+        mWebViewHandler = handler;
+    }
+
+    public interface WebViewHandler {
+        /**
+         * 拦截规则
+         */
+        boolean shouldOverrideUrlLoading(WebView view, String url);
+
+        /**
+         * 追加通用参数
+         */
+        default boolean needAppendCommonParam() {
+            return true;
+        }
     }
 }
