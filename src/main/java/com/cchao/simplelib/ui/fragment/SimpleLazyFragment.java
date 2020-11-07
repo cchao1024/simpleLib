@@ -1,6 +1,6 @@
 package com.cchao.simplelib.ui.fragment;
 
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.os.Bundle;
 
 import com.cchao.simplelib.core.Logs;

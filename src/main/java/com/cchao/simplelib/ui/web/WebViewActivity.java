@@ -1,7 +1,7 @@
 package com.cchao.simplelib.ui.web;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.R;

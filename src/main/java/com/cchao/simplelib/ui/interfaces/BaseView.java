@@ -1,6 +1,6 @@
 package com.cchao.simplelib.ui.interfaces;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import com.cchao.simplelib.core.UiHelper;
 

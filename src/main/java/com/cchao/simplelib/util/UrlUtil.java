@@ -1,7 +1,7 @@
 package com.cchao.simplelib.util;
 
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.cchao.simplelib.Const;
