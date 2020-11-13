@@ -1,6 +1,6 @@
 package com.cchao.simplelib.ui.activity;
 
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;

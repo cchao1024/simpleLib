@@ -9,7 +9,7 @@ import android.util.AttributeSet;
  * Created by cchao on 2017.10.31.
  */
 
-public class DrawableCenterTextView extends android.support.v7.widget.AppCompatTextView {
+public class DrawableCenterTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public DrawableCenterTextView(Context context) {
         super(context);

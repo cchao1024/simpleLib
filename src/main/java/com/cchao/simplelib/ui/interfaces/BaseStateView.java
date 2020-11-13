@@ -1,6 +1,6 @@
 package com.cchao.simplelib.ui.interfaces;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 import android.view.ViewGroup;
 
 import com.cchao.simplelib.ui.activity.BaseTitleBarActivity;

@@ -1,8 +1,9 @@
 package com.cchao.simplelib.ui;
 
-import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
 
 import com.cchao.simplelib.core.GlideApp;
 import com.cchao.simplelib.core.ImageLoader;

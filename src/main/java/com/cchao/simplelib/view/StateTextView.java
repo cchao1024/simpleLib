@@ -9,10 +9,10 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
