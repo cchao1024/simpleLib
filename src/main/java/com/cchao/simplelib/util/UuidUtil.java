@@ -1,15 +1,9 @@
 package com.cchao.simplelib.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.cchao.simplelib.core.PrefHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,8 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import static android.content.Context.TELEPHONY_SERVICE;
-
 /**
  * @author cch
  * @version 2020/10/7
@@ -27,10 +19,8 @@ import static android.content.Context.TELEPHONY_SERVICE;
 public class UuidUtil {
     private static final String TAG = "UniqueIDUtils";
     private static String uniqueID;
-    private static String uniqueKey = "unique_id";
-    private static String uniqueIDDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-    private static String uniqueIDFile = "unique.txt";
-
+    private static final String uniqueIDDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private static final String uniqueIDFile = "unique.txt";
 
     public static String getUniqueID(Context context) {
         //三步读取：内存中，存储的SP表中，外部存储文件中
@@ -38,78 +28,14 @@ public class UuidUtil {
             Log.e(TAG, "getUniqueID: 内存中获取" + uniqueID);
             return uniqueID;
         }
-        uniqueID = PrefHelper.getString(uniqueKey, "");
-        if (!TextUtils.isEmpty(uniqueID)) {
-            Log.e(TAG, "getUniqueID: SP中获取" + uniqueID);
-            return uniqueID;
-        }
         readUniqueFile(context);
         if (!TextUtils.isEmpty(uniqueID)) {
             Log.e(TAG, "getUniqueID: 外部存储中获取" + uniqueID);
             return uniqueID;
         }
-        //两步创建：硬件获取；自行生成与存储
-        getDeviceID(context);
-        getAndroidID(context);
-        getSNID();
         createUniqueID(context);
-        PrefHelper.putString(uniqueKey, uniqueID);
         return uniqueID;
     }
-
-    @SuppressLint("MissingPermission")
-    private static void getDeviceID(Context context) {
-        if (!TextUtils.isEmpty(uniqueID)) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
-            return;
-        }
-        String deviceId = null;
-        try {
-            deviceId = ((TelephonyManager) context.getSystemService(TELEPHONY_SERVICE)).getDeviceId();
-            //华为MatePad上，神奇的获得unknown，特此修复
-            if (TextUtils.isEmpty(deviceId) || "unknown".equals(deviceId)) {
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        uniqueID = deviceId;
-        Log.e(TAG, "getUniqueID: DeviceId获取成功" + uniqueID);
-    }
-
-    private static void getAndroidID(Context context) {
-        if (!TextUtils.isEmpty(uniqueID)) {
-            return;
-        }
-        String androidID = null;
-        try {
-            androidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            if (TextUtils.isEmpty(androidID) || "9774d56d682e549c".equals(androidID)) {
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        uniqueID = androidID;
-        Log.e(TAG, "getUniqueID: AndroidID获取成功" + uniqueID);
-    }
-
-    private static void getSNID() {
-        if (!TextUtils.isEmpty(uniqueID)) {
-            return;
-        }
-        String snID = Build.SERIAL;
-        if (TextUtils.isEmpty(snID)) {
-            return;
-        }
-        uniqueID = snID;
-        Log.e(TAG, "getUniqueID: SNID获取成功" + uniqueID);
-    }
-
 
     private static void createUniqueID(Context context) {
         if (!TextUtils.isEmpty(uniqueID)) {
