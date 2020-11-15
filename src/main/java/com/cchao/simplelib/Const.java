@@ -64,6 +64,7 @@ public class Const {
          */
         String Web_View_Url = "web_view_url";
         String Web_View_Tile = "web_view_title";
+        String Web_View_Title_Visible = "web_view_title_visible";
 
     }
 
