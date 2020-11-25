@@ -8,8 +8,9 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.LibCore;
@@ -151,6 +152,17 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
+        settings.setSupportMultipleWindows(false);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+        if (mWebView.getX5WebViewExtension() != null) {
+            Bundle data = new Bundle();
+            data.putBoolean("standardFullScreen", false);// true表示标准全屏，false表示X5全屏；不设置默认false，
+            data.putBoolean("supportLiteWnd", true);// false：关闭小窗；true：开启小窗；不设置默认true，
+            data.putInt("DefaultVideoScreen", 2);// 1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
+            mWebView.getX5WebViewExtension()
+                .invokeMiscMethod("setVideoParams", data);
+        }
         mWebView.setWebChromeClient(new CustomWebChromeClient());
         mWebView.setWebViewClient(new CustomWebViewClient());
     }

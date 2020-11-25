@@ -1,15 +1,21 @@
 package com.cchao.simplelib.core;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.os.Environment;
 import android.widget.ImageView;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.R;
@@ -19,6 +25,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+
+import static com.bumptech.glide.load.resource.bitmap.VideoDecoder.FRAME_OPTION;
 
 /**
  * 图片加载工具类  glide封装
@@ -39,6 +48,18 @@ public class ImageLoader {
 
         GlideApp.with(imageView.getContext())
             .load(path)
+            .placeholder(placeholder)
+            .fitCenter()
+            .into(imageView);
+    }
+
+    public static void loadImage(ImageView imageView, Bitmap bitmap, @DrawableRes int placeholder) {
+        if (AndroidHelper.isContextDestroyed(imageView.getContext())) {
+            return;
+        }
+
+        GlideApp.with(imageView.getContext())
+            .load(bitmap)
             .placeholder(placeholder)
             .fitCenter()
             .into(imageView);
@@ -67,6 +88,47 @@ public class ImageLoader {
             .load(resourceId)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .fitCenter()
+            .into(imageView);
+    }
+
+    public static void loadVideoScreenshot(String uri, ImageView imageView, long frameTimeMicros) {
+        if (AndroidHelper.isContextDestroyed(imageView.getContext())) {
+            return;
+        }
+
+        Glide.with(imageView.getContext())
+            .load(uri)
+            .apply(RequestOptions.frameOf(frameTimeMicros)
+                .set(FRAME_OPTION, MediaMetadataRetriever.OPTION_CLOSEST))
+            .transform(new BitmapTransformation() {
+                @Override
+                protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
+                    return toTransform;
+                }
+
+                @Override
+                public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+                    try {
+                        messageDigest.update((LibCore.getContext().getPackageName() + "RotateTransform").getBytes("utf-8"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            })
+            .into(imageView);
+    }
+
+    public static void loadVideoCover(ImageView imageView, String url) {
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(imageView.getContext())
+            .setDefaultRequestOptions(
+                new RequestOptions()
+                    .frame(0)
+                    .centerCrop()
+                    .error(R.drawable.place_holder)
+                    .placeholder(R.drawable.place_holder)
+            )
+            .load(url)
             .into(imageView);
     }
 

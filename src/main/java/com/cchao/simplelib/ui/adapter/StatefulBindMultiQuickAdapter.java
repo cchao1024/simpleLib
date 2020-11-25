@@ -1,9 +1,10 @@
 package com.cchao.simplelib.ui.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.CollectionHelper;
@@ -79,7 +80,7 @@ public abstract class StatefulBindMultiQuickAdapter<T extends MultiItemEntity> e
         // 数据为空
         if (CollectionHelper.isEmpty(data)) {
             setViewState(MultiStateView.VIEW_STATE_EMPTY);
-            loadMoreComplete();
+            loadMoreEnd();
             return;
         }
 
