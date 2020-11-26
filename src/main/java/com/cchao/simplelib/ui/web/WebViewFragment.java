@@ -250,6 +250,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Logs.d("webViewFragment load url " + url);
             // 被 handler 拦截
             if (mWebViewHandler != null && mWebViewHandler.shouldOverrideUrlLoading(view, url)) {
                 return true;
