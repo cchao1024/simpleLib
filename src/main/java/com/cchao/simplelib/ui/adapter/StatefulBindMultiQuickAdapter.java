@@ -100,6 +100,33 @@ public abstract class StatefulBindMultiQuickAdapter<T extends MultiItemEntity> e
         }
     }
 
+    /**
+     * 处理分页数据
+     */
+    public void solvePagesData(List<T> data, int curPage, int pageSize) {
+        // 数据为空
+        if (CollectionHelper.isEmpty(data)) {
+            setViewState(MultiStateView.VIEW_STATE_EMPTY);
+            loadMoreEnd();
+            return;
+        }
+
+        // 填充数据
+        if (curPage == 1) {
+            setNewData(data);
+        } else {
+            addData(data);
+        }
+
+        // 处理页面信息
+        mCurPage = curPage;
+        if (data.size() < pageSize) {
+            loadMoreEnd();
+        } else {
+            loadMoreComplete();
+        }
+    }
+
     @Override
     public void setViewState(int state) {
         mStateView.setViewState(state);
