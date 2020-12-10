@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="network_error">Error de red, por favor intente más tarde</string>
-	<string name="loading">Cargando</string>
-	<string name="confirm">Determinar</string>
-</resources>

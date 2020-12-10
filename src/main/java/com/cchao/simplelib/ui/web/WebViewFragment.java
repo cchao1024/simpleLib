@@ -49,7 +49,7 @@ import static android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
  */
 public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding> implements BackAble {
 
-    protected WebView mWebView;
+    public WebView mWebView;
     protected ProgressBar mProgressBar;
 
     /**

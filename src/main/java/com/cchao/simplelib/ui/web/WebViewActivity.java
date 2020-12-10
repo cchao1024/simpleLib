@@ -35,7 +35,9 @@ public class WebViewActivity extends BaseTitleBarActivity<WebViewActivityBinding
 
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //如果是文件选择
         if (resultCode == RESULT_OK) {
             //给文件选择的ValueCallback设置onReceiveValue值
