@@ -106,8 +106,12 @@ public abstract class StatefulBindMultiQuickAdapter<T extends MultiItemEntity> e
     public void solvePagesData(List<T> data, int curPage, int pageSize) {
         // 数据为空
         if (CollectionHelper.isEmpty(data)) {
-            setViewState(MultiStateView.VIEW_STATE_EMPTY);
-            loadMoreEnd();
+            if (curPage == 1) {
+                setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                setNewData(null);
+            } else {
+                loadMoreEnd();
+            }
             return;
         }
 
