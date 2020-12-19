@@ -2,10 +2,12 @@ package com.cchao.simplelib.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.cchao.simplelib.Const;
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.Logs;
 import com.cchao.simplelib.core.RxBus;
@@ -41,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         mLayoutInflater = LayoutInflater.from(mContext);
         mDelegate = LibCore.getLibConfig().getBaseViewDelegate(mContext);
         addSubscribe(RxBus.get().toObservable(this::onEvent));
+        Logs.logEvent(Const.LogTag.Activity_On_Created, getClass().getSimpleName());
     }
 
     //<editor-fold desc="委托实现">

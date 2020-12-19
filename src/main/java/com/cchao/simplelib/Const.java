@@ -77,4 +77,8 @@ public class Const {
     public interface Event {
         int X5_File_Chooser = 77;
     }
+
+    public interface LogTag {
+        String Activity_On_Created= "Activity_On_Created";
+    }
 }
