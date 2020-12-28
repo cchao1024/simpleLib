@@ -1,9 +1,10 @@
 package com.cchao.simplelib.ui.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.core.CollectionHelper;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * 具备状态切换和分页加载的 adapter， 通过设置 StateSwitchable 来作为adapter的empty View
  * note: 分页信息 需要在请求成功后调用 solvePageData 传入
+ *
  * @author cchao
  * @version 2019-07-03.
  */
@@ -82,7 +84,11 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
         // 数据为空
         if (CollectionHelper.isEmpty(data)) {
             setViewState(MultiStateView.VIEW_STATE_EMPTY);
-            loadMoreComplete();
+            if (curPage == 1) {
+                loadMoreEnd();
+            } else {
+                loadMoreComplete();
+            }
             return;
         }
 
