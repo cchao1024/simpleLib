@@ -14,8 +14,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
-import androidx.core.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+
+import androidx.core.app.ActivityCompat;
 
 import com.cchao.simplelib.LibCore;
 import com.cchao.simplelib.util.StringHelper;
@@ -172,7 +173,7 @@ public class AndroidHelper {
     /**
      * 清空剪切板内容
      */
-    public static void setClipboardData(String content,Runnable runnable) {
+    public static void setClipboardData(String content, Runnable runnable) {
         try {
             //获取剪贴板管理器
             if (StringHelper.isEmpty(content)) {
@@ -183,6 +184,9 @@ public class AndroidHelper {
             ClipData mClipData = ClipData.newPlainText("Label", content);
             // 将ClipData内容放到系统剪贴板里。
             cm.setPrimaryClip(mClipData);
+            if (runnable == null) {
+                return;
+            }
             runnable.run();
         } catch (Exception e) {
             Logs.logException(e);

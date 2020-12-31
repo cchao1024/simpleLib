@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_edge_8dp"
+    android:elevation="@dimen/dp_2"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/save_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="保存图片" />
+
+    <TextView
+        android:id="@+id/save_image_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="复制图片地址" />
+
+</LinearLayout>

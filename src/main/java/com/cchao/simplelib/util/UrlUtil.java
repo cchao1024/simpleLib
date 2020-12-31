@@ -1,8 +1,9 @@
 package com.cchao.simplelib.util;
 
 import android.net.Uri;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import com.cchao.simplelib.Const;
 import com.cchao.simplelib.core.Logs;
@@ -17,6 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Description: 对URL 操作
@@ -43,6 +46,24 @@ public class UrlUtil {
         return builder.toString();
     }
 
+    public static boolean isValidUrl(String str) {
+        if (StringHelper.isEmpty(str)) {
+            return false;
+        }
+        str = str.toLowerCase();
+        String regex = "^((https|http|ftp|rtsp|mms)?://)"  //https、http、ftp、rtsp、mms
+            + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+            + "(([0-9]{1,3}\\.){3}[0-9]{1,3}" // IP形式的URL- 例如：199.194.52.184
+            + "|" // 允许IP和DOMAIN（域名）
+            + "([0-9a-z_!~*'()-]+\\.)*" // 域名- www.
+            + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\." // 二级域名
+            + "[a-z]{2,6})" // first level domain- .com or .museum
+            + "(:[0-9]{1,5})?" // 端口号最大为65535,5位数
+            + "((/?)|" // a slash isn't required if there is no file name
+            + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+        return str.matches(regex);
+    }
+
     //region 从 URI 获取值或键值对
 
     /**
@@ -52,8 +73,24 @@ public class UrlUtil {
      * @return key对应的值
      */
     public static String getValueFromUrl(String url, String key) {
-        String value = Uri.parse(url).getQueryParameter(key);
-        return value;
+        return getParams(url).get(key);
+    }
+
+    public static Map<String, String> getParams(String url) {
+        String regEx = "(\\?|&+)(.+?)=([^&#]*)";//匹配参数名和参数值的正则表达式
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(url);
+        // LinkedHashMap是有序的Map集合，遍历时会按照加入的顺序遍历输出
+        Map<String, String> paramMap = new LinkedHashMap<>();
+        Logs.logEvent("[蚁丛旅游]"+p.toString());
+        while (m.find()) {
+            String paramName = m.group(2);//获取参数名
+            String paramVal = m.group(3);//获取参数值
+            paramMap.put(paramName, paramVal);
+            Logs.logEvent("[蚁丛旅游]"+paramName + " " + paramVal);
+        }
+
+        return paramMap;
     }
 
     /**

@@ -262,7 +262,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     view.getContext().startActivity(intent);
                 } catch (Exception e) {
-                    Logs.logException(e);
+//                    Logs.logException(e);
                 }
                 return true;
             }
