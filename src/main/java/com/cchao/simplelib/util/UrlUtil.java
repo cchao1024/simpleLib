@@ -82,14 +82,11 @@ public class UrlUtil {
         Matcher m = p.matcher(url);
         // LinkedHashMap是有序的Map集合，遍历时会按照加入的顺序遍历输出
         Map<String, String> paramMap = new LinkedHashMap<>();
-        Logs.logEvent("[蚁丛旅游]"+p.toString());
         while (m.find()) {
             String paramName = m.group(2);//获取参数名
             String paramVal = m.group(3);//获取参数值
             paramMap.put(paramName, paramVal);
-            Logs.logEvent("[蚁丛旅游]"+paramName + " " + paramVal);
         }
-
         return paramMap;
     }
 
