@@ -17,6 +17,9 @@ import com.cchao.simplelib.view.state.StateSwitchable;
 import com.cchao.simplelib.view.state.field.FieldStateLayout;
 import com.didichuxing.doraemonkit.DoraemonKit;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -109,6 +112,14 @@ public class LibCore {
 
         default int getAppVersionCode() {
             return 1;
+        }
+
+        /**
+         * 获取 web 加载通用参数
+         * @return map
+         */
+        default Map<String, String> getWebParams() {
+            return new HashMap<>(8);
         }
 
         /**

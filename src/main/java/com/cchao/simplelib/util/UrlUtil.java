@@ -208,7 +208,7 @@ public class UrlUtil {
     /**
      * 追加参数值,有重复的使用替换
      */
-    public static String appendParameter(String url, HashMap<String, String> hashMap) {
+    public static String appendParameter(String url, Map<String, String> hashMap) {
         Map<String, String> ps = getUriParamsExtra(url);
 
         Set<Map.Entry<String, String>> entrySet = hashMap.entrySet();

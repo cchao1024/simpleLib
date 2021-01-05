@@ -1,10 +1,6 @@
 package com.cchao.simplelib;
 
-import com.cchao.simplelib.util.UuidUtil;
-
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 类库所使用的常量
@@ -15,13 +11,6 @@ import java.util.Map;
 public class Const {
     public static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
     public static final String STRING_UTF_8 = "utf-8";
-    public static final Map<String, String> Web_Req_Params = new HashMap<>();
-
-    static {
-        Web_Req_Params.put("appBuild", String.valueOf(LibCore.getInfo().getAppVersionCode()));
-        Web_Req_Params.put("app_id", String.valueOf(LibCore.getInfo().getAppId()));
-        Web_Req_Params.put("uuid", UuidUtil.getUniqueID(LibCore.getContext()));
-    }
 
     /**
      * title 的样式

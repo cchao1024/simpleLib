@@ -34,7 +34,6 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -59,7 +58,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
     /**
      * 当前加载的 Url
      */
-    protected String mCurLoadWebUrl;
+    public String mCurLoadWebUrl;
     protected ValueCallback<Uri[]> mFilesChooserCallBack;
     protected ValueCallback<Uri> mFileChooserCallBack;
     protected WebViewHandler mWebViewHandler;
@@ -96,20 +95,15 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
     @Override
     protected void onLoadData() {
         syncCookies(mCurLoadWebUrl);
-        for (Map.Entry<String, String> entry : Const.Web_Req_Params.entrySet()) {
-            // 追加AppBuild
-            if (!mCurLoadWebUrl.contains(entry.getKey())
-                && (mWebViewHandler != null && mWebViewHandler.needAppendCommonParam())) {
-                mCurLoadWebUrl = UrlUtil.appendParament(mCurLoadWebUrl, entry.getKey(), entry.getValue());
-            }
-            if (Build.VERSION.SDK_INT >= 21) {
-                mWebView.getSettings().setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
-            }
-        }
-        switchView(CONTENT);
+        mCurLoadWebUrl = appendBusinessParams(mCurLoadWebUrl);
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            mWebView.getSettings().setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        switchView(CONTENT);
         mWebView.loadUrl(mCurLoadWebUrl);
-        Logs.logEvent("加载Url", mCurLoadWebUrl);
+        Logs.logEvent("WebViewFragment onLoadData", mCurLoadWebUrl);
     }
 
     protected void initExtra() {
@@ -207,7 +201,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
             if (errorCode == -5 || errorCode == -1 || errorCode == -6 || errorCode == -8) {
                 switchView(NET_ERROR);
             }
-            Logs.logEvent("WebView onReceivedError", "url " + failingUrl + description);
+            Logs.logEvent("WebViewFragment onReceivedError", "url " + failingUrl + description);
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
@@ -217,7 +211,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
             if (LibCore.getInfo().isDebug()) {
                 handler.proceed();
             }
-            Logs.logEvent("webView sslError", view.getUrl());
+            Logs.logEvent("WebViewFragment sslError", view.getUrl());
 
             // 弹窗询问是否继续
             final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -250,7 +244,8 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Logs.d("webViewFragment load url " + url);
+            url = appendBusinessParams(url);
+            Logs.d("WebViewFragment load url " + url);
             // 被 handler 拦截
             if (mWebViewHandler != null && mWebViewHandler.shouldOverrideUrlLoading(view, url)) {
                 return true;
@@ -350,5 +345,15 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         default boolean needAppendCommonParam() {
             return true;
         }
+    }
+
+    public String appendBusinessParams(String url) {
+        if (mWebViewHandler == null || !mWebViewHandler.needAppendCommonParam()) {
+            return url;
+        }
+        // 避免 vue的 #结尾，使用 zz替换，得到结果再还原
+        url = url.replaceAll("/#/", "/zzz/");
+        url = UrlUtil.appendParameter(url, LibCore.getInfo().getWebParams());
+        return url.replaceAll("/zzz/", "/#/");
     }
 }
