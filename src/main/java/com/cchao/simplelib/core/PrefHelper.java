@@ -69,6 +69,18 @@ public class PrefHelper {
     }
 
     /**
+     * SP 自增
+     *
+     * @param key   键
+     * @return
+     */
+    public static int incInt(String key) {
+        int result = getInt(key, 0) + 1;
+        mEditor.putInt(key, result).apply();
+        return result;
+    }
+
+    /**
      * SP中读取int
      *
      * @param key 键
