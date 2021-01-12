@@ -351,7 +351,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         if (mWebViewHandler == null || !mWebViewHandler.needAppendCommonParam()) {
             return url;
         }
-        if (!url.startsWith("http:")) {
+        if (!url.startsWith("http")) {
             return url;
         }
         // 避免 vue的 #结尾，使用 zz替换，得到结果再还原
