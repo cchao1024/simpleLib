@@ -1,7 +1,15 @@
 package com.cchao.simplelib.util;
 
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spanned;
 import android.widget.EditText;
 
+import com.cchao.simplelib.core.Logs;
+import com.cchao.simplelib.core.UiHelper;
+
+import java.io.InputStream;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,5 +96,34 @@ public class StringHelper {
      */
     public static String null2Space(String s) {
         return s == null ? "" : s;
+    }
+
+    public static Spanned forHtml(String source) {
+        return Html.fromHtml(source, source1 -> {
+            /*Drawable drawable = null;
+            URL url;
+            try {
+                url = new URL(source1);
+                drawable = Drawable.createFromStream(url.openStream(), System.currentTimeMillis() + ""); // 获取网路图片
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            return drawable;*/
+            InputStream is = null;
+            try {
+                is = (InputStream) new URL(source1).getContent();
+                Drawable d = Drawable.createFromStream(is, "src");
+                int width = UiHelper.getScreenWidth() - UiHelper.dp2px(36);
+                int height = (int) (width / (d.getIntrinsicWidth() * 1.0f / d.getIntrinsicHeight()));
+                d.setBounds(0, 0, width, height);
+                is.close();
+                return d;
+            } catch (Exception e) {
+                Logs.logException(e);
+                return null;
+            }
+        }, null);
     }
 }
