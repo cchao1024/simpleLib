@@ -184,6 +184,13 @@ public class UrlUtil {
         }
     }
 
+    public static String appendParameterCompat(String url, String key, String value) {
+        // 避免 vue的 #结尾，使用 zz替换，得到结果再还原
+        url = url.replaceAll("/#/", "/zzz/");
+        url = UrlUtil.appendParameter(url, key, value);
+        return url.replaceAll("/zzz/", "/#/");
+    }
+
     /**
      * 追加参数值,有重复的使用替换
      */

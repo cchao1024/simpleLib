@@ -260,4 +260,8 @@ public class AndroidHelper {
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1500, restartIntent);
     }
+
+    public static void killSelf() {
+        RxHelper.timerConsumer(300, aLong -> System.exit(0));
+    }
 }

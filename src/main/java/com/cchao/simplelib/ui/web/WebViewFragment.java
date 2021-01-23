@@ -189,6 +189,30 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         return false;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mWebView != null) {
+            mWebView.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mWebView != null) {
+            mWebView.onPause();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mWebView != null) {
+            mWebView.destroy();
+        }
+    }
+
     public class CustomWebViewClient extends WebViewClient {
 
         public CustomWebViewClient() {
