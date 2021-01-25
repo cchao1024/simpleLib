@@ -35,6 +35,7 @@ public class RxBus {
 
     // 提供了一个新的事件
     public void post(Object o) {
+        Logs.logEvent("RxBus post", JsonHelper.toJson(o));
         mBus.onNext(o);
     }
 
