@@ -1,5 +1,6 @@
 package com.cchao.simplelib.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
     BaseView mDelegate;
+    protected Activity thisActivity;
 
     @Override
     protected void onResume() {
@@ -40,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        thisActivity = this;
         mLayoutInflater = LayoutInflater.from(mContext);
         mDelegate = LibCore.getLibConfig().getBaseViewDelegate(mContext);
         addSubscribe(RxBus.get().toObservable(this::onEvent));
