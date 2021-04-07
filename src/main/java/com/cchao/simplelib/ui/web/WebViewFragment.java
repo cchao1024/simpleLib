@@ -93,7 +93,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
     }
 
     @Override
-    protected void onLoadData() {
+    public void onLoadData() {
         syncCookies(mCurLoadWebUrl);
         mCurLoadWebUrl = appendBusinessParams(mCurLoadWebUrl);
 
