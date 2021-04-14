@@ -200,8 +200,8 @@ public class LibCore {
         /**
          * 是否应用层覆盖Lib默认cookie的管理
          */
-        boolean mOverrideCookieJar = false;
-        boolean mToggleDokit = false;
+        public boolean mOverrideCookieJar = false;
+        public boolean mToggleDokit = false;
 
         public Const.TitleStyle getTitleBarStyle() {
             return mTitleBarStyle;
