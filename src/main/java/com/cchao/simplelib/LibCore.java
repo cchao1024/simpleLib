@@ -15,7 +15,6 @@ import com.cchao.simplelib.ui.interfaces.impl.DefaultTitleBarDelegate;
 import com.cchao.simplelib.util.LanguageUtil;
 import com.cchao.simplelib.view.state.StateSwitchable;
 import com.cchao.simplelib.view.state.field.FieldStateLayout;
-import com.didichuxing.doraemonkit.DoraemonKit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,10 +69,6 @@ public class LibCore {
     private static void initDebugMode() {
         if (!mInfoSupport.isDebug()) {
             return;
-        }
-        // 滴滴 DoKit init
-        if (LibCore.mLibConfig.mToggleDokit) {
-            DoraemonKit.install((Application) mContext);
         }
     }
 
@@ -201,7 +196,6 @@ public class LibCore {
          * 是否应用层覆盖Lib默认cookie的管理
          */
         public boolean mOverrideCookieJar = false;
-        public boolean mToggleDokit = false;
 
         public Const.TitleStyle getTitleBarStyle() {
             return mTitleBarStyle;
