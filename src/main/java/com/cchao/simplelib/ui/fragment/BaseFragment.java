@@ -32,6 +32,11 @@ public class BaseFragment extends Fragment implements BaseView, EventSubscriber 
     protected CompositeDisposable mDisposable = new CompositeDisposable();
     protected ProgressDialog mProgressDialog;
     protected LayoutInflater mLayoutInflater;
+    // hide 是 replace,add 用的
+    public boolean mIsHidden;
+    // viewPager  setUserVisibleHint 设置的
+    public boolean mIsVisible;
+    public boolean mIsPause;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +50,27 @@ public class BaseFragment extends Fragment implements BaseView, EventSubscriber 
         mContext = getActivity();
         mLayoutInflater = LayoutInflater.from(mContext);
         addSubscribe(RxBus.get().toObservable(this::onEvent));
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        mIsHidden = hidden;
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        mIsVisible = isVisibleToUser;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsPause = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsPause = true;
     }
 
     @Override

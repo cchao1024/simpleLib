@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T> implements StateSwitchable {
     public StateSwitchable mStateView;
-    int mCurPage;
+    public int mCurPage;
 
     public StatefulBindQuickAdapter(int layoutResId) {
         super(layoutResId);
@@ -44,10 +44,19 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
     @Override
     public void bindToRecyclerView(RecyclerView recyclerView) {
         super.bindToRecyclerView(recyclerView);
+        initLoadMore();
         initSwitchableView(recyclerView.getContext());
     }
 
-    void initSwitchableView(Context context) {
+    public void initLoadMore(){
+        setLoadMoreView(new SimpleLoadMoreView());
+        setOnLoadMoreListener(() -> {
+            //
+            loadPageData(mCurPage + 1);
+        }, getRecyclerView());
+    }
+
+    public void initSwitchableView(Context context) {
         if (mStateView != null) {
             return;
         }
@@ -56,30 +65,48 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
             ((FieldStateLayout) mStateView).mFieldHeight = (int) (UiHelper.getScreenHeight() * 3.0 / 4);
         }
 
-        setLoadMoreView(new SimpleLoadMoreView());
         setEmptyView((View) mStateView);
         setHeaderAndEmpty(true);
         mStateView.setReloadListener(click -> {
             loadPageData(1);
         });
-        setOnLoadMoreListener(new RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                loadPageData(mCurPage + 1);
-            }
-        }, getRecyclerView());
-
     }
 
     public abstract void loadPageData(int page);
 
-    public void solveData(List<T> data) {
-        setNewData(data);
+    /**
+     * 处理分页数据
+     */
+    public void solveData(List<T> data, int curPage, int pageSize) {
+        // 数据为空
+        if (CollectionHelper.isEmpty(data)) {
+            if (curPage == 1) {
+                setViewState(MultiStateView.VIEW_STATE_EMPTY);
+            }
+            loadMoreEnd();
+            return;
+        }
+
+        // 填充数据
+        if (curPage == 1) {
+            setNewData(data);
+        } else {
+            addData(data);
+        }
+
+        // 处理页面信息
+        mCurPage = curPage;
+        if (data.size() < pageSize) {
+            loadMoreEnd();
+        } else {
+            loadMoreComplete();
+        }
     }
 
     /**
      * 处理分页数据
      */
+    @Deprecated
     public void solvePageData(List<T> data, int curPage, int totalPage) {
         // 数据为空
         if (CollectionHelper.isEmpty(data)) {
