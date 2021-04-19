@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -147,16 +148,21 @@ public class AndroidHelper {
      */
     public static String getClipboardShareData() {
         String data = "";
-        try {
-            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            if (clipboard != null && clipboard.hasPrimaryClip()) {
-                ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
-                if (item != null && item.getText() != null) {
-                    data = item.getText().toString();
-                }
+        Context context = LibCore.getContext();
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        //无数据时直接返回
+        if (!clipboard.hasPrimaryClip()) {
+            return "";
+        }
+
+        //如果是文本信息
+        if (clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+            ClipData cdText = clipboard.getPrimaryClip();
+            ClipData.Item item = cdText.getItemAt(0);
+            //此处是TEXT文本信息
+            if (item.getText() != null && !item.getText().toString().equals("")) {
+                data = item.getText().toString();
             }
-        } catch (Exception e) {
-            Logs.logException(e);
         }
         return data;
     }
