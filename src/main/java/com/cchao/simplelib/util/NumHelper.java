@@ -1,5 +1,7 @@
 package com.cchao.simplelib.util;
 
+import java.math.BigDecimal;
+import java.time.temporal.ValueRange;
 import java.util.Locale;
 
 /**
@@ -15,6 +17,15 @@ public class NumHelper {
      */
     public static String float5(float value) {
        return String.format(Locale.CHINESE, "%.5f", value);
+    }
+
+    /**
+     * 保留5位小数
+     */
+    public static String float5StripZero(float v) {
+        BigDecimal value = new BigDecimal(float5(v));
+        BigDecimal noZeros = value.stripTrailingZeros();
+        return noZeros.toPlainString();
     }
 
     /**
