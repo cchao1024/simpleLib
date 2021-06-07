@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +123,7 @@ public class UiHelper {
             mToast = Toast.makeText(getContext(), text, duration);
             mToast.setText(text);
             mToast.setDuration(duration);
+            mToast.setGravity(Gravity.CENTER, 0, 0);
             Logs.d("toast " + text);
             mToast.show();
         });

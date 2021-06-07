@@ -131,13 +131,19 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         settings.setGeolocationDatabasePath(dir);
         // 启用地理定位
         settings.setGeolocationEnabled(true);
+        String cacheDir = mContext.getCacheDir().getAbsolutePath();
+        settings.setAppCacheMaxSize(1024*1024*80);
+        settings.setAppCachePath(cacheDir);
+        settings.setAppCacheEnabled(true);
+
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setAllowFileAccess(true);
-        settings.setAppCacheEnabled(true);
         // 设置支持DomStorage
         settings.setDomStorageEnabled(true);
+
+        mWebView.setVerticalScrollBarEnabled(false);
         if (Build.VERSION.SDK_INT >= 21) {
             settings.setMixedContentMode(MIXED_CONTENT_ALWAYS_ALLOW);
         }

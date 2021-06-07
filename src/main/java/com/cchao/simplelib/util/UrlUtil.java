@@ -145,6 +145,7 @@ public class UrlUtil {
     /**
      * 追加请求参数
      */
+    @Deprecated
     public static String appendParament(@Nullable String url, String key, String value) {
         if (TextUtils.isEmpty(url)) {
             return url;
