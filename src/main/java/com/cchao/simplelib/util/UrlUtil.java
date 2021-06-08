@@ -77,7 +77,7 @@ public class UrlUtil {
     }
 
     public static Map<String, String> getParams(String url) {
-        String regEx = "(\\?|&+)(.+?)=([^&#]*)";//匹配参数名和参数值的正则表达式
+        String regEx = "(\\?|&+)(.+?)=([^&]*)";//匹配参数名和参数值的正则表达式
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(url);
         // LinkedHashMap是有序的Map集合，遍历时会按照加入的顺序遍历输出
