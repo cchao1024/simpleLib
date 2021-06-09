@@ -64,7 +64,7 @@ public class UrlUtil {
         return str.matches(regex);
     }
 
-    //region 从 URI 获取值或键值对
+    //region 正则 从 URI 获取值或键值对
 
     /**
      * 获取url中的指定的key对应的值
@@ -90,100 +90,9 @@ public class UrlUtil {
         return paramMap;
     }
 
-    /**
-     * 获取url中的指定的key对应的集合
-     *
-     * @param key 指定的key
-     * @return key对应的集合
-     */
-    public static List<String> getValuesFromUrl(String url, String key) {
-        List<String> valueList = Uri.parse(url).getQueryParameters(key);
-        return valueList;
-    }
-
-    /**
-     * 读取uri当中的参数集合
-     */
-    public static Map<String, String> getUriParams(String url) {
-        return getUriParams(Uri.parse(url));
-    }
-
-    /**
-     * 取URL的请求参数
-     */
-    public static Map<String, String> getParaMap(String url) {
-        return getUriParams(Uri.parse(url));
-    }
-
-    /**
-     * 读取uri当中的参数集合
-     *
-     * @param uri
-     * @return
-     */
-    public static Map<String, String> getUriParams(Uri uri) {
-        HashMap<String, String> ps = new HashMap<>();
-        if (uri == null) {
-            return ps;
-        }
-        try {
-            Set<String> names = uri.getQueryParameterNames();
-            for (String name : names) {
-                String val = uri.getQueryParameter(name);
-                ps.put(name, val);
-            }
-            return ps;
-        } catch (Throwable throwable) {
-            Logs.logException(uri.toString());
-            return ps;
-        }
-    }
     //endregion
 
     //region 参数追加，构建URI
-
-    /**
-     * 追加请求参数
-     */
-    @Deprecated
-    public static String appendParament(@Nullable String url, String key, String value) {
-        if (TextUtils.isEmpty(url)) {
-            return url;
-        }
-        if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
-            return url;
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put(key, value);
-        return buildUrl(url, map);
-    }
-
-    /**
-     * 对地址追加参数,如 "utm_campaign=share&test=1"
-     *
-     * @param uri
-     * @param appendQuery
-     */
-    public static String appendParameter(String uri, String appendQuery) {
-        try {
-            URI oldUri = new URI(uri);
-
-            String newQuery = oldUri.getQuery();
-            if (newQuery == null) {
-                newQuery = appendQuery;
-            } else {
-                newQuery += "&" + appendQuery;
-            }
-
-            URI newUri = new URI(oldUri.getScheme(), oldUri.getAuthority(),
-                oldUri.getPath(), newQuery, oldUri.getFragment());
-
-            return newUri.toString();
-        } catch (Throwable e) {
-            Logs.logException(e);
-            return uri;
-        }
-    }
 
     public static String appendParameterCompat(String url, String key, String value) {
         // 避免 vue的 #结尾，使用 zz替换，得到结果再还原
