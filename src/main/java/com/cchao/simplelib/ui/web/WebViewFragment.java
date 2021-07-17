@@ -33,6 +33,7 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 import okhttp3.Cookie;
@@ -114,7 +115,7 @@ public class WebViewFragment extends BaseStatefulFragment<WebViewFragmentBinding
         if (data == null) {
             throw new IllegalArgumentException("Please put extra Web url");
         }
-        mInitLoadWebUrl = data.getString(Const.Extra.Web_View_Url);
+        mInitLoadWebUrl = URLDecoder.decode(data.getString(Const.Extra.Web_View_Url));
         mCurLoadWebUrl = mInitLoadWebUrl;
     }
 

@@ -105,6 +105,7 @@ public abstract class StatefulBindQuickAdapter<T> extends DataBindQuickAdapter<T
 
     /**
      * 处理分页数据
+     * @see StatefulBindQuickAdapter#solveData
      */
     @Deprecated
     public void solvePageData(List<T> data, int curPage, int totalPage) {
