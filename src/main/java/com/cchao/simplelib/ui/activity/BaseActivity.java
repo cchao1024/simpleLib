@@ -29,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
     BaseView mDelegate;
-    protected Activity thisActivity;
+    protected BaseActivity thisActivity;
 
     @Override
     protected void onResume() {
